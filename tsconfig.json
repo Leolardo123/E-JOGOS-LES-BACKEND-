@@ -11,7 +11,7 @@
     "paths": {
       "@modules/*": ["modules/*"],
       "@config/*": ["config/*"],
-      "@shared/*": ["shared/*"]
+      "@shared/*": ["src/shared/*"]
     },
     "esModuleInterop": true,
     "emitDecoratorMetadata": true,
@@ -20,5 +20,5 @@
     "forceConsistentCasingInFileNames": true
   },
   "exclude": ["jest.config.js", "prettier.config.js", "dist/*"],
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*", "shared/infra"]
 }

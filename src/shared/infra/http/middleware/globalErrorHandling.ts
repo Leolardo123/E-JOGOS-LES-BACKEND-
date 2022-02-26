@@ -1,7 +1,7 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { CelebrateError } from 'celebrate';
 import { Request, Response, NextFunction } from 'express';
-import AppError from '@shared/errors/AppError';
+import AppError from '../../../errors/AppError';
 
 import winston from '@config/winston';
 
@@ -15,7 +15,7 @@ export default function globalErrorHandling(
   console.log(err)
   if (err instanceof AppError) {
     winston.error(
-      `${err.statusCode} - ${err.message} - ${request.originalUrl} - ${
+      `${err.errorCode} - ${err.message} - ${request.originalUrl} - ${
         request.method
       } - ${request.ip} - body: ${request.body} - params: ${JSON.stringify(
         request.params,
