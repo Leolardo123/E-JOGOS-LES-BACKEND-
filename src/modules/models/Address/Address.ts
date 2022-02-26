@@ -26,9 +26,6 @@ class Address {
     @Column()
     country: string;
     
-    @Column()
-    address_: string;
-    
     @Column({nullable:true})
     complement?: string;
     
