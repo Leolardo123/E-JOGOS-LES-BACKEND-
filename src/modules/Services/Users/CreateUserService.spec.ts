@@ -1,4 +1,4 @@
-import FakePlacesTypesRepository from "@modules/Repositories/Addresses/fakes/FakeAddressesPlacesTypesRepository";
+import FakePlacesTypesRepository from "@modules/Repositories/Addresses/fakes/FakePlacesTypesRepository";
 import FakeAddressesRepository from "@modules/Repositories/Addresses/fakes/FakeAddressesRepository";
 import FakeAddressesTypesRepository from "@modules/Repositories/Addresses/fakes/FakeAddressesTypesRepository";
 import FakePersonsRepository from "@modules/Repositories/Users/fakes/FakePersonsRepository";
@@ -8,6 +8,9 @@ import FakeHashProvider from "shared/container/providers/HashProvider/fakes/Fake
 import FakeIdGeneratorProvider from "shared/container/providers/IdGeneratorProvider/fakes/FakeIdGeneratorProvider";
 import FakeRepositoryUtils from "shared/container/providers/RepositoryUtilsProvider/fakes/FakeRepositoryUtils";
 import CreateUserService from "./CreateUserService";
+import { PlacesTypesEnum } from "shared/enum/PlacesTypesEnum";
+import { GenderTypesEnum } from "shared/enum/GenderTypesEnum";
+import { AddressesTypesEnum } from "shared/enum/AddressesTypesEnum";
 
 
 
@@ -63,7 +66,7 @@ describe('CreateUserService', () => {
           cpf: '556434534',
           cellphone: 12343242342,
           birth_date: '22/06/2000',
-          gender_id: 1,
+          gender_id: GenderTypesEnum.Masculine,
           phone: {
               ddd: 55,
               number: 12312323 
@@ -78,8 +81,8 @@ describe('CreateUserService', () => {
           country: 'Um País',
           complement: '',
           neighborhood: 'Um Bairro',
-          address_type_id: 1,
-          place_type_id: 1,
+          address_type_id: AddressesTypesEnum.DeliveryPayment,
+          place_type_id: PlacesTypesEnum.House,
       }
     })
 
