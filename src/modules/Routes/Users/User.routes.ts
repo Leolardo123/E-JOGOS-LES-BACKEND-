@@ -1,16 +1,18 @@
+import UsersController from "@modules/controller/UsersController";
 import { Router } from "express";
-import { create } from "./validation/UserRoutes.validation";
+import { create, index, show } from "./validation/UserRoutes.validation";
 
 const userRouter = Router();
+const userController = new UsersController();
 
-userRouter.post('/',create/* Validate Params *//*Execute controller*/)
+userRouter.post('/', create, userController.create)
 
-userRouter.put('/',/* Validate Params *//*Execute controller*/)
+userRouter.put('/', create, userController.update)
 
-userRouter.get('/',/* Validate Params *//*Execute controller*/)
+userRouter.get('/', index,userController.index)
 
-userRouter.get('/:id',/* Validate Params *//*Execute controller*/)
+userRouter.get('/:id', show, userController.show)
 
-userRouter.delete('/',/* Validate Params *//*Execute controller*/)
+userRouter.delete('/', create, userController.delete)
 
 export default userRouter

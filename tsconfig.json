@@ -11,7 +11,7 @@
     "paths": {
       "@modules/*": ["modules/*"],
       "@config/*": ["config/*"],
-      "@shared/*": ["src/shared/*"]
+      "@shared/*": ["shared/*"]
     },
     "esModuleInterop": true,
     "emitDecoratorMetadata": true,

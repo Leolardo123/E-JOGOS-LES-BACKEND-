@@ -1,6 +1,5 @@
 import { celebrate, Joi, Segments } from "celebrate";
 
-
 export const create = celebrate({
     [Segments.BODY]: {
         user: Joi.object({
@@ -34,3 +33,16 @@ export const create = celebrate({
         }).required()
     }
 })
+
+export const show = celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().uuid().required(),
+    },
+});
+
+export const index = celebrate({
+    [Segments.QUERY]: {
+      page: Joi.number(),
+      limit: Joi.number()
+    },
+});

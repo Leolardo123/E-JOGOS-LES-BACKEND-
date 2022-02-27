@@ -1,21 +1,21 @@
-import FakePlacesTypesRepository from "@modules/Repositories/Addresses/fakes/FakePlacesTypesRepository";
 import FakeAddressesRepository from "@modules/Repositories/Addresses/fakes/FakeAddressesRepository";
 import FakeAddressesTypesRepository from "@modules/Repositories/Addresses/fakes/FakeAddressesTypesRepository";
+import FakePlacesTypesRepository from "@modules/Repositories/Addresses/fakes/FakePlacesTypesRepository";
 import FakePersonsRepository from "@modules/Repositories/Users/fakes/FakePersonsRepository";
 import FakePhonesRepository from "@modules/Repositories/Users/fakes/FakePhonesRepository";
 import FakeUsersRepository from "@modules/Repositories/Users/fakes/FakeUsersRepository";
-import FakeHashProvider from "shared/container/providers/HashProvider/fakes/FakeHashProvider";
-import FakeIdGeneratorProvider from "shared/container/providers/IdGeneratorProvider/fakes/FakeIdGeneratorProvider";
-import FakeRepositoryUtils from "shared/container/providers/RepositoryUtilsProvider/fakes/FakeRepositoryUtils";
+
 import CreateUserService from "./CreateUserService";
-import { PlacesTypesEnum } from "shared/enum/PlacesTypesEnum";
-import { GenderTypesEnum } from "shared/enum/GenderTypesEnum";
+
 import { AddressesTypesEnum } from "shared/enum/AddressesTypesEnum";
+import { GenderTypesEnum } from "shared/enum/GenderTypesEnum";
+import { PlacesTypesEnum } from "shared/enum/PlacesTypesEnum";
 
+import FakeHashProvider from "../../../shared/container/providers/HashProvider/fakes/FakeHashProvider";
+import FakeIdGeneratorProvider from "../../../shared/container/providers/IdGeneratorProvider/fakes/FakeIdGeneratorProvider";
+import FakeRepositoryUtils from "../../../shared/container/providers/RepositoryUtilsProvider/fakes/FakeRepositoryUtils";
 
-
-
-let usersRepository = new FakeUsersRepository;
+let usersRepository: FakeUsersRepository;
 let personsRepository: FakePersonsRepository;
 let phonesRepository: FakePhonesRepository;
 let addresesRepository: FakeAddressesRepository;
