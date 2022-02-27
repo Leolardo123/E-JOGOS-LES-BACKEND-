@@ -5,7 +5,7 @@ import PlaceType from "./PlaceType";
 @Entity('tb_addresses')
 class Address {
 
-    @PrimaryColumn()
+    @PrimaryColumn('uuid')
     id: string;
     
     @Column()
@@ -36,7 +36,7 @@ class Address {
     place: string;
     
     @Column()
-    place_type_id: string;
+    place_type_id: number;
 
     @JoinColumn({name:'address_type_id'})
     @ManyToOne(()=> AddressType, atype => atype.address)

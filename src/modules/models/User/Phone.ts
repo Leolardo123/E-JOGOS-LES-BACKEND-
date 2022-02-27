@@ -3,7 +3,7 @@ import Person from "./Person";
 
 
 @Entity('tb_phones')
-class Address {
+class Phone {
 
     @PrimaryColumn('uuid')
     id: string;
@@ -18,11 +18,11 @@ class Address {
     person_id: string;
 
     @JoinColumn({name:'person_id'})
-    @OneToOne(() => Person,{
+    @OneToOne(() => Person, person => person.phone, {
         onDelete:'CASCADE',onUpdate:'CASCADE'
     })
     person: Person;
 
 }
 
-export default Address;
+export default Phone;

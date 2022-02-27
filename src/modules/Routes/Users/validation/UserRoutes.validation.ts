@@ -13,7 +13,7 @@ export const create = celebrate({
             name: Joi.string().required(),
             cpf: Joi.string().required(),
             cellphone: Joi.string().required(),
-            gender: Joi.string().required(),
+            gender_id: Joi.string().required(),
             phone: Joi.object({
                 ddd: Joi.number().required(),
                 number: Joi.number().required()
@@ -27,7 +27,7 @@ export const create = celebrate({
             state: Joi.string().required(),
             country: Joi.string().required(),
             address_: Joi.string().required(),
-            complement: Joi.string(),
+            complement: Joi.string().allow('',undefined),
             neighborhood: Joi.string().required(),
             address_type_id: Joi.number().required(),
             place_type_id: Joi.string().required(),

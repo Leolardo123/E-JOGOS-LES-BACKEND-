@@ -1,11 +1,10 @@
 import { Column, Entity, PrimaryColumn } from "typeorm";
 
-
 @Entity('tb_genders')
 class Gender {
 
-    @PrimaryColumn('uuid')
-    id: string;
+    @PrimaryColumn()
+    id: number;
     
     @Column()
     name: string;
