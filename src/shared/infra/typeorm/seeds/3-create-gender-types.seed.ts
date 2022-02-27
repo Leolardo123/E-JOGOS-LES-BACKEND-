@@ -1,25 +1,25 @@
-import AddressType from "@modules/models/Address/AddressType";
+import Gender from "@modules/models/User/Gender";
 import { Connection } from "typeorm";
 import { Factory, Seeder } from "typeorm-seeding";
 
-export default class CreateAddressTypes implements Seeder {
+export default class CreateGenderTypes implements Seeder {
     public async run(factory: Factory, connection: Connection): Promise<void> {
         connection
         .createQueryBuilder()
         .insert()
-        .into(AddressType)
+        .into(Gender)
         .values([
             {
                 id:1,
-                name:'casa',
+                name:'masculino',
             },
             {
                 id:2,
-                name:'apartamento',
+                name:'feminino',
             },
             {
                 id:3,
-                name:'condomínio',
+                name:'outro',
             }
         ])
     }
