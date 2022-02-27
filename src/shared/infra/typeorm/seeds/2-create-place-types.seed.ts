@@ -1,13 +1,13 @@
-import AddressType from "@modules/models/Address/AddressType";
+import PlaceType from "@modules/models/Address/PlaceType";
 import { Connection } from "typeorm";
 import { Factory, Seeder } from "typeorm-seeding";
 
-export default class CreateAddressTypes implements Seeder {
+export default class CreatePlaceTypes implements Seeder {
     public async run(factory: Factory, connection: Connection): Promise<void> {
         connection
         .createQueryBuilder()
         .insert()
-        .into(AddressType)
+        .into(PlaceType)
         .values([
             {
                 id:1,
