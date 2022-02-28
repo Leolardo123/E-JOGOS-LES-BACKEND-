@@ -5,12 +5,14 @@ import IAddressesTypesRepository from '@modules/Repositories/Addresses/interface
 import IPlacesTypesRepository from '@modules/Repositories/Addresses/interfaces/IPlacesTypesRepository';
 import IUsersRepository from '@modules/Repositories/Users/interfaces/IUsersRepository';
 import IAddressesRepository from '@modules/Repositories/Addresses/interfaces/IAddressesRepository';
-import AppError from 'shared/errors/AppError';
-import IRepositoryUtils, { ITransaction } from 'shared/container/providers/RepositoryUtilsProvider/models/IRepositoryUtils';
-import IIdGeneratorProvider from 'shared/container/providers/IdGeneratorProvider/models/IIdGeneratorProvider';
 import IPersonsRepository from '@modules/Repositories/Users/interfaces/IPersonsRepository';
 import IPhonesRepository from '@modules/Repositories/Users/interfaces/IPhonesRepository';
-import IHashProvider from 'shared/container/providers/HashProvider/models/IHashProvider';
+
+import IHashProvider from '../../../shared/container/providers/HashProvider/models/IHashProvider';
+import IIdGeneratorProvider from '../../../shared/container/providers/IdGeneratorProvider/models/IIdGeneratorProvider';
+import IRepositoryUtils, { ITransaction } from '../../../shared/container/providers/RepositoryUtilsProvider/models/IRepositoryUtils';
+import AppError from '../../../shared/errors/AppError';
+
 import moment from 'moment';
 
 interface IUser{

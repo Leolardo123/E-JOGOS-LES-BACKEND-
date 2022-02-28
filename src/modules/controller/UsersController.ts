@@ -16,17 +16,17 @@ export default class UsersController {
 
     public async create(request: Request, response: Response): Promise<Response> {
         const {
-        user,
-        address,
-        person
+            user,
+            address,
+            person
         } = request.body;
 
         const createUser = container.resolve(CreateUserService);
 
         const createdUser = await createUser.execute({
-        user,
-        address,  
-        person
+            user,
+            address,  
+            person
         });
 
         return response.status(201).json(createdUser);
