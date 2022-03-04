@@ -16,8 +16,22 @@ class AddressesRepository implements IAddressesRepository {
   public async index({
     page = 1,
     limit = 10,
+    whereParams,
   }: IPaginatedRequest): Promise<IPaginatedResponse<Address>> {
-    throw new AppError(`not implemented`,501)
+    const [ items, total] = whereParams
+    ? await this.repository
+    .createQueryBuilder()
+    .where(whereParams.where, whereParams.values)
+    .skip((page-1) * limit)
+    .take(limit)
+    .getManyAndCount()
+    : await this.repository
+    .createQueryBuilder()
+    .where({})
+    .skip((page-1) * limit)
+    .take(limit)
+    .getManyAndCount()
+    return { results: items, total, page, limit };
   }
 
   public async findById(

@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 import Address from "./Address";
 
-@Entity('tb_address_types')
+@Entity('tb_addresses_types')
 class AddressType {
 
     @PrimaryColumn()

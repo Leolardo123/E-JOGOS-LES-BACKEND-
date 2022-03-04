@@ -1,16 +1,24 @@
+import AddressesController from "@modules/controller/AddressesController";
+import { index } from "@shared/validation/Universal.validation";
 import { Router } from "express";
 import { show } from "./validation/AdressRoutes.validation";
 
+
 const addressRouter = Router();
+const addressController = new AddressesController();
 
-addressRouter.post('/',/* Validate Params *//*Execute controller*/)
+addressRouter.get('/types',index,addressController.indexAddressTypes)
 
-addressRouter.put('/',/* Validate Params *//*Execute controller*/)
+addressRouter.get('/places-types',index,addressController.indexPlaceTypes)
 
-addressRouter.get('/',/* Validate Params *//*Execute controller*/)
+addressRouter.post('/',addressController.create)
 
-addressRouter.get('/:id',show/* Validate Params *//*Execute controller*/)
+addressRouter.put('/',addressController.update)
 
-addressRouter.delete('/',/* Validate Params *//*Execute controller*/)
+addressRouter.get('/',index,addressController.index)
+
+addressRouter.get('/:id',show,addressController.show)
+
+addressRouter.delete('/',)
 
 export default addressRouter

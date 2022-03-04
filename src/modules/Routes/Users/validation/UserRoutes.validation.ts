@@ -26,7 +26,7 @@ export const create = celebrate({
             state: Joi.string().required(),
             country: Joi.string().required(),
             address_: Joi.string().required(),
-            complement: Joi.string().allow('',undefined),
+            complement: Joi.string().allow('',null),
             neighborhood: Joi.string().required(),
             address_type_id: Joi.number().required(),
             place_type_id: Joi.string().required(),

@@ -1,9 +1,8 @@
+import addressRouter from '@modules/Routes/Addresses/Address.routes'
 import { Router } from 'express'
 
 const routes = Router()
 
-//Clientes
-//Produtos
-//Carrinhos
+routes.use('/addresses',addressRouter)
 
 export default routes

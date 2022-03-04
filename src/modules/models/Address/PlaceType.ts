@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 import Address from "./Address";
 
-@Entity('tb_place_types')
+@Entity('tb_places_types')
 class PlaceType {
 
     @PrimaryColumn()
