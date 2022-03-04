@@ -4,7 +4,7 @@ import { Factory, Seeder } from "typeorm-seeding";
 
 export default class CreateGenderTypes implements Seeder {
     public async run(factory: Factory, connection: Connection): Promise<void> {
-        connection
+        await connection
         .createQueryBuilder()
         .insert()
         .into(Gender)
@@ -21,6 +21,6 @@ export default class CreateGenderTypes implements Seeder {
                 id:3,
                 name:'outro',
             }
-        ])
+        ]).execute()
     }
 }
