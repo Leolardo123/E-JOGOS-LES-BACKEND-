@@ -1,9 +1,6 @@
 import { container } from 'tsyringe';
 
 import './providers';
-
-import '@modules/users/providers';
-import './providers';
 import AddressesRepository from '@modules/Repositories/Addresses/AddressesRepository';
 import IAddressesRepository from '@modules/Repositories/Addresses/interfaces/IAddressesRepository';
 import IUsersRepository from '@modules/Repositories/Users/interfaces/IUsersRepository';

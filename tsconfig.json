@@ -14,11 +14,11 @@
       "@shared/*": ["shared/*"]
     },
     "esModuleInterop": true,
-    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
   "exclude": ["jest.config.js", "prettier.config.js", "dist/*"],
-  "include": ["./src/**/*", "shared/infra"]
+  "include": ["./src/**/*"]
 }
