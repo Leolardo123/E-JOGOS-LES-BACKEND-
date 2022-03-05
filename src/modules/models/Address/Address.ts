@@ -6,7 +6,7 @@ import PlaceType from "./PlaceType";
 class Address {
 
     @PrimaryColumn('uuid')
-    id: string;
+    readonly id: string;
     
     @Column()
     cep: string;

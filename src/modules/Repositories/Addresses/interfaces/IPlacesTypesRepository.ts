@@ -9,7 +9,4 @@ export default interface IPlacesTypesRepository {
     limit,
   }: IPaginatedRequest): Promise<IPaginatedResponse<PlaceType>>;
   findById(id: number): Promise<PlaceType | undefined>;
-  create(data: ICreatePlaceTypeDTO): PlaceType;
-  save(type: PlaceType): Promise<PlaceType>;
-  remove(type: PlaceType): Promise<void>;
 }

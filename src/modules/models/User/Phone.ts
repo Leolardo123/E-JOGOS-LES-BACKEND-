@@ -6,13 +6,13 @@ import Person from "./Person";
 class Phone {
 
     @PrimaryColumn('uuid')
-    id: string;
+    readonly id: string;
     
     @Column()
-    number: string;
+    number: number;
     
     @Column()
-    ddd: string;
+    ddd: number;
 
     @Column()
     person_id: string;

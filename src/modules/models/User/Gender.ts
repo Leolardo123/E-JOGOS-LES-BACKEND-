@@ -4,7 +4,7 @@ import { Column, Entity, PrimaryColumn } from "typeorm";
 class Gender {
 
     @PrimaryColumn()
-    id: number;
+    readonly id: number;
     
     @Column()
     name: string;

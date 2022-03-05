@@ -5,7 +5,7 @@ import Address from "./Address";
 class PlaceType {
 
     @PrimaryColumn()
-    id: number;
+    readonly id: number;
     
     @Column()
     name: string;

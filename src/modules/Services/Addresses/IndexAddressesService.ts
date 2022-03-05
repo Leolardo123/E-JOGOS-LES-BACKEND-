@@ -1,22 +1,24 @@
 import IPaginatedResponse from '@shared/interfaces/IPaginatedResponse';
 import IPaginatedRequest from '@shared/interfaces/IPaginatedRequest';
-import { inject, injectable } from 'tsyringe';
-import IAddressesRepository from '@modules/Repositories/Addresses/interfaces/IAddressesRepository';
+import { injectable } from 'tsyringe';
 import Address from '@modules/models/Address/Address';
+import AddressesRepository from '@modules/Repositories/Addresses/AddressesRepository';
+import { getCustomRepository } from 'typeorm';
 
 
 @injectable()
 class IndexAddressesService {
   constructor(
 
-    @inject('AddressesRepository')
-    private addressesRepository: IAddressesRepository,
+    private addressesRepository:AddressesRepository,
+
   ) {}
 
   public async execute({
     page,
     limit
   }: IPaginatedRequest): Promise<IPaginatedResponse<Address>> {
+    this.addressesRepository = getCustomRepository(AddressesRepository)
     return await this.addressesRepository.index({page,limit})
   }
 }

@@ -9,7 +9,7 @@ import User from "./User";
 class Person {
 
     @PrimaryColumn('uuid')
-    id: string;
+    readonly id: string;
     
     @Column()
     name: string;
@@ -37,8 +37,8 @@ class Person {
     @OneToOne(() => Gender)
     gender: Gender;
 
-    @OneToMany(() => Phone, phone => phone.person)
-    phone: Phone[];
+    @OneToOne(() => Phone, phone => phone.person)
+    phone: Phone;
 
     @OneToOne(() => User , user => user.person)
     user: User;

@@ -1,42 +1,30 @@
 import Person from "@modules/models/User/Person";
-import AppError from "shared/errors/AppError";
-import IPaginatedRequest from "shared/interfaces/IPaginatedRequest";
-import IPaginatedResponse from "shared/interfaces/IPaginatedResponse";
-import { Repository } from "typeorm";
-import ICreatePersonDTO from "./DTOS/ICreatePersonDTO";
+import IPaginatedtRequest from "@shared/interfaces/IPaginatedRequest";
+import IPaginatedResponse from "@shared/interfaces/IPaginatedResponse";
+import { EntityRepository, Repository } from "typeorm";
 import IPersonsRepository from "./interfaces/IPersonsRepository";
 
-class PersonsRepository implements IPersonsRepository {
-  private repository: Repository<Person>;
-
+@EntityRepository(Person)
+class PersonsRepository extends Repository<Person> implements IPersonsRepository {
   public async index({
     page = 1,
     limit = 10,
-  }: IPaginatedRequest): Promise<IPaginatedResponse<Person>> {
-    throw new AppError(`not implemented`, 501);
-  }
-
-  public create(data: ICreatePersonDTO): Person {
-    throw new AppError(`not implemented`, 501);
-  }
-
-  public async findById(id: string): Promise<Person | undefined> {
-    throw new AppError(`not implemented`, 501);
-  }
-
-  public async findByIdHasRelations(
-    id: string,
-    relations: string[]
-  ): Promise<Person | undefined> {
-    throw new AppError(`not implemented`, 501);
-  }
-
-  public async save(person: Person): Promise<Person> {
-    throw new AppError(`not implemented`, 501);
-  }
-
-  public async delete(id: string): Promise<void> {
-    throw new AppError(`not implemented`, 501);
+    whereParams,
+  }: IPaginatedtRequest): Promise<IPaginatedResponse<Person>> {
+    const [ items, total] = whereParams
+    ? await this
+    .createQueryBuilder()
+    .where(whereParams.where, whereParams.values)
+    .skip((page-1) * limit)
+    .take(limit)
+    .getManyAndCount()
+    : await this
+    .createQueryBuilder()
+    .where({})
+    .skip((page-1) * limit)
+    .take(limit)
+    .getManyAndCount()
+    return { results: items, total, page, limit };
   }
 }
 

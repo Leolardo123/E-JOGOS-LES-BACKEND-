@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import AppError from 'shared/errors/AppError';
 import CreateUserService from '@modules/Services/Users/CreateUserService';
+import UpdateUserService from '@modules/Services/Users/UpdateUserService';
 
 export default class UsersController {
 
@@ -33,7 +34,23 @@ export default class UsersController {
     }
 
     public async update(request: Request, response: Response): Promise<Response> {
-        throw new AppError(`not implemented`, 501)
+        const {
+            user,
+            address,
+            person
+        } = request.body;
+        const { id } = request.user
+
+        const updateUserService = container.resolve(UpdateUserService);
+
+        const updatedUserService = await updateUserService.execute({
+            user_id: id,
+            user,
+            address,  
+            person
+        });
+
+        return response.status(201).json(updatedUserService);
     }
 
     public async delete(request: Request, response: Response): Promise<void> {

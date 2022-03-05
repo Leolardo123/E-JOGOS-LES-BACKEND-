@@ -1,12 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 
 import User from '@modules/models/User/User';
-import IAddressesTypesRepository from '@modules/Repositories/Addresses/interfaces/IAddressesTypesRepository';
-import IPlacesTypesRepository from '@modules/Repositories/Addresses/interfaces/IPlacesTypesRepository';
-import IUsersRepository from '@modules/Repositories/Users/interfaces/IUsersRepository';
-import IAddressesRepository from '@modules/Repositories/Addresses/interfaces/IAddressesRepository';
-import IPersonsRepository from '@modules/Repositories/Users/interfaces/IPersonsRepository';
-import IPhonesRepository from '@modules/Repositories/Users/interfaces/IPhonesRepository';
 
 import IHashProvider from '../../../shared/container/providers/HashProvider/models/IHashProvider';
 import IIdGeneratorProvider from '../../../shared/container/providers/IdGeneratorProvider/models/IIdGeneratorProvider';
@@ -14,6 +8,14 @@ import IRepositoryUtils, { ITransaction } from '../../../shared/container/provid
 import AppError from '../../../shared/errors/AppError';
 
 import moment from 'moment';
+import { getCustomRepository } from 'typeorm';
+import UsersRepository from '@modules/Repositories/Users/UsersRepository';
+import PlacesTypesRepository from '@modules/Repositories/Addresses/AddressesPlacesTypesRepository';
+import AddressesTypesRepository from '@modules/Repositories/Addresses/AddressesTypesRepository';
+import AddressesRepository from '@modules/Repositories/Addresses/AddressesRepository';
+import PhonesRepository from '@modules/Repositories/Users/PhonesRepository';
+import PersonsRepository from '@modules/Repositories/Users/PersonsRepository';
+import GendersRepository from '@modules/Repositories/Users/GenderRepository';
 
 interface IUser{
     email: string,
@@ -61,27 +63,23 @@ interface IResponse {
 class CreateUserService {
   constructor(
 
-    @inject('UsersRepository')
-    private usersRepository: IUsersRepository,
+    private usersRepository:UsersRepository,
 
-    @inject('PersonsRepository')
-    private personsRepository: IPersonsRepository,
+    private gendersRepository:GendersRepository,
 
-    @inject('PhonesRepository')
-    private phonesRepository: IPhonesRepository,
+    private personsRepository:PersonsRepository,
 
-    @inject('AddresesRepository')
-    private addresesRepository: IAddressesRepository,
+    private phonesRepository:PhonesRepository,
 
-    @inject('AddressesTypesRepository')
-    private addressesTypesRepository: IAddressesTypesRepository,
+    private addressesRepository:AddressesRepository,
 
-    @inject('placesTypesRepository')
-    private placesTypesRepository: IPlacesTypesRepository,
+    private placesTypesRepository:PlacesTypesRepository,
+
+    private addressesTypesRepository:AddressesTypesRepository,
 
     @inject('HashProvider')
     private hashProvider: IHashProvider,
-
+    
     @inject('IdGeneratorProvider')
     private idGeneratorProvider: IIdGeneratorProvider,
 
@@ -97,23 +95,37 @@ class CreateUserService {
   }: IRequest): Promise<IResponse> {
     const transaction: ITransaction = { data: [] };
 
-    const userExists = await this.usersRepository.findByEmail(user.email)
+    this.usersRepository = getCustomRepository(UsersRepository)
+    this.gendersRepository = getCustomRepository(GendersRepository)
+    this.personsRepository = getCustomRepository(PersonsRepository)
+    this.phonesRepository  = getCustomRepository(PhonesRepository)
+    this.addressesRepository = getCustomRepository(AddressesRepository)
+    this.placesTypesRepository = getCustomRepository(PlacesTypesRepository)
+    this.addressesTypesRepository = getCustomRepository(AddressesTypesRepository)
+
+    const userExists = await this.usersRepository.findOne({email:user.email})
 
     if(userExists){
         throw new AppError('Email já está cadastrado.')
     } 
 
-    const placeType = await this.placesTypesRepository.findById(address.place_type_id) 
+    const placeType = await this.placesTypesRepository.findOne({id:address.place_type_id}) 
 
     if(!placeType){
         throw new AppError('Tipo de logradouro não existe.')
     } 
 
-    const addressType = await this.addressesTypesRepository.findById(address.address_type_id) 
+    const addressType = await this.addressesTypesRepository.findOne({id:address.address_type_id}) 
 
     if(!addressType){
         throw new AppError('Tipo de endereço não existe.')
     } 
+
+    const gender = await this.gendersRepository.findOne({id:person.gender_id}) 
+
+    if(!gender){
+        throw new AppError('Genero escolhido não cadastrado.')
+    }
 
     if(
         moment(person.birth_date, "MM/DD/YYYY", true).isValid()
@@ -122,7 +134,7 @@ class CreateUserService {
         throw new AppError('Data de nascimento inválida.')
     }
 
-    const createdAddress = this.addresesRepository.create({
+    const createdAddress = this.addressesRepository.create({
         id: this.idGeneratorProvider.generate(),
         cep: address.cep,
         number: address.number,
@@ -152,6 +164,7 @@ class CreateUserService {
         number: person.phone.number,
         person_id: createdPerson.id
     })
+
     const hashedPassword = await this.hashProvider.generateHash(user.password);
 
     const createdUser = this.usersRepository.create({
@@ -164,7 +177,7 @@ class CreateUserService {
     transaction.data.push(
         {
             entity: createdAddress,
-            repository: this.addresesRepository
+            repository: this.addressesRepository
         },
         {
             entity: createdPerson,
@@ -181,7 +194,8 @@ class CreateUserService {
     )
 
     createdPerson.address = createdAddress
-    createdPerson.phone.push(createdPhone)
+
+    createdPerson.phone = createdPhone
 
     createdUser.person = createdPerson
 

@@ -1,25 +1,27 @@
 import IPaginatedResponse from '@shared/interfaces/IPaginatedResponse';
 import IPaginatedRequest from '@shared/interfaces/IPaginatedRequest';
-import { inject, injectable } from 'tsyringe';
+import { injectable } from 'tsyringe';
+import { getCustomRepository } from 'typeorm';
 
-import IPlacesTypesRepository from '@modules/Repositories/Addresses/interfaces/IPlacesTypesRepository';
+import PlacesTypesRepository from '@modules/Repositories/Addresses/AddressesPlacesTypesRepository';
 import PlaceType from '@modules/models/Address/PlaceType';
 
 
 @injectable()
-class IndexPlacesTypesService {
+class IndexPlacesService {
   constructor(
 
-    @inject('PlacesTypesRepository')
-    private placesTypesRepository: IPlacesTypesRepository,
+    private placesTypesRepository:PlacesTypesRepository,
+
   ) {}
 
   public async execute({
     page,
     limit
   }: IPaginatedRequest): Promise<IPaginatedResponse<PlaceType>> {
+    this.placesTypesRepository = getCustomRepository(PlacesTypesRepository)
     return await this.placesTypesRepository.index({page,limit})
   }
 }
 
-export default IndexPlacesTypesService;
+export default IndexPlacesService;
