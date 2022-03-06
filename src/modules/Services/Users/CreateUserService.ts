@@ -107,8 +107,27 @@ class CreateUserService {
 
     const parseBirthDate = moment(person.birth_date, "DD/MM/YYYY").toDate()
 
+    const hashedPassword = await this.hashProvider.generateHash(user.password);
+
+    const createdUser = this.usersRepository.create({
+        id: this.idGeneratorProvider.generate(),
+        email: user.email,
+        password: hashedPassword,
+    })
+
+    const createdPerson = this.personsRepository.create({
+        id: this.idGeneratorProvider.generate(),
+        user_id: createdUser.id,
+        cpf: person.cpf,
+        name: person.name,
+        gender_id: person.gender_id,
+        birth_date: parseBirthDate,
+        cellphone: person.cellphone,
+    })
+
     const createdAddress = this.addressesRepository.create({
         id: this.idGeneratorProvider.generate(),
+        person_id: createdPerson.id,
         cep: address.cep,
         number: address.number,
         place: address.place,
@@ -121,16 +140,6 @@ class CreateUserService {
         place_type_id: address.place_type_id,
     })
 
-    const createdPerson = this.personsRepository.create({
-        id: this.idGeneratorProvider.generate(),
-        cpf: person.cpf,
-        name: person.name,
-        gender_id: person.gender_id,
-        address_id: createdAddress.id,
-        birth_date: parseBirthDate,
-        cellphone: person.cellphone,
-    })
-
     const createdPhone = this.phonesRepository.create({
         id: this.idGeneratorProvider.generate(),
         number: person.phone.number,
@@ -138,32 +147,23 @@ class CreateUserService {
         person_id: createdPerson.id
     })
 
-    const hashedPassword = await this.hashProvider.generateHash(user.password);
-
-    const createdUser = this.usersRepository.create({
-        id: this.idGeneratorProvider.generate(),
-        email: user.email,
-        password: hashedPassword,
-        person_id: createdPerson.id,
-    })
-
     transaction.data.push(
         {
-            entity: createdAddress,
-            repository: this.addressesRepository
+            entity: createdUser,
+            repository: this.usersRepository
         },
         {
             entity: createdPerson,
             repository: this.personsRepository
         },
         {
+            entity: createdAddress,
+            repository: this.addressesRepository
+        },
+        {
             entity: createdPhone,
             repository: this.phonesRepository
         },
-        {
-            entity: createdUser,
-            repository: this.usersRepository
-        }
     )
 
     createdPerson.address = createdAddress

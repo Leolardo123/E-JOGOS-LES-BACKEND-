@@ -15,16 +15,10 @@ class User {
     @Column()
     password: string;
 
-    @Column()
-    person_id: string;
-
     @OneToMany(() => RefreshToken, refreshToken => refreshToken.user)
     refresh_tokens: RefreshToken[];
 
-    @JoinColumn({name:'person_id'})
-    @OneToOne(() => Person, person => person.user,{
-        onDelete:'CASCADE',onUpdate:'CASCADE'
-    })
+    @OneToOne(() => Person, person => person.user)
     person: Person;
 
 }

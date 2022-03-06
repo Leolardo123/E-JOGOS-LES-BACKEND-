@@ -38,8 +38,8 @@ class UpdateUserService {
     }
 
     if(email){
-        const emailExists = await this.usersRepository.findOne(email)
-        if(!emailExists){
+        const emailExists = await this.usersRepository.findOne({where:{email}})
+        if(emailExists){
             throw new AppError('Email escolhido já está cadastrado.')
         }
         userExists.email =  email

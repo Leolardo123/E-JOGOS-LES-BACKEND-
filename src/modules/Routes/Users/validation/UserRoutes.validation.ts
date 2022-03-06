@@ -36,32 +36,7 @@ export const create = celebrate({
 
 export const updateBody = celebrate({
     [Segments.BODY]: {
-        user: Joi.object({
-            email: Joi.string().allow('',null),
-        }),
-        person: Joi.object({
-            name: Joi.string().allow('',null),
-            cpf: Joi.string().allow('',null),
-            cellphone: Joi.string().allow('',null),
-            gender_id: Joi.number(),
-            birth_date: Joi.string().required(),
-            phone: Joi.object({
-                ddd: Joi.number(),
-                number: Joi.number()
-            })
-        }),
-        address: Joi.object({
-            cep: Joi.string().allow('',null),
-            place: Joi.string().allow('',null),
-            number: Joi.number(),
-            city: Joi.string().allow('',null),
-            state: Joi.string().allow('',null),
-            country: Joi.string().allow('',null),
-            complement: Joi.string().allow('',null),
-            neighborhood: Joi.string().allow('',null),
-            address_type_id: Joi.number(),
-            place_type_id: Joi.number(),
-        })
+        email: Joi.string().allow('',null)
     }
 })
 

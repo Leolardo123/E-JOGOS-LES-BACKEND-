@@ -1,4 +1,5 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn } from "typeorm";
+import Person from "../User/Person";
 import AddressType from "./AddressType";
 import PlaceType from "./PlaceType";
 
@@ -38,6 +39,9 @@ class Address {
     @Column()
     place_type_id: number;
 
+    @Column()
+    person_id: string;
+
     @JoinColumn({name:'address_type_id'})
     @ManyToOne(()=> AddressType, atype => atype.address,{
         onDelete:'RESTRICT',onUpdate:'CASCADE'
@@ -49,6 +53,12 @@ class Address {
         onDelete:'RESTRICT',onUpdate:'CASCADE'
     })
     place_type: PlaceType;
+    
+    @JoinColumn({name:'person_id'})
+    @OneToOne(()=> Person, person => person.address,{
+        onDelete:'CASCADE',onUpdate:'CASCADE'
+    })
+    person: PlaceType;
 }
 
 export default Address;

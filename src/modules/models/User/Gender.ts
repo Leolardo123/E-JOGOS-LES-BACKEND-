@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
+import Person from "./Person";
 
 @Entity('tb_genders')
 class Gender {
@@ -9,6 +10,8 @@ class Gender {
     @Column()
     name: string;
 
+    @ManyToOne(() => Person, person => person.gender)
+    persons: Person[]
 }
 
 export default Gender;

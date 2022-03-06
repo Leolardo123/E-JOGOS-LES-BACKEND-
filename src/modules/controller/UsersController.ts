@@ -55,9 +55,7 @@ export default class UsersController {
 
     public async update(request: Request, response: Response): Promise<Response> {
         const {
-            user:{
-                email
-            }
+            email
         } = request.body;
         const { user_id } = request.params
 

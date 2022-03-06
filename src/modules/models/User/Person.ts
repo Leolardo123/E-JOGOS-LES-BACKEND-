@@ -26,24 +26,24 @@ class Person {
     gender_id: number;
 
     @Column()
-    address_id: string;
+    user_id: string;
 
-    @JoinColumn({name:'address_id'})
-    @OneToOne(() => Address,{
-        onDelete:'CASCADE',onUpdate:'CASCADE'
-    })
+    @OneToOne(() => Address, address => address.person)
     address: Address;
 
     @JoinColumn({name:'gender_id'})
-    @OneToOne(() => Gender,{
-        onDelete:'RESTRICT',onUpdate:'CASCADE'
+    @OneToMany(() => Gender, gender => gender.persons ,{
+        cascade:true
     })
     gender: Gender;
 
     @OneToOne(() => Phone, phone => phone.person)
     phone: Phone;
 
-    @OneToOne(() => User , user => user.person)
+    @JoinColumn({name:'user_id'})
+    @OneToOne(() => User , user => user.person,{
+        onDelete:'CASCADE', onUpdate:'CASCADE'
+    })
     user: User;
 
 }
