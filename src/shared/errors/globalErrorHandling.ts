@@ -1,7 +1,7 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { CelebrateError } from 'celebrate';
 import { Request, Response, NextFunction } from 'express';
-import AppError from '../../../errors/AppError';
+import AppError from '@shared/errors/AppError';
 
 import winston from '@config/winston';
 
@@ -15,19 +15,30 @@ export default function globalErrorHandling(
   console.log(err)
   if (err instanceof AppError) {
     winston.error(
-      `${err.errorCode} - ${err.message} - ${request.originalUrl} - ${
+      `${err.statusCode} - ${err.message} - ${request.originalUrl} - ${
         request.method
       } - ${request.ip} - body: ${request.body} - params: ${JSON.stringify(
         request.params,
       )}`,
     );
-    return response.status(err.statusCode|500).json({
-      status: err.statusCode,
+
+    return response.status(err.statusCode).json({
+      status: 'error',
       message: err.message,
     });
   }
 
-  if(err instanceof CelebrateError){
+  if (err instanceof CelebrateError) {
+    winston.error(
+      `${400} - ${err.details.values().next().value.details[0].message} - ${
+        request.originalUrl
+      } - ${request.method} - ${request.ip} - body: ${JSON.stringify(
+        request.body,
+      )} - params: ${JSON.stringify(request.params)} - query: ${JSON.stringify(
+        request.query,
+      )} - date: ${new Date()}`,
+    );
+
     let messageString;
     const { type, context } = err.details.values().next().value.details[0];
   
@@ -46,8 +57,8 @@ export default function globalErrorHandling(
       case 'string.base':
         messageString = `O campo ${context.key} deve ser do tipo texto.`;
         break;
-      case 'date.format':
-        messageString = `O campo ${context.key} não é uma data válida`; 
+      case 'string.pattern.base':
+        messageString = `O valor do campo ${context.key} não está no formato correto.`
         break;
       case 'string.guid':
         messageString = `O campo ${context.key} deve ser do tipo uuid.`;
@@ -85,15 +96,6 @@ export default function globalErrorHandling(
       case 'array.max':
         messageString = `O campo ${context.key} não podeer um tamanho maior que ${context.limit}.`;
         break;
-      case 'document.cpf':
-        messageString = `O CPF é inválido.`;
-        break;
-      case 'document.cnpj':
-        messageString = `O CNPJ é inválido.`;
-        break;
-      case 'individual_person.birth_date':
-          messageString = `Data de nascimento não é válida.`;
-          break;
       case 'object.unknown':
         messageString = `Campo ${context.key} não reconhecido.`;
         break;

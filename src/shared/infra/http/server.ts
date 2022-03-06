@@ -23,6 +23,5 @@ app.use(routes);
 app.use(globalErrorHandling)
 
 server.listen(process.env.PORT || 3334, async () => {
-  /* eslint-disable no-console */
   console.log(`🚀 Server started on port ${process.env.PORT || 3334}!`);
 });
