@@ -5,14 +5,12 @@ import crypto from 'crypto';
 import { auth } from '@config/auth';
 import { refreshTokenConfig } from '@config/refreshToken';
 import User from '@modules/models/User/User';
-import IUsersRepository from '@modules/Repositories/Users/interfaces/IUsersRepository';
-import IHashProvider from '@shared/container/providers/HashProvider/models/IHashProvider';
 import IIdGeneratorProvider from '@shared/container/providers/IdGeneratorProvider/models/IIdGeneratorProvider';
 import AppError from '@shared/errors/AppError';
-import { IRefreshTokensRepository } from '@modules/Repositories/Users/interfaces/IRefreshTokensRepository';
 import { getCustomRepository } from 'typeorm';
 import UsersRepository from '@modules/Repositories/Users/UsersRepository';
 import { RefreshTokensRepository } from '@modules/Repositories/Users/RefreshTokensRepository';
+import IHashProvider from '@shared/container/providers/HashProvider/models/IHashProvider';
 
 
 interface IRequest {

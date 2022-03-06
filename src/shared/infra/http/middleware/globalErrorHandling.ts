@@ -21,6 +21,10 @@ export default function globalErrorHandling(
         request.params,
       )}`,
     );
+    return response.status(err.statusCode|500).json({
+      status: err.statusCode,
+      message: err.message,
+    });
   }
 
   if(err instanceof CelebrateError){
@@ -42,14 +46,8 @@ export default function globalErrorHandling(
       case 'string.base':
         messageString = `O campo ${context.key} deve ser do tipo texto.`;
         break;
-      case 'string.pattern.base':
-        switch(context.key){
-          case 'birth_date':
-            messageString = `A data de nascimento não é válida.`;
-          break;
-          default:
-            messageString = `O valor do campo ${context.key} não está no formato correto.`
-        }
+      case 'date.format':
+        messageString = `O campo ${context.key} não é uma data válida`; 
         break;
       case 'string.guid':
         messageString = `O campo ${context.key} deve ser do tipo uuid.`;

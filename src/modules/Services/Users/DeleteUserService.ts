@@ -4,13 +4,8 @@ import AppError from '../../../shared/errors/AppError';
 import { getCustomRepository } from 'typeorm';
 import UsersRepository from '@modules/Repositories/Users/UsersRepository';
 
-interface IUserCustom{
-    email:string
-}
-
 interface IRequest {
     user_id: string;
-    user: IUserCustom;
 } 
 
 interface IResponse {
@@ -18,34 +13,28 @@ interface IResponse {
 }
 
 @injectable()
-class UpdateUserService {
+class DeleteUserService {
   constructor(
     private usersRepository:UsersRepository,
   ) {}
 
   public async execute({
     user_id,
-    user:{
-        email
-    },
   }: IRequest): Promise<IResponse> {
     this.usersRepository = getCustomRepository(UsersRepository)
 
-    const userExists = await this.usersRepository.findOne({where:{id:user_id}})
+    const userExists = await this.usersRepository.findOne({
+      where:{
+        id:user_id
+      },
+      relations:['person','person.phone','person.address']
+    })
 
     if(!userExists){
         throw new AppError('Usuário não encontrado.')
     }
 
-    if(email){
-        const emailExists = await this.usersRepository.findOne(email)
-        if(!emailExists){
-            throw new AppError('Email escolhido já está cadastrado.')
-        }
-        userExists.email =  email
-    }
-
-    this.usersRepository.save(userExists)
+    this.usersRepository.remove(userExists)
 
     return {
         user:userExists
@@ -53,4 +42,4 @@ class UpdateUserService {
   }
 }
 
-export default UpdateUserService;
+export default DeleteUserService;

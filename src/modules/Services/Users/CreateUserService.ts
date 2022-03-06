@@ -2,7 +2,6 @@ import { inject, injectable } from 'tsyringe';
 
 import User from '@modules/models/User/User';
 
-import IHashProvider from '../../../shared/container/providers/HashProvider/models/IHashProvider';
 import IIdGeneratorProvider from '../../../shared/container/providers/IdGeneratorProvider/models/IIdGeneratorProvider';
 import IRepositoryUtils, { ITransaction } from '../../../shared/container/providers/RepositoryUtilsProvider/models/IRepositoryUtils';
 import AppError from '../../../shared/errors/AppError';
@@ -16,38 +15,10 @@ import AddressesRepository from '@modules/Repositories/Addresses/AddressesReposi
 import PhonesRepository from '@modules/Repositories/Users/PhonesRepository';
 import PersonsRepository from '@modules/Repositories/Users/PersonsRepository';
 import GendersRepository from '@modules/Repositories/Users/GenderRepository';
-
-interface IUser{
-    email: string,
-    password: string,
-}
-
-interface IPhone {
-    ddd: number,
-    number: number
-}
-
-interface IPerson{
-    name: string;
-    cpf: string;
-    cellphone: number;
-    birth_date: string;
-    gender_id: number;
-    phone: IPhone;
-}
-
-interface IAddress{
-    cep: string,
-    place: string,
-    number: number,
-    city: string,
-    state: string,
-    country: string,
-    complement?: string,
-    neighborhood: string,
-    address_type_id: number,
-    place_type_id: number,
-}
+import IHashProvider from '@shared/container/providers/HashProvider/models/IHashProvider';
+import { IUser } from './interfaces/IUser';
+import { IPerson } from './interfaces/IPerson';
+import { IAddress } from './interfaces/IAddress';
 
 interface IRequest {
     user: IUser;
@@ -124,15 +95,17 @@ class CreateUserService {
     const gender = await this.gendersRepository.findOne({id:person.gender_id}) 
 
     if(!gender){
-        throw new AppError('Genero escolhido não cadastrado.')
+        throw new AppError('Genero selecionado não é uma opção válida.')
     }
 
     if(
-        moment(person.birth_date, "MM/DD/YYYY", true).isValid()
-        && new Date() > new Date(person.birth_date)
+        (!moment(person.birth_date, "DD/MM/YYYY", true).isValid())
+        || new Date() > new Date(person.birth_date)
     ){
         throw new AppError('Data de nascimento inválida.')
     }
+
+    const parseBirthDate = moment(person.birth_date, "DD/MM/YYYY").toDate()
 
     const createdAddress = this.addressesRepository.create({
         id: this.idGeneratorProvider.generate(),
@@ -143,7 +116,7 @@ class CreateUserService {
         state: address.state,
         country: address.country,
         neighborhood: address.neighborhood,
-        complement: address.complement,
+        complement: address.complement || "",
         address_type_id: address.address_type_id,
         place_type_id: address.place_type_id,
     })
@@ -154,14 +127,14 @@ class CreateUserService {
         name: person.name,
         gender_id: person.gender_id,
         address_id: createdAddress.id,
-        birth_date: new Date(person.birth_date),
+        birth_date: parseBirthDate,
         cellphone: person.cellphone,
     })
 
     const createdPhone = this.phonesRepository.create({
         id: this.idGeneratorProvider.generate(),
-        ddd: person.phone.ddd,
         number: person.phone.number,
+        ddd: person.phone.ddd,
         person_id: createdPerson.id
     })
 

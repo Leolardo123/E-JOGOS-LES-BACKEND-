@@ -1,15 +1,14 @@
 import IPaginatedResponse from '@shared/interfaces/IPaginatedResponse';
 import IPaginatedRequest from '@shared/interfaces/IPaginatedRequest';
-import { inject, injectable } from 'tsyringe';
+import { injectable } from 'tsyringe';
 
-import IUsersRepository from '@modules/Repositories/Users/interfaces/IUsersRepository';
 import User from '@modules/models/User/User';
 import { getCustomRepository } from 'typeorm';
 import UsersRepository from '@modules/Repositories/Users/UsersRepository';
 
 
 @injectable()
-class IndexPlacesTypesService {
+class IndexUsersService {
   constructor(
     private usersRepository:UsersRepository,
   ) {}
@@ -23,4 +22,4 @@ class IndexPlacesTypesService {
   }
 }
 
-export default IndexPlacesTypesService;
+export default IndexUsersService;

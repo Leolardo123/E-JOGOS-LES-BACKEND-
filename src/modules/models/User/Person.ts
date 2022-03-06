@@ -4,7 +4,6 @@ import Gender from "./Gender";
 import Phone from "./Phone";
 import User from "./User";
 
-
 @Entity('tb_persons')
 class Person {
 
@@ -18,7 +17,7 @@ class Person {
     cpf: string;
 
     @Column()
-    cellphone: number;
+    cellphone: string;
 
     @Column()
     birth_date: Date;
@@ -30,11 +29,15 @@ class Person {
     address_id: string;
 
     @JoinColumn({name:'address_id'})
-    @OneToOne(() => Address)
+    @OneToOne(() => Address,{
+        onDelete:'CASCADE',onUpdate:'CASCADE'
+    })
     address: Address;
 
     @JoinColumn({name:'gender_id'})
-    @OneToOne(() => Gender)
+    @OneToOne(() => Gender,{
+        onDelete:'RESTRICT',onUpdate:'CASCADE'
+    })
     gender: Gender;
 
     @OneToOne(() => Phone, phone => phone.person)

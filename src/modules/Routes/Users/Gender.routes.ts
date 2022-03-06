@@ -1,11 +1,11 @@
 
 import GendersController from "@modules/controller/GendersController";
+import { index } from "@shared/validation/Universal.validation";
 import { Router } from "express";
-import { index } from "./validation/UserRoutes.validation";
 
 const genderRouter = Router();
 const genderController = new GendersController();
 
-genderRouter.get('/genders', index, genderController.indexGenders)
+genderRouter.get('/', index, genderController.indexGenders)
 
 export default genderRouter

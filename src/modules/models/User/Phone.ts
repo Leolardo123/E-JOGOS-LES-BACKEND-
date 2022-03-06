@@ -9,7 +9,7 @@ class Phone {
     readonly id: string;
     
     @Column()
-    number: number;
+    number: string;
     
     @Column()
     ddd: number;

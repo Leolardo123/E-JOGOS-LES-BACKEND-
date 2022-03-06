@@ -22,7 +22,7 @@ export const create = celebrate({
   },
 });
 
-export const update = celebrate({
+export const updateBody = celebrate({
   [Segments.BODY]: {
     cep: Joi.string().allow('',null),
     place: Joi.string().allow('',null),
@@ -30,10 +30,16 @@ export const update = celebrate({
     city: Joi.string().allow('',null),
     state: Joi.string().allow('',null),
     country: Joi.string().allow('',null),
-    address_: Joi.string().allow('',null),
     complement: Joi.string().allow('',null),
     neighborhood: Joi.string().allow('',null),
     address_type_id: Joi.number(),
-    place_type_id: Joi.string().allow('',null),
+    place_type_id: Joi.number(),
   },
 });
+
+export const updateParams = celebrate({
+  [Segments.PARAMS]: {
+      address_id: Joi.string().required()
+  }
+})
+

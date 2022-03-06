@@ -5,6 +5,7 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import IndexPlacesTypesService from '@modules/Services/Addresses/IndexPlacesTypesService';
 import IndexAddressesService from '@modules/Services/Addresses/IndexAddressesService';
+import UpdateAddressService from '@modules/Services/Addresses/UpdateAddressService';
 
 export default class AddressesController {
 
@@ -48,15 +49,39 @@ export default class AddressesController {
         throw new AppError(`not implemented`, 501)
     }
 
-    public async create(request: Request, response: Response): Promise<Response> {
-        throw new AppError(`not implemented`, 501)
-    }
-
     public async update(request: Request, response: Response): Promise<Response> {
-        throw new AppError(`not implemented`, 501)
-    }
+        const {
+            address_type_id,
+            place_type_id,
+            cep,
+            city,
+            complement,
+            country,
+            neighborhood,
+            number,
+            place,
+            state
+        } = request.body;
+        const { address_id } = request.params
 
-    public async delete(request: Request, response: Response): Promise<void> {
-        throw new AppError(`not implemented`, 501)
+        const updateAddressService = container.resolve(UpdateAddressService);
+
+        const { address } = await updateAddressService.execute({
+            address_id,
+            address:{
+                address_type_id,
+                place_type_id,
+                cep,
+                city,
+                complement,
+                country,
+                neighborhood,
+                number,
+                place,
+                state
+            }
+        });
+
+        return response.status(201).json(address);
     }
 }

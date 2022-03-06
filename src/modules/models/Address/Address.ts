@@ -39,11 +39,15 @@ class Address {
     place_type_id: number;
 
     @JoinColumn({name:'address_type_id'})
-    @ManyToOne(()=> AddressType, atype => atype.address)
+    @ManyToOne(()=> AddressType, atype => atype.address,{
+        onDelete:'RESTRICT',onUpdate:'CASCADE'
+    })
     address_type: AddressType;
 
     @JoinColumn({name:'place_type_id'})
-    @ManyToOne(()=> PlaceType, ptype => ptype.address)
+    @ManyToOne(()=> PlaceType, ptype => ptype.address,{
+        onDelete:'RESTRICT',onUpdate:'CASCADE'
+    })
     place_type: PlaceType;
 }
 
