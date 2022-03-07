@@ -30,14 +30,14 @@ export default function globalErrorHandling(
   if(err instanceof CelebrateError){
     let messageString;
     const { type, context } = err.details.values().next().value.details[0];
-  
+
     switch (type) {
       case 'any.required':
         messageString = `O campo ${context.key} é obrigatório.`;
         break;
       case 'any.only':
         messageString = context.valids[0].path
-          ? `O campo ${context.key} deve ter o mesmo valor do campo ${context.valids[0].context.key}.`
+          ? `O campo ${context.key} deve ter o mesmo valor do campo ${context.valids[0].key}.`
           : `O campo ${context.key} pode ter o(s) valor(es): ${context.valids}`;
         break;
       case 'object.base':
