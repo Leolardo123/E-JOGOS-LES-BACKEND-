@@ -6,7 +6,7 @@ export const updateBody = celebrate({
         cpf: Joi.string().allow('',null),
         cellphone: Joi.string().allow('',null),
         gender_id: Joi.number(),
-        birth_date: Joi.string().required(),
+        birth_date: Joi.string(),
         phone: Joi.object({
             ddd: Joi.number(),
             number: Joi.number()
