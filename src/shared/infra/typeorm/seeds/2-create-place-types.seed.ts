@@ -10,17 +10,38 @@ export default class CreatePlaceTypes implements Seeder {
         .into(PlaceType)
         .values([
             {
-                id:1,
-                name:'casa',
+                name:"Alameda"
             },
             {
-                id:2,
-                name:'apartamento',
+                name:"Avenida"
             },
             {
-                id:3,
-                name:'condomínio',
-            }
+                name:"Beco"
+            },
+            {
+                name:"Bloco"
+            },
+            {
+                name:"Condomínio"
+            },
+            {
+                name:"Distrito"
+            },
+            {
+                name:"Rua"
+            },
+            {
+                name:"Residencial"
+            },
+            {
+                name:"Sitio"
+            },
+            {
+                name:"Vila"
+            },
+            {
+                name:"Outro"
+            },
         ]).execute()
     }
-}
+}   

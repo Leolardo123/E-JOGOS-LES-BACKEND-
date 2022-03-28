@@ -10,12 +10,19 @@ import UpdateAddressService from '@modules/Services/Addresses/UpdateAddressServi
 export default class AddressesController {
 
     public async index(request: Request, response: Response): Promise<Response> {
-        const { page , limit } = request.query
+        const { page , limit, user_id } = request.query
 
         const indexAddressesService = container.resolve(IndexAddressesService)
         const result = await indexAddressesService.execute({
             page: page ? Number(page) : undefined,
-            limit: limit ? Number(limit) : undefined
+            limit: limit ? Number(limit) : undefined,
+            whereParams : {
+                person_address: {
+                    person:{
+                        user_id: user_id as string,
+                    }
+                }
+            }
         })
 
         return response.json(result)
@@ -62,12 +69,14 @@ export default class AddressesController {
             place,
             state
         } = request.body;
-        const { address_id } = request.params
+        const { address_id } = request.params;
+        const { id: user_id } = request.user;
 
         const updateAddressService = container.resolve(UpdateAddressService);
 
         const { address } = await updateAddressService.execute({
             address_id,
+            user_id,
             address:{
                 address_type_id,
                 place_type_id,

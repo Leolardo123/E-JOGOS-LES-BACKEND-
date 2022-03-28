@@ -1,14 +1,12 @@
 import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn } from "typeorm";
-import Address from "../Address/Address";
+import PersonAddress from "../Address/PersonAddress";
+import Domain from "../Domain";
 import Gender from "./Gender";
 import Phone from "./Phone";
 import User from "./User";
 
 @Entity('tb_persons')
-class Person {
-
-    @PrimaryColumn('uuid')
-    readonly id: string;
+class Person extends Domain {
     
     @Column()
     name: string;
@@ -28,8 +26,8 @@ class Person {
     @Column()
     user_id: string;
 
-    @OneToOne(() => Address, address => address.person)
-    address: Address;
+    @OneToMany(() => PersonAddress, address => address.person, { cascade: true })
+    addresses: PersonAddress[];
 
     @JoinColumn({name:'gender_id'})
     @OneToMany(() => Gender, gender => gender.persons ,{
@@ -37,7 +35,7 @@ class Person {
     })
     gender: Gender;
 
-    @OneToOne(() => Phone, phone => phone.person)
+    @OneToOne(() => Phone, phone => phone.person, { cascade: true })
     phone: Phone;
 
     @JoinColumn({name:'user_id'})

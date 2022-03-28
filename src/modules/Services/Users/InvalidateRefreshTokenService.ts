@@ -1,4 +1,5 @@
-import { RefreshTokensRepository } from '@modules/Repositories/Users/RefreshTokensRepository';
+import { RefreshToken } from '@modules/models/User/RefreshToken';
+import GenericRepositoryProvider from '@modules/Repositories/Generic/implementations/GenericRepositoryProvider';
 import AppError from '@shared/errors/AppError';
 import { injectable, inject } from 'tsyringe';
 import { getCustomRepository } from 'typeorm';
@@ -10,18 +11,16 @@ interface IRequest {
 
 @injectable()
 class InvalidateRefreshTokenService {
-  constructor(
-    private refreshTokensRepository: RefreshTokensRepository,
-  ) {}
-
   public async execute({ userId, accessToken }: IRequest): Promise<void> {
-    this.refreshTokensRepository = getCustomRepository(RefreshTokensRepository)
+    const refreshTokensRepository = new GenericRepositoryProvider(RefreshToken);
 
     const [, token] = accessToken.split(' ');
 
-    const checkRefreshTokenExists = await this.refreshTokensRepository.findOne(
-      {where:{refresh_token:token}}
-    );
+    const checkRefreshTokenExists = await refreshTokensRepository.findOne({
+      where:{
+        refresh_token:token
+      }
+    });
 
     if (checkRefreshTokenExists?.user_id !== userId) {
       throw new AppError(
@@ -32,7 +31,7 @@ class InvalidateRefreshTokenService {
 
     checkRefreshTokenExists.is_active = false;
 
-    await this.refreshTokensRepository.save(checkRefreshTokenExists);
+    await refreshTokensRepository.save(checkRefreshTokenExists);
   }
 }
 

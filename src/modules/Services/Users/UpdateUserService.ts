@@ -1,8 +1,9 @@
-import { injectable } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 import User from '@modules/models/User/User';
 import AppError from '../../../shared/errors/AppError';
 import { getCustomRepository } from 'typeorm';
 import UsersRepository from '@modules/Repositories/Users/UsersRepository';
+import GenericRepositoryProvider from '@modules/Repositories/Generic/implementations/GenericRepositoryProvider';
 
 interface IUserCustom{
     email:string
@@ -19,33 +20,36 @@ interface IResponse {
 
 @injectable()
 class UpdateUserService {
-  constructor(
-    private usersRepository:UsersRepository,
-  ) {}
-
   public async execute({
     user_id,
     user:{
         email
     },
   }: IRequest): Promise<IResponse> {
-    this.usersRepository = getCustomRepository(UsersRepository)
-
-    const userExists = await this.usersRepository.findOne({where:{id:user_id}})
+    const usersRepository = new GenericRepositoryProvider(User);
+    const userExists = await usersRepository.findOne({
+      where:{
+        id:user_id
+      }
+    })
 
     if(!userExists){
         throw new AppError('Usuário não encontrado.')
     }
 
     if(email){
-        const emailExists = await this.usersRepository.findOne({where:{email}})
+        const emailExists = await usersRepository.findOne({
+          where:{
+            email
+          }
+        })
         if(emailExists){
             throw new AppError('Email escolhido já está cadastrado.')
         }
         userExists.email =  email
     }
 
-    this.usersRepository.save(userExists)
+    await usersRepository.save(userExists)
 
     return {
         user:userExists

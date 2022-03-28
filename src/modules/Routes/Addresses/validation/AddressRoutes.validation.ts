@@ -1,5 +1,11 @@
 import { celebrate, Joi, Segments } from "celebrate";
 
+export const index = celebrate({
+  [Segments.PARAMS]: {
+    user_id: Joi.string().optional(),
+  },
+});
+
 export const show = celebrate({
   [Segments.PARAMS]: {
     id: Joi.string().required(),
@@ -19,6 +25,25 @@ export const create = celebrate({
     neighborhood: Joi.string().required(),
     address_type_id: Joi.number().required(),
     place_type_id: Joi.string().required(),
+  },
+});
+
+export const addToPerson = celebrate({
+  [Segments.BODY]: {
+    addresses: Joi.array().items(
+      Joi.object({
+          cep: Joi.string().required(),
+          place: Joi.string().required(),
+          number: Joi.number().required(),
+          city: Joi.string().required(),
+          state: Joi.string().required(),
+          country: Joi.string().required(),
+          complement: Joi.string().allow('',null),
+          neighborhood: Joi.string().required(),
+          address_type_id: Joi.number().required(),
+          place_type_id: Joi.number().required(),
+      }).required()
+    ).min(1).required()
   },
 });
 

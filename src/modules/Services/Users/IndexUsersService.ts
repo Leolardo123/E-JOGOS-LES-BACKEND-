@@ -1,24 +1,18 @@
 import IPaginatedResponse from '@shared/interfaces/IPaginatedResponse';
 import IPaginatedRequest from '@shared/interfaces/IPaginatedRequest';
-import { injectable } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 
 import User from '@modules/models/User/User';
-import { getCustomRepository } from 'typeorm';
-import UsersRepository from '@modules/Repositories/Users/UsersRepository';
-
+import GenericRepositoryProvider from '@modules/Repositories/Generic/implementations/GenericRepositoryProvider';
 
 @injectable()
 class IndexUsersService {
-  constructor(
-    private usersRepository:UsersRepository,
-  ) {}
-
   public async execute({
     page,
     limit
   }: IPaginatedRequest): Promise<IPaginatedResponse<User>> {
-    this.usersRepository = getCustomRepository(UsersRepository)
-    return await this.usersRepository.index({page,limit})
+    const usersRepository = new GenericRepositoryProvider(User);
+    return await usersRepository.index({page,limit})
   }
 }
 

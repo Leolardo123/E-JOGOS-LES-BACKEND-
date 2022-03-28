@@ -1,14 +1,11 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn } from "typeorm";
+import { Column, Entity, OneToMany, OneToOne } from "typeorm";
+import Domain from "../Domain";
 import Person from "./Person";
 import { RefreshToken } from "./RefreshToken";
 
-
 @Entity('tb_users')
-class User {
+class User extends Domain {
 
-    @PrimaryColumn('uuid')
-    readonly id: string;
-    
     @Column()
     email: string;
     
@@ -18,7 +15,7 @@ class User {
     @OneToMany(() => RefreshToken, refreshToken => refreshToken.user)
     refresh_tokens: RefreshToken[];
 
-    @OneToOne(() => Person, person => person.user)
+    @OneToOne(() => Person, person => person.user, { cascade: true })
     person: Person;
 
 }

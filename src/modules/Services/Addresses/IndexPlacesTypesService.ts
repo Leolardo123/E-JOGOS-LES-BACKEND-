@@ -1,6 +1,6 @@
 import IPaginatedResponse from '@shared/interfaces/IPaginatedResponse';
 import IPaginatedRequest from '@shared/interfaces/IPaginatedRequest';
-import { injectable } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 import { getCustomRepository } from 'typeorm';
 
 import PlacesTypesRepository from '@modules/Repositories/Addresses/AddressesPlacesTypesRepository';
@@ -10,17 +10,19 @@ import PlaceType from '@modules/models/Address/PlaceType';
 @injectable()
 class IndexPlacesService {
   constructor(
-
+    @inject('PlacesTypesRepository')
     private placesTypesRepository:PlacesTypesRepository,
-
   ) {}
 
   public async execute({
-    page,
-    limit
+    page = 1,
+    limit = 10
   }: IPaginatedRequest): Promise<IPaginatedResponse<PlaceType>> {
-    this.placesTypesRepository = getCustomRepository(PlacesTypesRepository)
-    return await this.placesTypesRepository.index({page,limit})
+    const [ results, total ] = await this.placesTypesRepository.findAndCount({
+      skip: (page-1) * limit,
+      take: limit
+    })
+    return { results, total, page, limit }
   }
 }
 

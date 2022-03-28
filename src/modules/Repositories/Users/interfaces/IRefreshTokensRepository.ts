@@ -1,5 +1,0 @@
-interface IRefreshTokensRepository {
-
-}
-
-export { IRefreshTokensRepository };

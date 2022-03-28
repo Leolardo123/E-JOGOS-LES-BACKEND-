@@ -1,14 +1,14 @@
 import AddressesController from "@modules/controller/AddressesController";
-import { index } from "@shared/validation/Universal.validation";
+import { index as uIndex } from "@shared/validation/Universal.validation";
 import { Router } from "express";
-import { show, updateBody, updateParams } from "./validation/AddressRoutes.validation";
+import { index, show, updateBody, updateParams } from "./validation/AddressRoutes.validation";
 
 const addressRouter = Router();
 const addressController = new AddressesController();
 
-addressRouter.get('/types',index,addressController.indexAddressTypes)
+addressRouter.get('/types',uIndex,addressController.indexAddressTypes)
 
-addressRouter.get('/places-types',index,addressController.indexPlaceTypes)
+addressRouter.get('/places-types',uIndex,addressController.indexPlaceTypes)
 
 addressRouter.put('/:address_id',updateBody,updateParams,addressController.update)
 

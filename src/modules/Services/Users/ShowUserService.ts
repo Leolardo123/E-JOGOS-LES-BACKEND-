@@ -1,8 +1,10 @@
-import { injectable } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 import User from '@modules/models/User/User';
 import AppError from '../../../shared/errors/AppError';
 import { getCustomRepository } from 'typeorm';
 import UsersRepository from '@modules/Repositories/Users/UsersRepository';
+import { IGenericRepositoryProvider } from '@shared/container/providers/GenericRepositoryProvider/models/IGenericRepositoryProvider';
+import GenericRepositoryProvider from '@modules/Repositories/Generic/implementations/GenericRepositoryProvider';
 
 interface IRequest {
     user_id: string;
@@ -14,20 +16,15 @@ interface IResponse {
 
 @injectable()
 class ShowUserService {
-  constructor(
-    private usersRepository:UsersRepository,
-  ) {}
-
   public async execute({
     user_id,
   }: IRequest): Promise<IResponse> {
-    this.usersRepository = getCustomRepository(UsersRepository)
-
-    const userExists = await this.usersRepository.findOne({
+    const usersRepository = new GenericRepositoryProvider(User)
+    const userExists = await usersRepository.findOne({
       where:{
         id:user_id
       },
-      relations:['person','person.phone','person.address']
+      relations:['person','person.phone','person.addresses']
     })
 
     if(!userExists){

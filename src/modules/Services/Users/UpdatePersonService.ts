@@ -1,4 +1,4 @@
-import { injectable } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 import AppError from '../../../shared/errors/AppError';
 import { getCustomRepository } from 'typeorm';
 import moment from 'moment';
@@ -6,6 +6,8 @@ import { IPerson } from './interfaces/IPerson';
 import PersonsRepository from '@modules/Repositories/Users/PersonsRepository';
 import Person from '@modules/models/User/Person';
 import GendersRepository from '@modules/Repositories/Users/GenderRepository';
+import GenericRepositoryProvider from '@modules/Repositories/Generic/implementations/GenericRepositoryProvider';
+import Gender from '@modules/models/User/Gender';
 
 interface IRequest {
     person_id: string;
@@ -18,12 +20,6 @@ interface IResponse {
 
 @injectable()
 class UpdatePersonService {
-  constructor(
-    private personsRepository:PersonsRepository,
-
-    private gendersRepository:GendersRepository,
-  ) {}
-
   public async execute({
     person_id,
     person:{
@@ -35,10 +31,15 @@ class UpdatePersonService {
         phone
     },
   }: IRequest): Promise<IResponse> {
-    this.personsRepository = getCustomRepository(PersonsRepository)
-    this.gendersRepository = getCustomRepository(GendersRepository)
+    const personsRepository = new GenericRepositoryProvider(Person);
+    const gendersRepository = new GenericRepositoryProvider(Gender);
 
-    const personExists = await this.personsRepository.findOne({where:{id:person_id},relations:['phone']})
+    const personExists = await personsRepository.findOne({
+        where:{
+            id:person_id
+        },
+        relations:['phone']
+    })
 
     if(!personExists){
         throw new AppError('Pessoa não encontrada.')
@@ -53,22 +54,29 @@ class UpdatePersonService {
         }
         personExists.birth_date = moment(birth_date, "DD/MM/YYYY").toDate()
     } 
+
     if(gender_id) {
-        const genderExists = await this.gendersRepository.findOne({where:{id:gender_id}})
+        const genderExists = await gendersRepository.findOne({
+            where:{
+                id:gender_id
+            }
+        })
         if(!genderExists){
             throw new AppError(`Genero selecionado não é uma opção válida`)
         }
         personExists.gender_id = gender_id
     }
+
     if(phone&&personExists.phone){
         if(phone.number) personExists.phone.number = phone.number
         if(phone.ddd) personExists.phone.ddd = phone.ddd
     }
+
     if(cellphone) personExists.cellphone = cellphone
     if(cpf)       personExists.cpf = cpf
     if(name)      personExists.name = name
 
-    this.personsRepository.save(personExists)
+    await personsRepository.save(personExists)
 
     return {
         person:personExists

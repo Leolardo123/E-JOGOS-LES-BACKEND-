@@ -27,21 +27,17 @@ interface IResponse {
 @injectable()
 class AuthenticateUserService {
   constructor(
-
+    @inject('UsersRepository')
     private usersRepository : UsersRepository,
 
+    @inject('RefreshTokensRepository')
     private refreshTokensRepository : RefreshTokensRepository,
 
     @inject('HashProvider')
     private hashProvider: IHashProvider,
-
-    @inject('IdGeneratorProvider')
-    private idGeneratorProvider: IIdGeneratorProvider,
   ) {}
 
   public async execute({ email, password }: IRequest): Promise<IResponse> {
-    this.usersRepository = getCustomRepository(UsersRepository)
-    this.refreshTokensRepository = getCustomRepository(RefreshTokensRepository)
 
     const user = await this.usersRepository.findOne(email);
 
@@ -62,19 +58,18 @@ class AuthenticateUserService {
 
     const token = sign(
       {
-          subject:user.id,
+          subject:user.getId(),
           expiresIn
       },
       secret
     );
 
     const refreshToken = this.refreshTokensRepository.create({
-      id: this.idGeneratorProvider.generate(),
       access_token: token,
       expires_in: refreshTokenConfig.refreshToken.expiresIn,
       is_active: true,
       refresh_token: crypto.randomBytes(32).toString('hex'),
-      user_id: user.id,
+      user_id: user.getId(),
     });
 
     await this.refreshTokensRepository.save(refreshToken);

@@ -1,12 +1,10 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from "typeorm";
+import Domain from "../Domain";
 import Person from "./Person";
 
 
 @Entity('tb_phones')
-class Phone {
-
-    @PrimaryColumn('uuid')
-    readonly id: string;
+class Phone extends Domain {
     
     @Column()
     number: string;

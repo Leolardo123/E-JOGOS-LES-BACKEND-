@@ -1,23 +1,17 @@
 import IPaginatedResponse from '@shared/interfaces/IPaginatedResponse';
 import IPaginatedRequest from '@shared/interfaces/IPaginatedRequest';
-import { injectable } from 'tsyringe';
-import { getCustomRepository } from 'typeorm';
-import GendersRepository from '@modules/Repositories/Users/GenderRepository';
 import Gender from '@modules/models/User/Gender';
-
+import GenericRepositoryProvider from '@modules/Repositories/Generic/implementations/GenericRepositoryProvider';
+import { injectable } from 'tsyringe';
 
 @injectable()
 class IndexGendersService {
-  constructor(
-    private gendersRepository:GendersRepository,
-  ) {}
-
   public async execute({
     page,
     limit
   }: IPaginatedRequest): Promise<IPaginatedResponse<Gender>> {
-    this.gendersRepository = getCustomRepository(GendersRepository)
-    return await this.gendersRepository.index({page,limit})
+    const gendersRepository = new GenericRepositoryProvider(Gender)
+    return await gendersRepository.index({page,limit})
   }
 }
 

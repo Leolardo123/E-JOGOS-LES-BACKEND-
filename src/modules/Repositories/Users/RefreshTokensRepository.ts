@@ -1,10 +1,10 @@
-import { RefreshToken } from '@modules/models/User/RefreshToken';
-import { EntityRepository, Repository } from 'typeorm';
-import { IRefreshTokensRepository } from './interfaces/IRefreshTokensRepository';
+import { RefreshToken } from "@modules/models/User/RefreshToken";
+import { Repository } from "typeorm";
 
-@EntityRepository(RefreshToken)
-class RefreshTokensRepository extends Repository<RefreshToken> implements IRefreshTokensRepository {
-
+class RefreshTokensRepository extends Repository<RefreshToken>{
+  constructor(){
+    super()
+  }
 }
 
-export { RefreshTokensRepository };
+export default RefreshTokensRepository;

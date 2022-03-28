@@ -7,13 +7,12 @@ import {
   JoinColumn,
   PrimaryColumn,
 } from 'typeorm';
+import Domain from '../Domain';
 import User from './User';
 
 
 @Entity('refresh_tokens')
-class RefreshToken {
-  @PrimaryColumn('uuid')
-  id: string;
+class RefreshToken extends Domain {
 
   @Column()
   access_token: string;

@@ -10,16 +10,13 @@ export default class CreateAddressTypes implements Seeder {
         .into(AddressType)
         .values([
             {
-                id:1,
                 name:'entrega',
             },
             {
-                id:2,
                 name:'cobrança',
             },
             {
-                id:3,
-                name:'cobrança/entrega',
+                name:'ambos',
             }
         ]).execute()
     }

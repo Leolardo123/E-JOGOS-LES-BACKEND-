@@ -1,8 +1,9 @@
-import { injectable } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 import User from '@modules/models/User/User';
 import AppError from '../../../shared/errors/AppError';
 import { getCustomRepository } from 'typeorm';
 import UsersRepository from '@modules/Repositories/Users/UsersRepository';
+import GenericRepositoryProvider from '@modules/Repositories/Generic/implementations/GenericRepositoryProvider';
 
 interface IRequest {
     user_id: string;
@@ -14,16 +15,11 @@ interface IResponse {
 
 @injectable()
 class DeleteUserService {
-  constructor(
-    private usersRepository:UsersRepository,
-  ) {}
-
   public async execute({
     user_id,
   }: IRequest): Promise<IResponse> {
-    this.usersRepository = getCustomRepository(UsersRepository)
-
-    const userExists = await this.usersRepository.findOne({
+    const usersRepository = new GenericRepositoryProvider(User);
+    const userExists = await usersRepository.findOne({
       where:{
         id:user_id
       },
@@ -34,7 +30,7 @@ class DeleteUserService {
         throw new AppError('Usuário não encontrado.')
     }
 
-    this.usersRepository.remove(userExists)
+    usersRepository.remove(userExists)
 
     return {
         user:userExists

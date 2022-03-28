@@ -10,15 +10,12 @@ export default class CreateGenderTypes implements Seeder {
         .into(Gender)
         .values([
             {
-                id:1,
                 name:'masculino',
             },
             {
-                id:2,
                 name:'feminino',
             },
             {
-                id:3,
                 name:'outro',
             }
         ]).execute()

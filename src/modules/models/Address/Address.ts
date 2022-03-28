@@ -1,13 +1,11 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn } from "typeorm";
-import Person from "../User/Person";
+import PersonAddress from "./PersonAddress";
 import AddressType from "./AddressType";
 import PlaceType from "./PlaceType";
+import Domain from "../Domain";
 
 @Entity('tb_addresses')
-class Address {
-
-    @PrimaryColumn('uuid')
-    readonly id: string;
+class Address extends Domain {
     
     @Column()
     cep: string;
@@ -39,9 +37,6 @@ class Address {
     @Column()
     place_type_id: number;
 
-    @Column()
-    person_id: string;
-
     @JoinColumn({name:'address_type_id'})
     @ManyToOne(()=> AddressType, atype => atype.address,{
         onDelete:'RESTRICT',onUpdate:'CASCADE'
@@ -54,11 +49,10 @@ class Address {
     })
     place_type: PlaceType;
     
-    @JoinColumn({name:'person_id'})
-    @OneToOne(()=> Person, person => person.address,{
+    @OneToOne(()=> PersonAddress, personAddress => personAddress.address,{
         onDelete:'CASCADE',onUpdate:'CASCADE'
     })
-    person: PlaceType;
+    person_address: PersonAddress;
 }
 
 export default Address;
