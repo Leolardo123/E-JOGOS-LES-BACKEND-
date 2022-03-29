@@ -1,5 +1,6 @@
 import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn } from "typeorm";
 import PersonAddress from "../Address/PersonAddress";
+import Card from "../Card/Card";
 import Domain from "../Domain";
 import Gender from "./Gender";
 import Phone from "./Phone";
@@ -28,6 +29,9 @@ class Person extends Domain {
 
     @OneToMany(() => PersonAddress, address => address.person, { cascade: true })
     addresses: PersonAddress[];
+
+    @OneToMany(() => Card, card => card.person, { cascade: true })
+    cards: Card[];
 
     @JoinColumn({name:'gender_id'})
     @OneToMany(() => Gender, gender => gender.persons ,{

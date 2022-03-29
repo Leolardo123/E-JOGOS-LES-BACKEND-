@@ -9,19 +9,7 @@ import Address from '@modules/models/Address/Address';
 import AddressType from '@modules/models/Address/AddressType';
 import PlaceType from '@modules/models/Address/PlaceType';
 import Person from '@modules/models/User/Person';
-
-interface IAddress {
-  cep: string;
-  number: number;
-  address_type_id: number;
-  place_type_id: number;
-  city: string; 
-  state: string;
-  country: string;
-  complement?: string;
-  neighborhood: string;
-  place: string;
-}
+import { IAddress } from './interfaces/IAddress';
 
 interface IRequest {
   addresses: IAddress[];
