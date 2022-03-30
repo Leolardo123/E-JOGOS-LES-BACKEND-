@@ -6,7 +6,5 @@ export interface ICard{
     number: number,
     brand_id: string,
     person_id: string,
-    security_code: string,
-    brand: IBrand,
-    person: IPerson,
+    security_code: string
 }

@@ -42,6 +42,16 @@ class AddPersonCardsService {
     let createdCards = [] as Card[];
     for(let card of cards){
 
+      if(card.brand_id){
+        const brandExists = await brandRepository.findOne({
+          where:{ id: card.brand_id }
+        });
+
+        if(!brandExists){
+            throw new AppError(`A bandeira escolhida não existe.`);
+        }
+      }
+
       const createdCard= cardsRepository.create({
         ...card
       })

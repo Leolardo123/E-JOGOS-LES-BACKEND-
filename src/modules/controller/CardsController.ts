@@ -1,52 +1,24 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import IndexAddressesTypesService from '@modules/Services/Addresses/IndexAddressesTypesService';
 import AppError from 'shared/errors/AppError';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import IndexPlacesTypesService from '@modules/Services/Addresses/IndexPlacesTypesService';
-import IndexAddressesService from '@modules/Services/Addresses/IndexAddressesService';
-import UpdateAddressService from '@modules/Services/Addresses/UpdateAddressService';
+import IndexCardsService from '@modules/Services/Cards/IndexCardsService';
+import UpdateCardService from '@modules/Services/Cards/UpdateCardService';
 
 export default class CardsController {
 
     public async index(request: Request, response: Response): Promise<Response> {
         const { page , limit, user_id } = request.query
 
-        const indexAddressesService = container.resolve(IndexAddressesService)
-        const result = await indexAddressesService.execute({
+        const indexCardsService = container.resolve(IndexCardsService)
+        const result = await indexCardsService.execute({
             page: page ? Number(page) : undefined,
             limit: limit ? Number(limit) : undefined,
             whereParams : {
-                person_address: {
-                    person:{
-                        user_id: user_id as string,
-                    }
+                person: {
+                    user_id: user_id as string,
                 }
             }
-        })
-
-        return response.json(result)
-    }
-
-    public async indexAddressTypes(request: Request, response: Response): Promise<Response> {
-        const { page , limit } = request.query
-
-        const indexAddressesTypesService = container.resolve(IndexAddressesTypesService)
-        const result = await indexAddressesTypesService.execute({
-            page: page ? Number(page) : undefined,
-            limit: limit ? Number(limit) : undefined
-        })
-
-        return response.json(result)
-    }
-
-    public async indexPlaceTypes(request: Request, response: Response): Promise<Response> {
-        const { page , limit } = request.query
-
-        const indexPlacesTypesService = container.resolve(IndexPlacesTypesService)
-        const result = await indexPlacesTypesService.execute({
-            page: page ? Number(page) : undefined,
-            limit: limit ? Number(limit) : undefined
         })
 
         return response.json(result)
@@ -56,41 +28,53 @@ export default class CardsController {
         throw new AppError(`not implemented`, 501)
     }
 
+    public async create(request: Request, response: Response): Promise<Response> {
+        const {
+            owner_name,
+            number,
+            brand_id,
+            person_id,
+            security_code
+        } = request.body;
+
+        const createCard = container.resolve(CreateCardService);
+
+        const { card:createdCard } = await createCard.execute({
+            owner_name,
+            number,
+            brand_id,
+            person_id,
+            security_code
+        });
+
+        return response.status(201).json({card:createdCard});
+    }
+
     public async update(request: Request, response: Response): Promise<Response> {
         const {
-            address_type_id,
-            place_type_id,
-            cep,
-            city,
-            complement,
-            country,
-            neighborhood,
+            owner_name,
             number,
-            place,
-            state
+            brand_id,
+            person_id,
+            security_code
         } = request.body;
-        const { address_id } = request.params;
+        const { card_id } = request.params;
         const { id: user_id } = request.user;
 
-        const updateAddressService = container.resolve(UpdateAddressService);
+        const updateCardService = container.resolve(UpdateCardService);
 
-        const { address } = await updateAddressService.execute({
-            address_id,
+        const { card } = await updateCardService.execute({
             user_id,
-            address:{
-                address_type_id,
-                place_type_id,
-                cep,
-                city,
-                complement,
-                country,
-                neighborhood,
+            card_id,
+            card:{
+                owner_name,
                 number,
-                place,
-                state
+                brand_id,
+                person_id,
+                security_code
             }
         });
 
-        return response.status(201).json(address);
+        return response.status(201).json(card);
     }
 }
