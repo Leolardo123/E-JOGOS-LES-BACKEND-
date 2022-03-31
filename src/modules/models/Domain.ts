@@ -4,7 +4,9 @@ import { v4 } from "uuid";
 class Domain {
 
     constructor(){
-        this.id = v4();
+        if(!this.id){
+            this.id = v4();
+        }
     }
 
     @PrimaryColumn('uuid')
