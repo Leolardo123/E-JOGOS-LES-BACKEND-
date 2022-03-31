@@ -6,6 +6,8 @@ import { container } from 'tsyringe';
 import IndexPlacesTypesService from '@modules/Services/Addresses/IndexPlacesTypesService';
 import IndexAddressesService from '@modules/Services/Addresses/IndexAddressesService';
 import UpdateAddressService from '@modules/Services/Addresses/UpdateAddressService';
+import AddPersonAddressesService from '@modules/Services/Addresses/AddPersonAddressesService';
+import ShowAddressesService from '@modules/Services/Addresses/ShowAddressesService';
 
 export default class AddressesController {
 
@@ -53,7 +55,31 @@ export default class AddressesController {
     }
 
     public async show(request: Request, response: Response): Promise<Response> {
-        throw new AppError(`not implemented`, 501)
+        const { address_id } = request.params;
+
+        const showAddressService = container.resolve(ShowAddressesService);
+
+        const address = await showAddressService.execute({
+            address_id,
+        });
+
+        return response.json(address);
+    }
+
+    public async create(request: Request, response: Response): Promise<Response> {
+        const {
+            addresses,
+        } = request.body;
+        const { id: user_id } = request.user;
+
+        const addAddressService = container.resolve(AddPersonAddressesService);
+
+        const address = await addAddressService.execute({
+            addresses,
+            user_id,
+        });
+
+        return response.status(201).json(address);
     }
 
     public async update(request: Request, response: Response): Promise<Response> {
