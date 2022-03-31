@@ -2,6 +2,7 @@ import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn } from "
 import PersonAddress from "../Address/PersonAddress";
 import Card from "../Card/Card";
 import Domain from "../Domain";
+import Cart from "../Sales/Cart";
 import Gender from "./Gender";
 import Phone from "./Phone";
 import User from "./User";
@@ -38,6 +39,9 @@ class Person extends Domain {
         cascade:true
     })
     gender: Gender;
+
+    @OneToMany(() => Cart, cart => cart.person)
+    carts: Cart[];
 
     @OneToOne(() => Phone, phone => phone.person, { cascade: true })
     phone: Phone;
