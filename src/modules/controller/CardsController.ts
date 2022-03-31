@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import IndexCardsService from '@modules/Services/Cards/IndexCardsService';
 import UpdateCardService from '@modules/Services/Cards/UpdateCardService';
+import AddPersonCardsService from '@modules/Services/Cards/AddCardService';
 
 export default class CardsController {
 
@@ -16,7 +17,7 @@ export default class CardsController {
             limit: limit ? Number(limit) : undefined,
             whereParams : {
                 person: {
-                    user_id: user_id as string,
+                    user_id: user_id as string
                 }
             }
         })
@@ -24,30 +25,20 @@ export default class CardsController {
         return response.json(result)
     }
 
-    public async show(request: Request, response: Response): Promise<Response> {
-        throw new AppError(`not implemented`, 501)
-    }
-
     public async create(request: Request, response: Response): Promise<Response> {
-        const {
-            owner_name,
-            number,
-            brand_id,
-            person_id,
-            security_code
+        const {         
+            cards
         } = request.body;
+        const { id: user_id } = request.user;
 
-        const createCard = container.resolve(CreateCardService);
+        const addCardService = container.resolve(AddPersonCardsService);
 
-        const { card:createdCard } = await createCard.execute({
-            owner_name,
-            number,
-            brand_id,
-            person_id,
-            security_code
+        const card = await addCardService.execute({
+            cards,
+            user_id,
         });
 
-        return response.status(201).json({card:createdCard});
+        return response.status(201).json(card);
     }
 
     public async update(request: Request, response: Response): Promise<Response> {

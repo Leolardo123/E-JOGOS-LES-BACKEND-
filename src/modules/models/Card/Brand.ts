@@ -1,4 +1,5 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn } from "typeorm";
+import { Expose } from "class-transformer";
+import { Column, Entity } from "typeorm";
 import Domain from "../Domain";
 
 @Entity('tb_brand')
@@ -8,7 +9,12 @@ class Brand extends Domain {
     name: string;
     
     @Column()
-    image_link: string;
+    image: string;
+
+    @Expose({ name: 'image_url' })
+    getImageUrl(): string {
+        return `http://localhost:3333/files/${this.image}`;
+    }
     
 }
 
