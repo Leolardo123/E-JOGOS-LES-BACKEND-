@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn } from "typeorm";
 import Domain from "../Domain";
 import Person from "../User/Person";
-import Brand from "./Brand";
+import Brand from "../Brand/Brand";
 
 @Entity('tb_cards')
 class Card extends Domain {
@@ -10,7 +10,7 @@ class Card extends Domain {
     owner_name: string;
     
     @Column()
-    number: number;
+    number: string;
     
     @Column()
     brand_id: string;

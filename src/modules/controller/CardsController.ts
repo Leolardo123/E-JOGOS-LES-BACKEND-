@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import AppError from 'shared/errors/AppError';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import IndexCardsService from '@modules/Services/Cards/IndexCardsService';
 import UpdateCardService from '@modules/Services/Cards/UpdateCardService';
 import AddPersonCardsService from '@modules/Services/Cards/AddCardService';
+import DeleteCardService from '@modules/Services/Cards/DeleteCardService';
+import ShowCardService from '@modules/Services/Cards/ShowCardService';
 
 export default class CardsController {
 
@@ -23,6 +24,22 @@ export default class CardsController {
         })
 
         return response.json(result)
+    }
+
+    public async show(request: Request, response: Response): Promise<Response> {
+        const {
+            user_id,
+            card_id
+        } = request.params;
+
+        const showCard = container.resolve(ShowCardService);
+
+        const { card } = await showCard.execute({
+            user_id,
+            card_id
+        });
+
+        return response.status(201).json(card);
     }
 
     public async create(request: Request, response: Response): Promise<Response> {
@@ -49,6 +66,7 @@ export default class CardsController {
             person_id,
             security_code
         } = request.body;
+        
         const { card_id } = request.params;
         const { id: user_id } = request.user;
 
@@ -68,4 +86,22 @@ export default class CardsController {
 
         return response.status(201).json(card);
     }
+
+    public async delete(request: Request, response: Response): Promise<Response> {
+
+        const {
+            user_id,
+            card_id
+        } = request.params;
+
+        const deleteCard = container.resolve(DeleteCardService);
+
+        await deleteCard.execute({
+            user_id,
+            card_id
+        });
+
+        return response.status(200).json({msg:'Card deletado com sucesso.'});
+    }
+
 }

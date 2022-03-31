@@ -6,7 +6,7 @@ import GenericRepositoryProvider from '@modules/Repositories/Generic/implementat
 import Person from '@modules/models/User/Person';
 import { ICard } from './Interfaces/ICard';
 import Card from '@modules/models/Card/Card';
-import Brand from '@modules/models/Card/Brand';
+import Brand from '@modules/models/Brand/Brand';
 
 
 interface IRequest {
@@ -26,7 +26,7 @@ class AddPersonCardsService {
     user_id
   }: IRequest): Promise<Card[] | undefined> {
     const cardsRepository = new GenericRepositoryProvider(Card);
-    const brandRepository = new GenericRepositoryProvider(Brand);
+    const brandsRepository = new GenericRepositoryProvider(Brand);
     const personsRepository = new GenericRepositoryProvider(Person);
 
     const transaction : ITransaction = { data: [] };
@@ -43,7 +43,7 @@ class AddPersonCardsService {
     for(let card of cards){
 
       if(card.brand_id){
-        const brandExists = await brandRepository.findOne({
+        const brandExists = await brandsRepository.findOne({
           where:{ id: card.brand_id }
         });
 

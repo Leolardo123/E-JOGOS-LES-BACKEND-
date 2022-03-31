@@ -1,6 +1,6 @@
 import UsersController from "@modules/controller/UsersController";
 import { Router } from "express";
-import { create, deleteUser, index, show, updateBody, updateParams } from "./validation/userRoutes.validation";
+import { create, deleteUser, index, show, updateBody, updateParams } from "./validation/UserRoutes.validation";
 
 const userRouter = Router();
 const userController = new UsersController();

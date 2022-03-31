@@ -5,9 +5,7 @@ import { create, index } from "./validation/CardRoutes.validation";
 const cardRouter = Router();
 const cardsController = new CardsController();
 
-cardRouter.get('/', index, function() {
-    console.log('teste')
-})
+cardRouter.get('/', index, cardsController.index)
 
 cardRouter.post('/', create, cardsController.create)
 
