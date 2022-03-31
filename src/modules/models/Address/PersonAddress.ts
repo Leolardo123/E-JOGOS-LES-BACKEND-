@@ -2,7 +2,6 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn } from "
 import Address from "./Address";
 import Person from "../User/Person";
 import Domain from "../Domain";
-import { StringMap } from "ts-jest";
 
 @Entity('tb_person_addresses')
 class PersonAddress extends Domain {
