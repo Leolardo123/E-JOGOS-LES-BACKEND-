@@ -6,7 +6,8 @@ import { IBrand } from './Interfaces/IBrand';
 
 
 interface IRequest {
-  brands: IBrand[];
+  name: string,
+  image: string
 }
 
 @injectable()
@@ -17,32 +18,28 @@ class AddBrandService {
   ) {}
 
   public async execute({
-    brands
-  }: IRequest): Promise<Brand[] | undefined> {
+    name,
+    image
+  }: IRequest): Promise<Brand | undefined> {
     const brandsRepository = new GenericRepositoryProvider(Brand);
 
     const transaction : ITransaction = { data: [] };
 
-    let createdBrands = [] as Brand[];
-    for(let brand of brands){
+    const createdBrand= brandsRepository.create({
+      name,
+      image
+    })
 
-      const createdBrand= brandsRepository.create({
-        ...brand
-      })
-
-      transaction.data.push(
-        {
-          entity:createdBrand,
-          repository:brandsRepository
-        }
-      )
-
-      createdBrands.push(createdBrand);
-    }
+    transaction.data.push(
+      {
+        entity:createdBrand,
+        repository:brandsRepository
+      }
+    )
 
     await this.repositoryUtils.transaction(transaction);
 
-    return createdBrands;
+    return createdBrand;
   }
 }
 

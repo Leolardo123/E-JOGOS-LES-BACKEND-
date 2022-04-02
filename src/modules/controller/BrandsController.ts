@@ -42,13 +42,15 @@ export default class BrandsController {
 
     public async create(request: Request, response: Response): Promise<Response> {
         const {         
-            brands
+            name,
+            image
         } = request.body;
 
         const addBrandService = container.resolve(AddBrandService);
 
         const brand = await addBrandService.execute({
-            brands
+            name,
+            image
         });
 
         return response.status(201).json(brand);
