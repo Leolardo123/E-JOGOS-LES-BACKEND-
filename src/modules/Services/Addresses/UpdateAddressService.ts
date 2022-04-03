@@ -1,11 +1,7 @@
-import { inject, injectable } from 'tsyringe';
+import { injectable } from 'tsyringe';
 import AppError from '../../../shared/errors/AppError';
-import { getCustomRepository } from 'typeorm';
-import AddressesRepository from '@modules/Repositories/Addresses/AddressesRepository';
 
 import Address from '@modules/models/Address/Address';
-import PlacesTypesRepository from '@modules/Repositories/Addresses/AddressesPlacesTypesRepository';
-import AddressesTypesRepository from '@modules/Repositories/Addresses/AddressesTypesRepository';
 import { IAddress } from './interfaces/IAddress';
 import GenericRepositoryProvider from '@modules/Repositories/Generic/implementations/GenericRepositoryProvider';
 import AddressType from '@modules/models/Address/AddressType';

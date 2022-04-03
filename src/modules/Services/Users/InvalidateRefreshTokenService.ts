@@ -1,8 +1,7 @@
 import { RefreshToken } from '@modules/models/User/RefreshToken';
 import GenericRepositoryProvider from '@modules/Repositories/Generic/implementations/GenericRepositoryProvider';
 import AppError from '@shared/errors/AppError';
-import { injectable, inject } from 'tsyringe';
-import { getCustomRepository } from 'typeorm';
+import { injectable } from 'tsyringe';
 
 interface IRequest {
   userId: string;

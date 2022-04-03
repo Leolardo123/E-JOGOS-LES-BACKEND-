@@ -1,11 +1,8 @@
-import { inject, injectable } from 'tsyringe';
+import { injectable } from 'tsyringe';
 import AppError from '../../../shared/errors/AppError';
-import { getCustomRepository } from 'typeorm';
 import moment from 'moment';
 import { IPerson } from './interfaces/IPerson';
-import PersonsRepository from '@modules/Repositories/Users/PersonsRepository';
 import Person from '@modules/models/User/Person';
-import GendersRepository from '@modules/Repositories/Users/GenderRepository';
 import GenericRepositoryProvider from '@modules/Repositories/Generic/implementations/GenericRepositoryProvider';
 import Gender from '@modules/models/User/Gender';
 
