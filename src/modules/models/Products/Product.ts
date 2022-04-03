@@ -15,6 +15,9 @@ export default class Product extends Domain{
     price: number;
 
     @Column()
+    stock: number;
+
+    @Column()
     requirements: string;
     
     @Column()

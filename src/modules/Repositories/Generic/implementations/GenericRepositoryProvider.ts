@@ -1,7 +1,8 @@
 import Domain from "@modules/models/Domain";
 import EnumEntity from "@modules/models/EnumEntity";
 import IPaginatedResponse from "@shared/interfaces/IPaginatedResponse";
-import { DeepPartial, EntityTarget, getRepository, Repository } from "typeorm";
+import { DeepPartial, EntityTarget, getRepository, Repository, UpdateResult } from "typeorm";
+import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 import { IFilter } from "../interface/IFilter";
 import { IFilterPaginated } from "../interface/IFilterPaginated";
 import { IGenericRepositoryProvider } from "../models/IGenericRepositoryProvider";
@@ -52,12 +53,16 @@ class GenericRepositoryProvider<T extends Domain | EnumEntity> implements IGener
     })
   }
 
-  public async save(entity: DeepPartial<T>): Promise<DeepPartial<T>> {
-      return await this.repository.save(entity);
+  public async update(entity_id:string, entity: QueryDeepPartialEntity<T>): Promise<UpdateResult> {
+    return await this.repository.update(entity_id, entity);
   }
 
-  public remove(entity:T):void{
-    this.repository.remove(entity)
+  public async save(entity: DeepPartial<T>): Promise<DeepPartial<T>> {
+    return await this.repository.save(entity);
+  }
+
+  public async remove(entity:T):Promise<void>{
+    await this.repository.remove(entity)
   }
 }
 
