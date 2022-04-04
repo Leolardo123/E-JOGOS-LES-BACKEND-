@@ -4,8 +4,7 @@ import GenericRepositoryProvider from '@modules/Repositories/Generic/implementat
 import Card from '@modules/models/Card/Card';
 
 interface IRequest {
-    user_id: string;
-    card_id: string;
+    id: string;
 } 
 
 interface IResponse {
@@ -15,19 +14,17 @@ interface IResponse {
 @injectable()
 class DeleteCardService {
   public async execute({
-    user_id,
-    card_id
+    id
   }: IRequest): Promise<IResponse> {
     const cardsRepository = new GenericRepositoryProvider(Card);
     const cardExists = await cardsRepository.findOne({
       where:{
-        id:card_id,
-        person_id:user_id,
+        id:id,
       },
     })
 
     if(!cardExists){
-        throw new AppError('Usuário não encontrado.')
+        throw new AppError('Cartão não encontrado.')
     }
 
     cardsRepository.remove(cardExists)

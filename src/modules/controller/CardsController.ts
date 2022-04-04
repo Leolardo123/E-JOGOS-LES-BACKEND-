@@ -10,16 +10,16 @@ import ShowCardService from '@modules/Services/Cards/ShowCardService';
 export default class CardsController {
 
     public async index(request: Request, response: Response): Promise<Response> {
-        const { page , limit, user_id } = request.query
+        const { page , limit, person_id } = request.query
+
+        console.log('request: ',request.query)
 
         const indexCardsService = container.resolve(IndexCardsService)
         const result = await indexCardsService.execute({
             page: page ? Number(page) : undefined,
             limit: limit ? Number(limit) : undefined,
             whereParams : {
-                person: {
-                    user_id: user_id as string
-                }
+                person_id: person_id as string
             }
         })
 
@@ -28,15 +28,13 @@ export default class CardsController {
 
     public async show(request: Request, response: Response): Promise<Response> {
         const {
-            user_id,
-            card_id
+            id
         } = request.params;
 
         const showCard = container.resolve(ShowCardService);
 
         const { card } = await showCard.execute({
-            user_id,
-            card_id
+            id
         });
 
         return response.status(201).json(card);
@@ -66,21 +64,20 @@ export default class CardsController {
 
     public async update(request: Request, response: Response): Promise<Response> {
         const {
-            owner_name,
-            number,
-            brand_id,
-            person_id,
-            security_code
+            id,
+            card: {
+                owner_name,
+                number,
+                brand_id,
+                person_id,
+                security_code
+            }
         } = request.body;
-        
-        const { card_id } = request.params;
-        const { id: user_id } = request.user;
 
         const updateCardService = container.resolve(UpdateCardService);
 
         const { card } = await updateCardService.execute({
-            user_id,
-            card_id,
+            id,
             card:{
                 owner_name,
                 number,
@@ -96,15 +93,13 @@ export default class CardsController {
     public async delete(request: Request, response: Response): Promise<Response> {
 
         const {
-            user_id,
-            card_id
+            id
         } = request.params;
 
         const deleteCard = container.resolve(DeleteCardService);
 
         await deleteCard.execute({
-            user_id,
-            card_id
+            id
         });
 
         return response.status(200).json({msg:'Card deletado com sucesso.'});

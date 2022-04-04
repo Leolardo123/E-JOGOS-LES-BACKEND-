@@ -9,8 +9,7 @@ import Brand from '@modules/models/Brand/Brand';
 import Person from '@modules/models/User/Person';
 
 interface IRequest {
-    user_id: string;
-    card_id: string;
+    id: string;
     card: ICard;
 } 
 
@@ -27,8 +26,7 @@ class UpdateCardService {
     ){}
 
   public async execute({
-    user_id,
-    card_id,
+    id,
     card:{
         owner_name,
         number,
@@ -47,7 +45,7 @@ class UpdateCardService {
 
     const cardExists = await cardsRepository.findOne({
         where:{
-            id: card_id
+            id: id
         },
     })
 
@@ -57,7 +55,7 @@ class UpdateCardService {
     
     const personExists = await personsRepository.findOne({
         where:{
-            id: user_id
+            id: person_id
         },
     })
 
@@ -66,9 +64,9 @@ class UpdateCardService {
     }
     
     if(owner_name) cardExists.owner_name = owner_name;
-    if(number) cardExists.number = hashedNumber;
+    if(number) cardExists.number = number;
     if(person_id) cardExists.person_id = person_id;
-    if(security_code) cardExists.security_code = hashedSecurityCode;
+    if(security_code) cardExists.security_code = security_code;
     if(brand_id){
         const brandExists = await brandsRepository.findOne({
             where:{
@@ -78,6 +76,8 @@ class UpdateCardService {
         
         if(!brandExists){
             throw new AppError(`Bandeira escolhida não existe.`);
+        } else {
+            cardExists.brand_id = brand_id;
         }
     }
 
