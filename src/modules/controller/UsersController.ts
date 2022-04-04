@@ -24,7 +24,7 @@ export default class UsersController {
     public async show(request: Request, response: Response): Promise<Response> {
         const {
             user_id,
-        } = request.params;
+        } = request.body;
 
         const showUser = container.resolve(ShowUserService);
 

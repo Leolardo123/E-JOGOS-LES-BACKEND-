@@ -10,9 +10,9 @@ import ShowCardService from '@modules/Services/Cards/ShowCardService';
 export default class CardsController {
 
     public async index(request: Request, response: Response): Promise<Response> {
-        const { page , limit, person_id } = request.query
+        const { page , limit } = request.query
 
-        console.log('request: ',request.query)
+        const { person_id } = request.body
 
         const indexCardsService = container.resolve(IndexCardsService)
         const result = await indexCardsService.execute({

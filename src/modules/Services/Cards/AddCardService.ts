@@ -54,7 +54,6 @@ class AddPersonCardsService {
       }
     }
 
-    console.log(`teste`)
 
     const createdCard= cardsRepository.create({
       owner_name,

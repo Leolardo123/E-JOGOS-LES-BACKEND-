@@ -1,11 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import IndexCardsService from '@modules/Services/Cards/IndexCardsService';
-import UpdateCardService from '@modules/Services/Cards/UpdateCardService';
-import AddPersonCardsService from '@modules/Services/Cards/AddCardService';
-import DeleteCardService from '@modules/Services/Cards/DeleteCardService';
-import ShowCardService from '@modules/Services/Cards/ShowCardService';
 import IndexBrandsService from '@modules/Services/Brands/IndexBrandsService';
 import ShowBrandService from '@modules/Services/Brands/ShowBrandService';
 import AddBrandService from '@modules/Services/Brands/AddBrandService';

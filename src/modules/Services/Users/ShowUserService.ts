@@ -4,7 +4,7 @@ import AppError from '../../../shared/errors/AppError';
 import GenericRepositoryProvider from '@modules/Repositories/Generic/implementations/GenericRepositoryProvider';
 
 interface IRequest {
-    user_id: string;
+  user_id: string;
 } 
 
 interface IResponse {
@@ -19,7 +19,7 @@ class ShowUserService {
     const usersRepository = new GenericRepositoryProvider(User)
     const userExists = await usersRepository.findOne({
       where:{
-        id:user_id
+        id: user_id
       },
       relations:['person','person.phone','person.addresses']
     })

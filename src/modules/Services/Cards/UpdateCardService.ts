@@ -36,8 +36,8 @@ class UpdateCardService {
     },
   }: IRequest): Promise<IResponse> {
 
-    const hashedNumber = await this.hashProvider.generateHash(number)
-    const hashedSecurityCode = await this.hashProvider.generateHash(security_code)
+    // const hashedNumber = await this.hashProvider.generateHash(number)
+    // const hashedSecurityCode = await this.hashProvider.generateHash(security_code)
 
     const cardsRepository = new GenericRepositoryProvider(Card);
     const brandsRepository = new GenericRepositoryProvider(Brand);

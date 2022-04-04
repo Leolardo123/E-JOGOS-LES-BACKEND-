@@ -1,7 +1,7 @@
 import { celebrate, Joi, Segments } from "celebrate";
 
 const index = celebrate({
-    [Segments.QUERY]: Joi.object().keys({
+    [Segments.BODY]: Joi.object().keys({
         person_id: Joi.string().required()
     })
 });

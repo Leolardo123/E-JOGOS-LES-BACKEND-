@@ -5,7 +5,7 @@ import { create, index, update } from "./validation/CardRoutes.validation";
 const cardRouter = Router();
 const cardsController = new CardsController();
 
-cardRouter.get('/', index, cardsController.index)
+cardRouter.get('/index', index, cardsController.index)
 
 cardRouter.get('/:id', cardsController.show)
 
