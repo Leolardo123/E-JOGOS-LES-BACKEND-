@@ -44,15 +44,21 @@ export default class CardsController {
 
     public async create(request: Request, response: Response): Promise<Response> {
         const {         
-            cards
+            owner_name,
+            number,
+            brand_id,
+            person_id,
+            security_code
         } = request.body;
-        const { id: user_id } = request.user;
 
         const addCardService = container.resolve(AddPersonCardsService);
 
         const card = await addCardService.execute({
-            cards,
-            user_id,
+            owner_name,
+            number,
+            brand_id,
+            person_id,
+            security_code
         });
 
         return response.status(201).json(card);

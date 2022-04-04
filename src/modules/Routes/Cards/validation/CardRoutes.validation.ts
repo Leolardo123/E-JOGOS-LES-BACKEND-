@@ -8,13 +8,11 @@ const index = celebrate({
 
 const create = celebrate({
     [Segments.BODY]: Joi.object().keys({
-        cards: Joi.array().items(Joi.object().keys({
-            owner_name: Joi.string().required(),
-            number: Joi.number().required(),
-            brand_id: Joi.string().required(),
-            person_id: Joi.string().required(),
-            security_code: Joi.string().required(),
-        })).required()
+        owner_name: Joi.string().required(),
+        number: Joi.number().required(),
+        brand_id: Joi.string().required(),
+        person_id: Joi.string().required(),
+        security_code: Joi.string().required()
     })
 })
 

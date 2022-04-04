@@ -4,7 +4,7 @@ import GenericRepositoryProvider from '@modules/Repositories/Generic/implementat
 import Brand from '@modules/models/Brand/Brand';
 
 interface IRequest {
-    brand_id: string;
+    id: string;
 } 
 
 interface IResponse {
@@ -14,12 +14,12 @@ interface IResponse {
 @injectable()
 class ShowBrandService {
   public async execute({
-    brand_id
+    id
   }: IRequest): Promise<IResponse> {
     const brandsRepository = new GenericRepositoryProvider(Brand)
     const brandExists = await brandsRepository.findOne({
       where:{
-        id:brand_id
+        id:id
       },
     })
 

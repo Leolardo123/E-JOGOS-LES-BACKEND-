@@ -11,10 +11,10 @@ class Brand extends Domain {
     @Column()
     image: string;
 
-    @Expose({ name: 'image_url' })
-    getImageUrl(): string {
-        return `http://localhost:3333/files/${this.image}`;
-    }
+    // @Expose({ name: 'image_url' })
+    // getImageUrl(): string {
+    //     return `http://localhost:3333/files/${this.image}`;
+    // }
     
 }
 

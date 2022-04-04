@@ -28,13 +28,13 @@ export default class BrandsController {
 
     public async show(request: Request, response: Response): Promise<Response> {
         const {
-            brand_id
+            id
         } = request.params;
 
         const showBrand = container.resolve(ShowBrandService);
 
         const { brand } = await showBrand.execute({
-            brand_id
+            id
         });
 
         return response.status(201).json(brand);
@@ -45,6 +45,8 @@ export default class BrandsController {
             name,
             image
         } = request.body;
+
+        console.log("create brand", request.body)
 
         const addBrandService = container.resolve(AddBrandService);
 
@@ -58,7 +60,7 @@ export default class BrandsController {
 
     public async update(request: Request, response: Response): Promise<Response> {
         const {
-            brand_id,
+            id,
             name,
             image
         } = request.body;
@@ -66,7 +68,7 @@ export default class BrandsController {
         const updateBrandService = container.resolve(UpdateBrandService);
 
         const { brand } = await updateBrandService.execute({
-            brand_id,
+            id,
             brand: {
                 name,
                 image
@@ -79,13 +81,14 @@ export default class BrandsController {
     public async delete(request: Request, response: Response): Promise<Response> {
 
         const {
-            brand_id
-        } = request.params;
+            id
+        } = request.body;
 
+        console.log(request)
         const deleteBrand = container.resolve(DeleteBrandService);
 
         await deleteBrand.execute({
-            brand_id
+            id
         });
 
         return response.status(200).json({msg:'Bandeira deletada com sucesso.'});

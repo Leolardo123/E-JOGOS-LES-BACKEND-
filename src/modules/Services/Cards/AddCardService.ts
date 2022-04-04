@@ -4,14 +4,16 @@ import AppError from '@shared/errors/AppError';
 import IRepositoryUtils, { ITransaction } from '@shared/container/providers/RepositoryUtilsProvider/models/IRepositoryUtils';
 import GenericRepositoryProvider from '@modules/Repositories/Generic/implementations/GenericRepositoryProvider';
 import Person from '@modules/models/User/Person';
-import { ICard } from './Interfaces/ICard';
 import Card from '@modules/models/Card/Card';
 import Brand from '@modules/models/Brand/Brand';
 
 
 interface IRequest {
-  cards: ICard[];
-  user_id: string;
+  owner_name: string,
+  number: string,
+  brand_id: string,
+  person_id: string,
+  security_code: string
 }
 
 @injectable()
@@ -22,9 +24,12 @@ class AddPersonCardsService {
   ) {}
 
   public async execute({
-    cards,
-    user_id
-  }: IRequest): Promise<Card[] | undefined> {
+    owner_name,
+    number,
+    brand_id,
+    person_id,
+    security_code
+  }: IRequest): Promise<Card | undefined> {
     const cardsRepository = new GenericRepositoryProvider(Card);
     const brandsRepository = new GenericRepositoryProvider(Brand);
     const personsRepository = new GenericRepositoryProvider(Person);
@@ -32,43 +37,44 @@ class AddPersonCardsService {
     const transaction : ITransaction = { data: [] };
 
     const personExists = await personsRepository.findOne({
-      where:{user_id},
+      where:{id: person_id},
     })
     
     if(!personExists){
       throw new AppError('Pessoa não encontrada');
     }
 
-    let createdCards = [] as Card[];
-    for(let card of cards){
+    if(brand_id){
+      const brandExists = await brandsRepository.findOne({
+        where:{ id: brand_id }
+      });
 
-      if(card.brand_id){
-        const brandExists = await brandsRepository.findOne({
-          where:{ id: card.brand_id }
-        });
-
-        if(!brandExists){
-            throw new AppError(`A bandeira escolhida não existe.`);
-        }
+      if(!brandExists){
+          throw new AppError(`A bandeira escolhida não existe.`);
       }
-
-      const createdCard= cardsRepository.create({
-        ...card
-      })
-
-      transaction.data.push(
-        {
-          entity:createdCard,
-          repository:cardsRepository
-        }
-      )
-
-      createdCards.push(createdCard);
     }
+
+    console.log(`teste`)
+
+    const createdCard= cardsRepository.create({
+      owner_name,
+      number,
+      brand_id,
+      person_id,
+      security_code
+    })
+
+    transaction.data.push(
+      {
+        entity:createdCard,
+        repository:cardsRepository
+      }
+    )
+    
 
     await this.repositoryUtils.transaction(transaction);
 
-    return createdCards;
+    return createdCard;
   }
 }
 

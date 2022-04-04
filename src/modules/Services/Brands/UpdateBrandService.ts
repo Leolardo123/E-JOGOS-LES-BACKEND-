@@ -5,7 +5,7 @@ import Brand from '@modules/models/Brand/Brand';
 import { IBrand } from './Interfaces/IBrand';
 
 interface IRequest {
-    brand_id: string;
+    id: string;
     brand: IBrand;
 } 
 
@@ -17,7 +17,7 @@ interface IResponse {
 class UpdateBrandService {
 
   public async execute({
-    brand_id,
+    id,
     brand:{
         name,
         image
@@ -28,12 +28,12 @@ class UpdateBrandService {
 
     const brandExists = await brandsRepository.findOne({
         where:{
-            id: brand_id
+            id: id
         },
     })
 
     if(!brandExists){
-        throw new AppError('Bandeira não encontrado.')
+        throw new AppError('Bandeira não encontrada.')
     }
     
     if(name) brandExists.name = name;
