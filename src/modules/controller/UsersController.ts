@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import CreateUserService from '@modules/Services/Users/CreateUserService';
 import UpdateUserService from '@modules/Services/Users/UpdateUserService';
+import UpdateUserPasswordService from '@modules/Services/Users/UpdatePasswordService';
 import ShowUserService from '@modules/Services/Users/ShowUserService';
 import DeleteUserService from '@modules/Services/Users/DeleteUserService';
 import IndexUsersService from '@modules/Services/Users/IndexUsersService';
@@ -32,7 +33,7 @@ export default class UsersController {
             user_id,
         });
 
-        return response.status(201).json(user);
+        return response.status(200).json(user);
     }
 
     public async create(request: Request, response: Response): Promise<Response> {
@@ -68,7 +69,29 @@ export default class UsersController {
             },
         });
 
-        return response.status(201).json(user);
+        return response.status(200).json(user);
+    }
+
+    public async updatePassword(request: Request, response: Response): Promise<Response> {
+        const {
+            user_id,
+            user: {
+                new_password,
+                old_password
+            }
+        } = request.body;
+
+        const updateUserPasswordService = container.resolve(UpdateUserPasswordService);
+
+        const { user } = await updateUserPasswordService.execute({
+            user_id,
+            user:{
+                new_password,
+                old_password
+            },
+        });
+
+        return response.status(200).json(user);
     }
 
     public async delete(request: Request, response: Response): Promise<Response> {
@@ -82,6 +105,6 @@ export default class UsersController {
             user_id,
         });
 
-        return response.status(201).json({msg:'Usuário deletado com sucesso.'});
+        return response.status(200).json({msg:'Usuário deletado com sucesso.'});
     }
 }

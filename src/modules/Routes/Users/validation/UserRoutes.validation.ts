@@ -46,8 +46,18 @@ export const updateParams = celebrate({
     }
 })
 
+export const updatePassword = celebrate({
+    [Segments.BODY]: {
+        user_id: Joi.string().required(),
+        user: Joi.object().keys({
+            new_password: Joi.string().required(),
+            old_password: Joi.string().required().valid(Joi.ref('password'))
+        }).required()
+    }
+})
+
 export const show = celebrate({
-    [Segments.PARAMS]: {
+    [Segments.BODY]: {
       user_id: Joi.string().uuid().required(),
     },
 });
