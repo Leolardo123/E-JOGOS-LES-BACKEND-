@@ -1,7 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import User from '@modules/models/User/User';
 import AppError from '../../../shared/errors/AppError';
-import UsersRepository from '@modules/Repositories/Users/UsersRepository';
 import IHashProvider from '@shared/container/providers/HashProvider/models/IHashProvider';
 import GenericRepositoryProvider from '@modules/Repositories/Generic/implementations/GenericRepositoryProvider';
 

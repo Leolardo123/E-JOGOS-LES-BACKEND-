@@ -1,10 +1,10 @@
 import { Expose } from "class-transformer";
-import { Column, Entity, OneToMany } from "typeorm";
+import { Column, Entity } from "typeorm";
 import Domain from "../Domain";
-import CartItem from "../Sales/CartItem";
 
 @Entity("tb_products")
 export default class Product extends Domain{
+
     @Column()
     name: string;
 
@@ -15,7 +15,10 @@ export default class Product extends Domain{
     price: number;
 
     @Column()
-    cart_id: string;
+    stock: number;
+
+    @Column()
+    requirements: string;
     
     @Column()
     publisher: string;
@@ -33,10 +36,22 @@ export default class Product extends Domain{
     subtitle: string;
 
     @Column()
-    image: string;
+    release_date: string;
 
-    @OneToMany(() => CartItem, cartItem => cartItem.product)
-    items: CartItem[];
+    @Column()
+    recomended_age: number;
+
+    @Column()
+    players_offline: number;
+
+    @Column()
+    players_online: number;
+
+    @Column()
+    resolution: string;
+
+    @Column()
+    image: string;
 
     @Expose({ name: 'image_url' })
     getImage(): string {

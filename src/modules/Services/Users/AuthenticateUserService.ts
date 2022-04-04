@@ -5,13 +5,10 @@ import crypto from 'crypto';
 import { auth } from '@config/auth';
 import { refreshTokenConfig } from '@config/refreshToken';
 import User from '@modules/models/User/User';
-import IIdGeneratorProvider from '@shared/container/providers/IdGeneratorProvider/models/IIdGeneratorProvider';
 import AppError from '@shared/errors/AppError';
-import { getCustomRepository } from 'typeorm';
-import UsersRepository from '@modules/Repositories/Users/UsersRepository';
-import { RefreshTokensRepository } from '@modules/Repositories/Users/RefreshTokensRepository';
 import IHashProvider from '@shared/container/providers/HashProvider/models/IHashProvider';
-
+import { RefreshToken } from '@modules/models/User/RefreshToken';
+import GenericRepositoryProvider from '@modules/Repositories/Generic/implementations/GenericRepositoryProvider';
 
 interface IRequest {
   email: string;
@@ -27,19 +24,15 @@ interface IResponse {
 @injectable()
 class AuthenticateUserService {
   constructor(
-    @inject('UsersRepository')
-    private usersRepository : UsersRepository,
-
-    @inject('RefreshTokensRepository')
-    private refreshTokensRepository : RefreshTokensRepository,
-
     @inject('HashProvider')
     private hashProvider: IHashProvider,
   ) {}
 
   public async execute({ email, password }: IRequest): Promise<IResponse> {
+    const usersRepository = new GenericRepositoryProvider(User);
+    const refreshTokensRepository = new GenericRepositoryProvider(RefreshToken);
 
-    const user = await this.usersRepository.findOne(email);
+    const user = await usersRepository.findOne({where: { email }});
 
     if (!user) {
       throw new AppError('Combinação de email/senha incorreta!', 401);
@@ -58,21 +51,21 @@ class AuthenticateUserService {
 
     const token = sign(
       {
-          subject:user.getId(),
+          subject:user.id,
           expiresIn
       },
       secret
     );
 
-    const refreshToken = this.refreshTokensRepository.create({
+    const refreshToken = refreshTokensRepository.create({
       access_token: token,
       expires_in: refreshTokenConfig.refreshToken.expiresIn,
       is_active: true,
       refresh_token: crypto.randomBytes(32).toString('hex'),
-      user_id: user.getId(),
+      user_id: user.id,
     });
 
-    await this.refreshTokensRepository.save(refreshToken);
+    await refreshTokensRepository.save(refreshToken);
 
     return {
       user,

@@ -1,9 +1,6 @@
-import { inject, injectable } from 'tsyringe';
+import { injectable } from 'tsyringe';
 import User from '@modules/models/User/User';
 import AppError from '../../../shared/errors/AppError';
-import { getCustomRepository } from 'typeorm';
-import UsersRepository from '@modules/Repositories/Users/UsersRepository';
-import { IGenericRepositoryProvider } from '@shared/container/providers/GenericRepositoryProvider/models/IGenericRepositoryProvider';
 import GenericRepositoryProvider from '@modules/Repositories/Generic/implementations/GenericRepositoryProvider';
 
 interface IRequest {

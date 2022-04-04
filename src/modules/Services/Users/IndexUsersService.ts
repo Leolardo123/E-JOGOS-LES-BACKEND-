@@ -1,6 +1,6 @@
 import IPaginatedResponse from '@shared/interfaces/IPaginatedResponse';
 import IPaginatedRequest from '@shared/interfaces/IPaginatedRequest';
-import { inject, injectable } from 'tsyringe';
+import { injectable } from 'tsyringe';
 
 import User from '@modules/models/User/User';
 import GenericRepositoryProvider from '@modules/Repositories/Generic/implementations/GenericRepositoryProvider';

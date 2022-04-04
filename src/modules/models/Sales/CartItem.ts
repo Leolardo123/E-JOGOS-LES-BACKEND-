@@ -24,7 +24,7 @@ export default class CartItem extends Domain {
     cart: Cart;
 
     @JoinColumn({ name: 'product_id' })
-    @ManyToOne(() => Product, product => product.items)
+    @ManyToOne(() => Product)
     product: Product;
 
 }
