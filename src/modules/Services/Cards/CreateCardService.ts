@@ -5,15 +5,15 @@ import AppError from '../../../shared/errors/AppError';
 
 import IHashProvider from '@shared/container/providers/HashProvider/models/IHashProvider';
 import GenericRepositoryProvider from '@modules/Repositories/Generic/implementations/GenericRepositoryProvider';
-import Person from '@modules/models/User/Person';
 import Card from '@modules/models/Card/Card';
 import Brand from '@modules/models/Brand/Brand';
+import User from '@modules/models/User/User';
 
 interface IRequest {
     owner_name: string,
     number: string,
     brand_id: string,
-    person_id: string,
+    user_id: string,
     security_code: string
 } 
 
@@ -34,7 +34,7 @@ class CreateCardService {
     owner_name,
     number,
     brand_id,
-    person_id,
+    user_id,
     security_code
   }: IRequest): Promise<IResponse> {
 
@@ -42,18 +42,18 @@ class CreateCardService {
     const hashedSecurityCode = await this.hashProvider.generateHash(security_code)
 
     const cardsRepository = new GenericRepositoryProvider(Card)
-    const personsRepository = new GenericRepositoryProvider(Person)
+    const usersRepository = new GenericRepositoryProvider(User)
     const brandsRepository = new GenericRepositoryProvider(Brand)
 
     const transaction: ITransaction = { data: [] };
 
-    const personExists = await personsRepository.findOne({
+    const userExists = await usersRepository.findOne({
         where:{
-            id: person_id
+            id: user_id
         }
     })
 
-    if(!personExists){
+    if(!userExists){
         throw new AppError('Usuário não encontrado.')
     } 
 
@@ -70,7 +70,7 @@ class CreateCardService {
         owner_name: owner_name,
         number: hashedNumber,
         brand_id: brand_id,
-        person_id: person_id,
+        user_id: user_id,
         security_code: hashedSecurityCode
     })
     

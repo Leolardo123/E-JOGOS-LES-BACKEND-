@@ -1,4 +1,5 @@
 import { Column, Entity, OneToMany, OneToOne } from "typeorm";
+import Card from "../Card/Card";
 import Domain from "../Domain";
 import Person from "./Person";
 import { RefreshToken } from "./RefreshToken";
@@ -11,6 +12,9 @@ class User extends Domain {
     
     @Column()
     password: string;
+
+    @OneToMany(() => Card, card => card.user, { cascade: true })
+    cards: Card[];
 
     @OneToMany(() => RefreshToken, refreshToken => refreshToken.user)
     refresh_tokens: RefreshToken[];

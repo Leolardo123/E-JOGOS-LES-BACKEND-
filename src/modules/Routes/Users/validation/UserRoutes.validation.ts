@@ -1,5 +1,12 @@
 import { celebrate, Joi, Segments } from "celebrate";
 
+export const auth = celebrate({
+    [Segments.BODY]: Joi.object().keys({
+        email: Joi.string().required(),
+        password: Joi.string().required(),
+    }),
+})
+
 export const create = celebrate({
     [Segments.BODY]: {
         user: Joi.object({
@@ -36,22 +43,18 @@ export const create = celebrate({
 
 export const updateBody = celebrate({
     [Segments.BODY]: {
+        user_id: Joi.string().required(),
         email: Joi.string().allow('',null)
     }
 })
 
-export const updateParams = celebrate({
-    [Segments.PARAMS]: {
-        user_id: Joi.string().required()
-    }
-})
 
 export const updatePassword = celebrate({
     [Segments.BODY]: {
         user_id: Joi.string().required(),
         user: Joi.object().keys({
             new_password: Joi.string().required(),
-            old_password: Joi.string().required().valid(Joi.ref('password'))
+            confirm_password: Joi.string().required().valid(Joi.ref('new_password'))
         }).required()
     }
 })
@@ -63,7 +66,7 @@ export const show = celebrate({
 });
 
 export const deleteUser = celebrate({
-    [Segments.PARAMS]: {
+    [Segments.BODY]: {
       user_id: Joi.string().uuid().required(),
     },
 });

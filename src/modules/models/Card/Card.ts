@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn } from "typeorm";
 import Domain from "../Domain";
-import Person from "../User/Person";
 import Brand from "../Brand/Brand";
+import User from "../User/User";
 
 @Entity('tb_cards')
 class Card extends Domain {
@@ -16,7 +16,7 @@ class Card extends Domain {
     brand_id: string;
 
     @Column()
-    person_id: string;
+    user_id: string;
     
     @Column()
     security_code: string;
@@ -27,11 +27,11 @@ class Card extends Domain {
     })
     brand: Brand;
 
-    @JoinColumn({name:'person_id'})
-    @ManyToOne(() => Person, {
+    @JoinColumn({name:'user_id'})
+    @ManyToOne(() => User, {
         onDelete:'CASCADE',onUpdate:'CASCADE'
     })
-    person: Person;
+    user: User;
     
 }
 

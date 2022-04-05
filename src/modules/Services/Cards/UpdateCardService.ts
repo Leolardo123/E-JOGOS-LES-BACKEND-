@@ -7,6 +7,7 @@ import { ICard } from './Interfaces/ICard';
 import Card from '@modules/models/Card/Card';
 import Brand from '@modules/models/Brand/Brand';
 import Person from '@modules/models/User/Person';
+import User from '@modules/models/User/User';
 
 interface IRequest {
     id: string;
@@ -31,7 +32,7 @@ class UpdateCardService {
         owner_name,
         number,
         brand_id,
-        person_id,
+        user_id,
         security_code
     },
   }: IRequest): Promise<IResponse> {
@@ -41,7 +42,7 @@ class UpdateCardService {
 
     const cardsRepository = new GenericRepositoryProvider(Card);
     const brandsRepository = new GenericRepositoryProvider(Brand);
-    const personsRepository = new GenericRepositoryProvider(Person);
+    const usersRepository = new GenericRepositoryProvider(User);
 
     const cardExists = await cardsRepository.findOne({
         where:{
@@ -53,19 +54,19 @@ class UpdateCardService {
         throw new AppError('Card não encontrado.')
     }
     
-    const personExists = await personsRepository.findOne({
+    const usersExists = await usersRepository.findOne({
         where:{
-            id: person_id
+            id: user_id
         },
     })
 
-    if(!personExists){
+    if(!usersExists){
         throw new AppError('Usuário não encontrado.')
     }
     
     if(owner_name) cardExists.owner_name = owner_name;
     if(number) cardExists.number = number;
-    if(person_id) cardExists.person_id = person_id;
+    if(user_id) cardExists.user_id = user_id;
     if(security_code) cardExists.security_code = security_code;
     if(brand_id){
         const brandExists = await brandsRepository.findOne({

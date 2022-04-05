@@ -6,7 +6,7 @@ import GenericRepositoryProvider from '@modules/Repositories/Generic/implementat
 
 interface IUserCustom{
   new_password: string,
-  old_password: string
+  confirm_password: string
 }
 
 interface IRequest {
@@ -29,7 +29,7 @@ class UpdateUserService {
     user_id,
     user:{
         new_password,
-        old_password
+        confirm_password
     },
   }: IRequest): Promise<IResponse> {
     const usersRepository = new GenericRepositoryProvider(User)
@@ -41,12 +41,6 @@ class UpdateUserService {
 
     if(!userExists){
         throw new AppError('Usuário não encontrado.')
-    }
-
-    const equals = await this.hashProvider.compareHash(userExists.password,old_password);
-
-    if(!equals){
-      throw new AppError('Senha antiga não confere.')
     }
 
     userExists.password = await this.hashProvider.generateHash(new_password)

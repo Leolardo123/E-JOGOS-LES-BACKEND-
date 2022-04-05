@@ -12,14 +12,14 @@ export default class CardsController {
     public async index(request: Request, response: Response): Promise<Response> {
         const { page , limit } = request.query
 
-        const { person_id } = request.body
+        const { user_id } = request.body
 
         const indexCardsService = container.resolve(IndexCardsService)
         const result = await indexCardsService.execute({
             page: page ? Number(page) : undefined,
             limit: limit ? Number(limit) : undefined,
             whereParams : {
-                person_id: person_id as string
+                user_id: user_id as string
             }
         })
 
@@ -29,7 +29,7 @@ export default class CardsController {
     public async show(request: Request, response: Response): Promise<Response> {
         const {
             id
-        } = request.params;
+        } = request.body;
 
         const showCard = container.resolve(ShowCardService);
 
@@ -45,9 +45,11 @@ export default class CardsController {
             owner_name,
             number,
             brand_id,
-            person_id,
+            user_id,
             security_code
         } = request.body;
+
+        console.log('teste2')
 
         const addCardService = container.resolve(AddPersonCardsService);
 
@@ -55,7 +57,7 @@ export default class CardsController {
             owner_name,
             number,
             brand_id,
-            person_id,
+            user_id,
             security_code
         });
 
@@ -69,7 +71,7 @@ export default class CardsController {
                 owner_name,
                 number,
                 brand_id,
-                person_id,
+                user_id,
                 security_code
             }
         } = request.body;
@@ -82,7 +84,7 @@ export default class CardsController {
                 owner_name,
                 number,
                 brand_id,
-                person_id,
+                user_id,
                 security_code
             }
         });
@@ -94,7 +96,7 @@ export default class CardsController {
 
         const {
             id
-        } = request.params;
+        } = request.body;
 
         const deleteCard = container.resolve(DeleteCardService);
 

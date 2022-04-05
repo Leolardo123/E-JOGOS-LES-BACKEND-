@@ -6,8 +6,8 @@ import AppError from '@shared/errors/AppError';
 
 interface ITokenPayload {
   iat: number;
-  exp: number;
-  sub: string;
+  expiresIn: number;
+  subject: string;
 }
 
 function ensureAuthenticated(
@@ -21,15 +21,28 @@ function ensureAuthenticated(
     throw new AppError('Token JWT inexistente!', 404);
   }
 
-  const [, token] = authHeader.split(' ');
+  // const [, token] = authHeader.split(' ');
+  const token = authHeader;
+
+  console.log(token)
 
   try {
     const decoded = verify(token, auth.jwt.secret as string);
 
-    const { sub } = decoded as ITokenPayload;
+    // const { sub } = decoded as ITokenPayload;
+    const { subject } = decoded as ITokenPayload;
 
-    request.user = {
-      id: sub,
+    console.log('teste2')
+    console.log(decoded)
+
+    // request.user = {
+    //   id: sub,
+    // };
+
+    console.log('sub: ', subject)
+
+    request.body = {
+      user_id: subject,
     };
 
     return next();

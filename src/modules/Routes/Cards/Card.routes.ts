@@ -7,12 +7,12 @@ const cardsController = new CardsController();
 
 cardRouter.get('/index', index, cardsController.index)
 
-cardRouter.get('/:id', cardsController.show)
+cardRouter.get('/', cardsController.show)
 
 cardRouter.post('/', create, cardsController.create)
 
 cardRouter.put('/', cardsController.update)
 
-cardRouter.delete('/:id', cardsController.delete)
+cardRouter.delete('/', cardsController.delete)
 
 export default cardRouter

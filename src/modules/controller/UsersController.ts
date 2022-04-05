@@ -7,8 +7,33 @@ import UpdateUserPasswordService from '@modules/Services/Users/UpdatePasswordSer
 import ShowUserService from '@modules/Services/Users/ShowUserService';
 import DeleteUserService from '@modules/Services/Users/DeleteUserService';
 import IndexUsersService from '@modules/Services/Users/IndexUsersService';
+import { AuthenticateUserService } from '@modules/Services/Users/AuthenticateUserService';
 
 export default class UsersController {
+
+    public async auth(request: Request, response: Response): Promise<Response> {
+        const {
+            email,
+            password
+        } = request.body;
+
+        const authenticateUser = container.resolve(AuthenticateUserService);
+
+        const {
+            user,
+            access_token,
+            refresh_token,
+        } = await authenticateUser.execute({
+            email,
+            password,
+        });
+
+        return response.json({
+            user,
+            access_token,
+            refresh_token,
+        });
+    }
 
     public async index(request: Request, response: Response): Promise<Response> {
         const { page , limit } = request.query
@@ -77,9 +102,11 @@ export default class UsersController {
             user_id,
             user: {
                 new_password,
-                old_password
+                confirm_password
             }
         } = request.body;
+
+        console.log('teste pass')
 
         const updateUserPasswordService = container.resolve(UpdateUserPasswordService);
 
@@ -87,7 +114,7 @@ export default class UsersController {
             user_id,
             user:{
                 new_password,
-                old_password
+                confirm_password
             },
         });
 
@@ -97,7 +124,7 @@ export default class UsersController {
     public async delete(request: Request, response: Response): Promise<Response> {
         const {
             user_id,
-        } = request.params;
+        } = request.body;
 
         const deleteUser = container.resolve(DeleteUserService);
 
