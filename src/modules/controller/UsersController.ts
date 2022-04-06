@@ -106,7 +106,8 @@ export default class UsersController {
             }
         } = request.body;
 
-        console.log('teste pass')
+        console.log(request.body);
+
 
         const updateUserPasswordService = container.resolve(UpdateUserPasswordService);
 
@@ -115,7 +116,7 @@ export default class UsersController {
             user:{
                 new_password,
                 confirm_password
-            },
+            }
         });
 
         return response.status(200).json(user);

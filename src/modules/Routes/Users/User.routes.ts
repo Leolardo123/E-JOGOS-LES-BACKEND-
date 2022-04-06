@@ -6,13 +6,13 @@ import { auth, create, deleteUser, index, show, updateBody, updatePassword } fro
 const userRouter = Router();
 const userController = new UsersController();
 
-userRouter.get('/auth', auth, userController.auth)
+userRouter.post('/auth', auth, userController.auth)
 
 userRouter.get('/index', index, userController.index)
 
 userRouter.get('/', ensureAuthenticated, show, userController.show)
 
-userRouter.post('/', ensureAuthenticated, create, userController.create)
+userRouter.post('/', create, userController.create)
 
 userRouter.put('/', ensureAuthenticated, updateBody, userController.update)
 

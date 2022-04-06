@@ -49,7 +49,6 @@ export default class CardsController {
             security_code
         } = request.body;
 
-        console.log('teste2')
 
         const addCardService = container.resolve(AddPersonCardsService);
 

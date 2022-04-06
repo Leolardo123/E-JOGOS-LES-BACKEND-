@@ -9,6 +9,7 @@ import AppError from '@shared/errors/AppError';
 import IHashProvider from '@shared/container/providers/HashProvider/models/IHashProvider';
 import { RefreshToken } from '@modules/models/User/RefreshToken';
 import GenericRepositoryProvider from '@modules/Repositories/Generic/implementations/GenericRepositoryProvider';
+import { request } from 'http';
 
 interface IRequest {
   email: string;
@@ -32,10 +33,11 @@ class AuthenticateUserService {
     const usersRepository = new GenericRepositoryProvider(User);
     const refreshTokensRepository = new GenericRepositoryProvider(RefreshToken);
 
+
     const user = await usersRepository.findOne({where: { email }});
 
     if (!user) {
-      throw new AppError('Combinação de email/senha incorreta!', 401);
+      throw new AppError('Combinação de email/senha incorreta!', 404);
     }
 
     const passwordMatched = await this.hashProvider.compareHash(
@@ -44,7 +46,7 @@ class AuthenticateUserService {
     );
 
     if (!passwordMatched) {
-      throw new AppError('Combinação de email/senha incorreta!', 401);
+      throw new AppError('Combinação de email/senha incorreta!', 404);
     }
 
     const { secret, expiresIn } = auth.jwt;

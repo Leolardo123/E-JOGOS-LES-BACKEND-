@@ -21,7 +21,6 @@ class RepositoryUtils implements IRepositoryUtils {
       await this.queryRunner.commitTransaction();
     } catch (error) {
       await this.queryRunner.rollbackTransaction();
-      console.log({ error });
       throw new AppError('A transaction falhou!');
     } finally {
       await this.queryRunner.release();

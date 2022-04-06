@@ -12,7 +12,6 @@ export default function globalErrorHandling(
   _: NextFunction,
 ): Response<any> {
 
-  console.log(err)
   if (err instanceof AppError) {
     winston.error(
       `${err.errorCode} - ${err.message} - ${request.originalUrl} - ${
@@ -98,7 +97,6 @@ export default function globalErrorHandling(
         messageString = `Campo ${context.key} não reconhecido.`;
         break;
       default:
-        console.log(type)
         messageString = 'Aconteceu um erro tente novamente mais tarde.';
         break;
     }

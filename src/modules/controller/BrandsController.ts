@@ -41,8 +41,6 @@ export default class BrandsController {
             image
         } = request.body;
 
-        console.log("create brand", request.body)
-
         const addBrandService = container.resolve(AddBrandService);
 
         const brand = await addBrandService.execute({
@@ -79,7 +77,6 @@ export default class BrandsController {
             id
         } = request.body;
 
-        console.log(request)
         const deleteBrand = container.resolve(DeleteBrandService);
 
         await deleteBrand.execute({

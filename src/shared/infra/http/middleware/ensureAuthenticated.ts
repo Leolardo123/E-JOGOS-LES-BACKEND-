@@ -28,11 +28,7 @@ function ensureAuthenticated(
 
     const { subject } = decoded as ITokenPayload;
 
-    console.log('sub: ', subject)
-
-    request.body = {
-      user_id: subject,
-    };
+    request.body.user_id = subject;
 
     return next();
   } catch (error) {
