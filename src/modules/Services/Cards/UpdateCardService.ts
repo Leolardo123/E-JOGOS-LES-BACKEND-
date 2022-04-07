@@ -11,11 +11,19 @@ import User from '@modules/models/User/User';
 
 interface IRequest {
     id: string;
+    user_id: string;
     card: ICard;
 } 
 
+interface ICustomCard {
+    owner_name: string;
+    number: string;
+    brand_id: string;
+    security_code: string;
+}
+
 interface IResponse {
-    card: Card
+    card: ICustomCard
 }
 
 @injectable()
@@ -28,11 +36,11 @@ class UpdateCardService {
 
   public async execute({
     id,
+    user_id,
     card:{
         owner_name,
         number,
         brand_id,
-        user_id,
         security_code
     },
   }: IRequest): Promise<IResponse> {

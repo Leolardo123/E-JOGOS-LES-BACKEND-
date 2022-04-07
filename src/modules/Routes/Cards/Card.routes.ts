@@ -1,18 +1,19 @@
 import CardsController from "@modules/controller/CardsController";
+import { ensureAuthenticated } from "@shared/infra/http/middleware/ensureAuthenticated";
 import { Router } from "express";
-import { create, index, update } from "./validation/CardRoutes.validation";
+import { create, index, show, update } from "./validation/CardRoutes.validation";
 
 const cardRouter = Router();
 const cardsController = new CardsController();
 
-cardRouter.get('/index', index, cardsController.index)
+cardRouter.get('/index', ensureAuthenticated, index, cardsController.index)
 
-cardRouter.get('/', cardsController.show)
+cardRouter.post('/show', ensureAuthenticated, show, cardsController.show)
 
-cardRouter.post('/', create, cardsController.create)
+cardRouter.post('/', ensureAuthenticated, create, cardsController.create)
 
-cardRouter.put('/', cardsController.update)
+cardRouter.put('/', ensureAuthenticated, update, cardsController.update)
 
-cardRouter.delete('/', cardsController.delete)
+cardRouter.delete('/:id', ensureAuthenticated, cardsController.delete)
 
 export default cardRouter

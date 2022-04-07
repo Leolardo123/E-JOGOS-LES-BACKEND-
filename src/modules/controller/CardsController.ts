@@ -66,11 +66,11 @@ export default class CardsController {
     public async update(request: Request, response: Response): Promise<Response> {
         const {
             id,
+            user_id,
             card: {
                 owner_name,
                 number,
                 brand_id,
-                user_id,
                 security_code
             }
         } = request.body;
@@ -79,11 +79,11 @@ export default class CardsController {
 
         const { card } = await updateCardService.execute({
             id,
+            user_id,
             card:{
                 owner_name,
                 number,
                 brand_id,
-                user_id,
                 security_code
             }
         });
@@ -95,7 +95,7 @@ export default class CardsController {
 
         const {
             id
-        } = request.body;
+        } = request.params;
 
         const deleteCard = container.resolve(DeleteCardService);
 

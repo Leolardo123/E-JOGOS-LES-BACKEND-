@@ -24,7 +24,7 @@ export default class BrandsController {
     public async show(request: Request, response: Response): Promise<Response> {
         const {
             id
-        } = request.params;
+        } = request.body;
 
         const showBrand = container.resolve(ShowBrandService);
 
