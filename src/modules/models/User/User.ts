@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, OneToOne } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, OneToOne } from "typeorm";
 import Card from "../Card/Card";
 import Domain from "../Domain";
 import Person from "./Person";
@@ -13,13 +13,13 @@ class User extends Domain {
     @Column()
     password: string;
 
-    @OneToMany(() => Card, card => card.user, { cascade: true })
+    @OneToMany(() => Card, card => card.user, { cascade: true, eager: true })
     cards: Card[];
 
     @OneToMany(() => RefreshToken, refreshToken => refreshToken.user)
     refresh_tokens: RefreshToken[];
 
-    @OneToOne(() => Person, person => person.user, { cascade: true })
+    @OneToOne(() => Person, person => person.user, { cascade: true, eager: true})
     person: Person;
 
 }

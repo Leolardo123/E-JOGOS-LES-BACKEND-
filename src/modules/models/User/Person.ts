@@ -27,7 +27,7 @@ class Person extends Domain {
     @Column()
     user_id: string;
 
-    @OneToMany(() => PersonAddress, address => address.person, { cascade: true })
+    @OneToMany(() => PersonAddress, address => address.person, { cascade: true, eager: true })
     addresses: PersonAddress[];
 
     @JoinColumn({name:'gender_id'})
@@ -39,7 +39,7 @@ class Person extends Domain {
     @OneToMany(() => Cart, cart => cart.person)
     carts: Cart[];
 
-    @OneToOne(() => Phone, phone => phone.person, { cascade: true })
+    @OneToOne(() => Phone, phone => phone.person, { cascade: true, eager: true })
     phone: Phone;
 
     @JoinColumn({name:'user_id'})
