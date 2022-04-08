@@ -71,11 +71,11 @@ export default class ProductsController {
 
         const deleteProduct = container.resolve(DeleteEntityService);
 
-        const result = await deleteProduct.execute({
+        await deleteProduct.execute({
             id,
             entity: Product,
         });
 
-        return response.json(result)
+        return response.json({message: 'Produto removido com sucesso'})
     }
 }
