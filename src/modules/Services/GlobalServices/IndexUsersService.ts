@@ -10,12 +10,12 @@ interface IGenericPaginatedRequest<T extends Domain> extends IPaginatedRequest {
 }
 
 @injectable()
-class IndexEntityService<T extends Domain> {
+class IndexEntityService {
   public async execute({
     page,
     limit,
     entity,
-  }: IGenericPaginatedRequest<T>): Promise<IPaginatedResponse<T>> {
+  }: IGenericPaginatedRequest<Domain>): Promise<IPaginatedResponse<Domain>> {
     const entityRepository = new GenericRepositoryProvider(entity);
     return await entityRepository.index({page,limit})
   }

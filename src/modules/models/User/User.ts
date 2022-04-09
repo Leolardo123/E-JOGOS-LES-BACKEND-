@@ -13,7 +13,7 @@ class User extends Domain {
     @Column()
     password: string;
 
-    @OneToMany(() => Card, card => card.user, { cascade: true, eager: true })
+    @OneToMany(() => Card, card => card.user, { cascade: true, eager: true, orphanedRowAction: 'delete'})
     cards: Card[];
 
     @OneToMany(() => RefreshToken, refreshToken => refreshToken.user)

@@ -10,12 +10,12 @@ interface IRequest<T extends Domain> {
 } 
 
 @injectable()
-class ShowEntityService<T extends Domain> {
+class ShowEntityService {
   public async execute({
     id,
     entity,
     relations,
-  }: IRequest<T>): Promise<Domain | undefined> {
+  }: IRequest<Domain>): Promise<Domain | undefined> {
     const entityRepository = new GenericRepositoryProvider(entity);
     return await entityRepository.findOne({
         where:{

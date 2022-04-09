@@ -10,11 +10,11 @@ interface IRequest<T extends Domain> {
 } 
 
 @injectable()
-class DeleteEntityService<T extends Domain> {
+class DeleteEntityService {
   public async execute({
     id,
     entity,
-  }: IRequest<T>): Promise<void> {
+  }: IRequest<Domain>): Promise<void> {
     const entityRepository = new GenericRepositoryProvider(entity);
 
     const entityExists = await entityRepository.findOne({
