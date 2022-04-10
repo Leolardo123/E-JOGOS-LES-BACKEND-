@@ -84,7 +84,8 @@ export default class CardsController {
                 owner_name,
                 number,
                 brand_id,
-                security_code
+                security_code,
+                user_id
             }
         });
 
