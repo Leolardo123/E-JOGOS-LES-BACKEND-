@@ -58,6 +58,8 @@ class UpdateCardService {
         },
     })
 
+    console.log(cardExists)
+
     if(!cardExists){
         throw new AppError('Card não encontrado.')
     }
