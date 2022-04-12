@@ -1,13 +1,13 @@
 import { celebrate, Joi, Segments } from "celebrate";
 
 export const index = celebrate({
-  [Segments.PARAMS]: {
+  [Segments.BODY]: {
     user_id: Joi.string().optional(),
   },
 });
 
 export const show = celebrate({
-  [Segments.PARAMS]: {
+  [Segments.BODY]: {
     id: Joi.string().required(),
   },
 });
@@ -47,8 +47,10 @@ export const addToPerson = celebrate({
   },
 });
 
-export const updateBody = celebrate({
+export const update = celebrate({
   [Segments.BODY]: {
+    id: Joi.string().required(),
+    user_id: Joi.string().required(),
     cep: Joi.string().allow('',null),
     place: Joi.string().allow('',null),
     number: Joi.number(),
@@ -62,9 +64,11 @@ export const updateBody = celebrate({
   },
 });
 
-export const updateParams = celebrate({
-  [Segments.PARAMS]: {
-      address_id: Joi.string().required()
-  }
+export const deleteBody = celebrate({
+  [Segments.BODY]: {
+    id: Joi.string().required(),
+    user_id: Joi.string().required(),
+  },
 })
+
 

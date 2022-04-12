@@ -5,20 +5,20 @@ import AppError from '@shared/errors/AppError';
 import PersonAddress from '@modules/models/Address/PersonAddress';
 
 interface IRequest {
-  address_id: string;
+  id: string;
   user_id?: string;
 }
 
 @injectable()
 class ShowAddressesService {
   public async execute({
-    address_id,
+    id,
     user_id
   }: IRequest): Promise<Address | undefined> {
     const personAddressesRepository = new GenericRepositoryProvider(PersonAddress);
     const personAddress = await personAddressesRepository.findOne({
       where: {
-        address_id,
+        id,
       },
       relations: ['address']
     });

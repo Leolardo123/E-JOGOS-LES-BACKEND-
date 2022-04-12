@@ -106,8 +106,6 @@ export default class UsersController {
             }
         } = request.body;
 
-        console.log(request.body);
-
 
         const updateUserPasswordService = container.resolve(UpdateUserPasswordService);
 

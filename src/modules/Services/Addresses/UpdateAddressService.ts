@@ -8,8 +8,8 @@ import AddressType from '@modules/models/Address/AddressType';
 import PlaceType from '@modules/models/Address/PlaceType';
 
 interface IRequest {
+    id: string,
     user_id: string;
-    address_id: string;
     address: IAddress;
 } 
 
@@ -21,7 +21,7 @@ interface IResponse {
 class UpdateAddressService {
   public async execute({
     user_id,
-    address_id,
+    id,
     address:{
         address_type_id,
         place_type_id,
@@ -41,7 +41,7 @@ class UpdateAddressService {
 
     const addressExists = await addressesRepository.findOne({
         where:{
-            id: address_id
+            id: id
         },
         relations:['person_address','person_address.person']
     })
@@ -88,6 +88,8 @@ class UpdateAddressService {
             throw new AppError(`Tipo de logradouro escolhido não existe.`);
         }
     }
+
+    console.log('teste')
 
     await addressesRepository.save(addressExists);
 

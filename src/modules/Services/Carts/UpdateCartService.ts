@@ -62,8 +62,6 @@ export default class UpdateCartService {
 
         const updatedCart = Object.assign(cartExists, {...cart})
 
-        console.log(updatedCart)
-
         //await cartRepository.save(updatedCart);
 
         return updatedCart;
