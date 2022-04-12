@@ -62,9 +62,9 @@ export default class AddressesController {
 
     public async create(request: Request, response: Response): Promise<Response> {
         const {
+            user_id,
             addresses,
         } = request.body;
-        const { id: user_id } = request.user;
 
         const addAddressService = container.resolve(AddPersonAddressesService);
 

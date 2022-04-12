@@ -36,7 +36,7 @@ class AddPersonAddressesService {
     const transaction : ITransaction = { data: [] };
 
     const personExists = await personsRepository.findOne({
-      where:{user_id},
+      where:{user_id: user_id},
     })
     
     if(!personExists){

@@ -30,6 +30,7 @@ export const create = celebrate({
 
 export const addToPerson = celebrate({
   [Segments.BODY]: {
+    user_id: Joi.string().optional(),
     addresses: Joi.array().items(
       Joi.object({
           cep: Joi.string().required(),
