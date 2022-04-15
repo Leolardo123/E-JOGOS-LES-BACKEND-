@@ -1,10 +1,11 @@
 import AppError from "@shared/errors/AppError";
-import { BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, ManyToOne } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, Unique } from "typeorm";
 import Domain from "../Domain";
 import Product from "../Products/Product";
 import Cart from "./Cart";
 
 @Entity('tb_carts_items')
+@Unique(['cart_id', 'product_id'])
 export default class CartItem extends Domain {
 
     @Column()
@@ -24,7 +25,9 @@ export default class CartItem extends Domain {
     cart: Cart;
 
     @JoinColumn({ name: 'product_id' })
-    @ManyToOne(() => Product)
+    @ManyToOne(() => Product, {
+        eager: true,
+    })
     product: Product;
     
     @BeforeInsert()

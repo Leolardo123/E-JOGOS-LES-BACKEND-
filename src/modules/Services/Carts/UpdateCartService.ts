@@ -52,17 +52,14 @@ export default class UpdateCartService {
 
         const cartExists = await cartRepository.findOne({
             where: {
-                id: cart_id
+                id: cart_id,
+                person_id: userExists.person.id
             }
         });
 
-        if (!cartExists || cartExists.person_id !== userExists.person.id) {
+        if (!cartExists) {
             throw new Error("Carrinho não encontrado.");
         }
-
-        const updatedCart = Object.assign(cartExists, {...cart})
-
-        //await cartRepository.save(updatedCart);
 
         return updatedCart;
     }
