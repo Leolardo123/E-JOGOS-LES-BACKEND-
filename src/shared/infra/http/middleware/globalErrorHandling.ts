@@ -4,6 +4,7 @@ import { Request, Response, NextFunction } from 'express';
 import AppError from '../../../errors/AppError';
 
 import winston from '@config/winston';
+import { getEntityKeyName } from './TranslateKeyError';
 
 export default function globalErrorHandling(
   err: Error,
@@ -30,71 +31,66 @@ export default function globalErrorHandling(
     let messageString;
     const { type, context } = err.details.values().next().value.details[0];
 
+    const legibleKey = getEntityKeyName(context.key)
     switch (type) {
       case 'any.required':
         messageString = `O campo ${context.key} é obrigatório.`;
         break;
       case 'any.only':
         messageString = context.valids[0].path
-          ? `O campo ${context.key} deve ter o mesmo valor do campo ${context.valids[0].key}.`
-          : `O campo ${context.key} pode ter o(s) valor(es): ${context.valids}`;
+          ? `O campo ${legibleKey} deve ter o mesmo valor do campo ${context.valids[0].key}.`
+          : `O campo ${legibleKey} pode ter o(s) valor(es): ${context.valids}`;
         break;
       case 'object.base':
-        messageString = `O campo ${context.key} deve ser do tipo objeto.`;
+        messageString = `O campo ${legibleKey} deve ser do tipo objeto.`;
         break;
       case 'string.base':
-        messageString = `O campo ${context.key} deve ser do tipo texto.`;
+        messageString = `O campo ${legibleKey} deve ser do tipo texto.`;
         break;
       case 'date.format':
-        messageString = `O campo ${context.key} não é uma data válida`; 
+        messageString = `O campo ${legibleKey} não é uma data válida`; 
         break;
       case 'string.guid':
-        messageString = `O campo ${context.key} deve ser do tipo uuid.`;
+        messageString = `O campo ${legibleKey} deve ser do tipo uuid.`;
         break;
       case 'string.empty':
-        messageString = `O campo ${context.key} não pode ser um texto vazio.`;
+        messageString = `O campo ${legibleKey} não pode ser um texto vazio.`;
         break;
       case 'string.min':
-        messageString = `O campo ${context.key} não pode ser menor que ${context.limit} caracteres.`;
+        messageString = `O campo ${legibleKey} não pode ser menor que ${context.limit} caracteres.`;
         break;
       case 'string.max':
-        messageString = `O campo ${context.key} não pode ser maior que ${context.limit} caracteres.`;
+        messageString = `O campo ${legibleKey} não pode ser maior que ${context.limit} caracteres.`;
         break;
       case 'string.email':
-        messageString = `O campo ${context.key} deve ser um email válido.`;
+        messageString = `O campo ${legibleKey} deve ser um email válido.`;
         break;
       case 'number.base':
-        messageString = `O campo ${context.key} deve ser do tipo número.`;
+        messageString = `O campo ${legibleKey} deve ser do tipo número.`;
         break;
       case 'number.min':
-        messageString = `O campo ${context.key} não pode ser menor que ${context.limit}.`;
+        messageString = `O campo ${legibleKey} não pode ser menor que ${context.limit}.`;
         break;
       case 'number.max':
-        messageString = `O campo ${context.key} não pode ser maior que ${context.limit}.`;
+        messageString = `O campo ${legibleKey} não pode ser maior que ${context.limit}.`;
         break;
       case 'array.base':
-        messageString = `O campo ${context.key} deve ser do tipo array.`;
+        messageString = `O campo ${legibleKey} deve ser do tipo array.`;
         break;
       case 'array.empty':
-        messageString = `O campo ${context.key} não pode ser vazio.`;
+        messageString = `O campo ${legibleKey} não pode ser vazio.`;
         break;
       case 'array.min':
-        messageString = `O campo ${context.key} não pode ter um tamanho menor que ${context.limit}.`;
+        messageString = `O campo ${legibleKey} não pode ter um tamanho menor que ${context.limit}.`;
         break;
       case 'array.max':
-        messageString = `O campo ${context.key} não podeer um tamanho maior que ${context.limit}.`;
-        break;
-      case 'document.cpf':
-        messageString = `O CPF é inválido.`;
-        break;
-      case 'document.cnpj':
-        messageString = `O CNPJ é inválido.`;
+        messageString = `O campo ${legibleKey} não podeer um tamanho maior que ${context.limit}.`;
         break;
       case 'individual_person.birth_date':
           messageString = `Data de nascimento não é válida.`;
           break;
       case 'object.unknown':
-        messageString = `Campo ${context.key} não reconhecido.`;
+        messageString = `Campo ${legibleKey} não reconhecido.`;
         break;
       default:
         messageString = 'Aconteceu um erro tente novamente mais tarde.';
