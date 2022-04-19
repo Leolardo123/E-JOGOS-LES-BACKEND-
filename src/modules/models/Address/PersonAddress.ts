@@ -17,7 +17,7 @@ class PersonAddress extends Domain {
     person?: Person;
 
     @JoinColumn({name:'address_id'})
-    @OneToOne(() => Address, address => address.person_address, { cascade: true })
+    @OneToOne(() => Address, address => address.person_address, { cascade: true, eager: true})
     address?: Address;
 
 }
