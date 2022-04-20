@@ -9,6 +9,6 @@ brandRouter.get('/', brandsController.show)
 brandRouter.get('/index', brandsController.index)
 brandRouter.post('/', create, brandsController.create)
 brandRouter.put('/', update, brandsController.update)
-brandRouter.delete('/', brandsController.delete)
+brandRouter.delete('/:id', brandsController.delete)
 
 export default brandRouter

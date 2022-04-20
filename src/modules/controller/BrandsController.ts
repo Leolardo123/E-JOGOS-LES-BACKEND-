@@ -24,12 +24,12 @@ export default class BrandsController {
     public async show(request: Request, response: Response): Promise<Response> {
         const {
             id
-        } = request.body;
+        } = request.query;
 
         const showBrand = container.resolve(ShowBrandService);
 
         const { brand } = await showBrand.execute({
-            id
+            id: id as string,
         });
 
         return response.status(201).json(brand);
@@ -54,8 +54,10 @@ export default class BrandsController {
     public async update(request: Request, response: Response): Promise<Response> {
         const {
             id,
-            name,
-            image
+            brand: {
+                name,
+                image
+            }
         } = request.body;
 
         const updateBrandService = container.resolve(UpdateBrandService);
@@ -73,9 +75,11 @@ export default class BrandsController {
 
     public async delete(request: Request, response: Response): Promise<Response> {
 
+        
         const {
             id
-        } = request.body;
+        } = request.params;
+        console.log("testedelete: ", id)
 
         const deleteBrand = container.resolve(DeleteBrandService);
 
