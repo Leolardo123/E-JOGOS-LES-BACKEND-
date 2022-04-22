@@ -14,11 +14,13 @@ class PersonAddress extends Domain {
 
     @JoinColumn({name:'person_id'})
     @ManyToOne(() => Person, person => person.addresses)
-    person?: Person;
+    person: Person;
 
     @JoinColumn({name:'address_id'})
-    @OneToOne(() => Address, address => address.person_address, { cascade: true, eager: true})
-    address?: Address;
+    @OneToOne(() => Address, address => address.person_address, { 
+        cascade: true, eager: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'
+    })
+    address: Address;
 
 }
 

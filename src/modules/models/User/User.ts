@@ -1,5 +1,4 @@
-import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, OneToOne } from "typeorm";
-import Card from "../Card/Card";
+import { Column, Entity, OneToMany, OneToOne } from "typeorm";
 import Domain from "../Domain";
 import { UserRolesEnum } from "./enum/UserRolesEnum";
 import Person from "./Person";
@@ -20,7 +19,9 @@ class User extends Domain {
     @OneToMany(() => RefreshToken, refreshToken => refreshToken.user)
     refresh_tokens: RefreshToken[];
 
-    @OneToOne(() => Person, person => person.user, { cascade: true, eager: true})
+    @OneToOne(() => Person, person => person.user, { 
+        cascade: true, eager: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'
+    })
     person: Person;
 
 }

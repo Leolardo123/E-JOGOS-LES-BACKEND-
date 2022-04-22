@@ -4,7 +4,7 @@ import placeTypesRouter from "@modules/Routes/Addresses/PlaceType.routes"
 import brandRouter from "@modules/Routes/Brands/Brand.routes"
 import cardRouter from "@modules/Routes/Cards/Card.routes"
 import productRouter from "@modules/Routes/Products/Products.routes"
-import genderRouter from "@modules/Routes/Users/Gender.routes"
+import genderRouter from "@modules/Routes/Users/gender.routes"
 
 import personRouter from "@modules/Routes/Users/person.routes"
 import { sessionsRouter } from "@modules/Routes/Users/sessions.routes"

@@ -57,11 +57,16 @@ class CreateCardService {
         throw new AppError('Usuário não encontrado.')
     } 
 
+    if(!userExists.person){
+        throw new AppError('Não pode cadastrar cartão sem os outros dados pessoais.')
+    }
+
     const brandExists = await brandsRepository.findOne({
         where:{
             id: brand_id
         }
     })
+
     if(!brandExists){
         throw new AppError(`Bandeira escolhida não existe.`);
     }
@@ -70,10 +75,9 @@ class CreateCardService {
         owner_name: owner_name,
         number: hashedNumber,
         brand_id: brand_id,
-        user_id: user_id,
+        person_id: userExists.person.id,
         security_code: hashedSecurityCode
     })
-    
 
     transaction.data.push(
         {

@@ -1,5 +1,4 @@
-import { Expose } from "class-transformer";
-import { Column, Entity } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, Entity } from "typeorm";
 import Domain from "../Domain";
 
 @Entity("tb_products")
@@ -56,8 +55,10 @@ export default class Product extends Domain{
     @Column()
     image: string;
 
-    @Expose({ name: 'image_url' })
-    getImage(): string {
-        return `http://localhost:3333/files/${this.image}`;
+    getImageUrl() {
+        if (this.image) {
+            return  `http://localhost:3333/files/${this.image}`;
+        }
+        return 'no image';
     }
 }

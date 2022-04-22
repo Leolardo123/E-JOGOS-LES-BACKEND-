@@ -28,22 +28,30 @@ class Person extends Domain {
     @Column()
     user_id: string;
 
-    @OneToMany(() => PersonAddress, address => address.person, { cascade: true, eager: true })
+    @OneToMany(() => PersonAddress, address => address.person, { 
+        cascade: true, eager: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'
+    })
     addresses: PersonAddress[];
 
     @JoinColumn({name:'gender_id'})
     @OneToMany(() => Gender, gender => gender.persons ,{
-        cascade:true
+        cascade:true, onDelete:'RESTRICT', onUpdate: 'CASCADE'
     })
     gender: Gender;
 
-    @OneToMany(() => Card, card => card.user, { cascade: true, eager: true, orphanedRowAction: 'delete'})
+    @OneToMany(() => Card, card => card.person, {
+        onDelete: 'CASCADE', onUpdate: 'CASCADE'
+    })
     cards: Card[];
 
-    @OneToMany(() => Cart, cart => cart.person)
+    @OneToMany(() => Cart, cart => cart.person, {
+        onDelete: 'CASCADE', onUpdate: 'CASCADE'
+    })
     carts: Cart[];
 
-    @OneToOne(() => Phone, phone => phone.person, { cascade: true, eager: true })
+    @OneToOne(() => Phone, phone => phone.person, { 
+        cascade: true, eager: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'
+    })
     phone: Phone;
 
     @JoinColumn({name:'user_id'})

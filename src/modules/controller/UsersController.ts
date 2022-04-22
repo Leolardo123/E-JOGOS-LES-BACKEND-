@@ -20,7 +20,7 @@ export default class UsersController {
         const authenticateUser = container.resolve(AuthenticateUserService);
 
         const {
-            user,
+            user: { password: userPassword, ...user },
             access_token,
             refresh_token,
         } = await authenticateUser.execute({
@@ -70,7 +70,7 @@ export default class UsersController {
 
         const createUser = container.resolve(CreateUserService);
 
-        const { user:createdUser } = await createUser.execute({
+        const { user:{ password, ...createdUser } } = await createUser.execute({
             user,
             address,  
             person

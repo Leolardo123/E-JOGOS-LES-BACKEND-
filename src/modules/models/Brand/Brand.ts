@@ -1,5 +1,4 @@
-import { Expose } from "class-transformer";
-import { Column, Entity } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, Entity } from "typeorm";
 import Domain from "../Domain";
 
 @Entity('tb_brand')
@@ -11,11 +10,16 @@ class Brand extends Domain {
     @Column()
     image: string;
 
-    // @Expose({ name: 'image_url' })
-    // getImageUrl(): string {
-    //     return `http://localhost:3333/files/${this.image}`;
+    // @Column()
+    // image_url: string;
+
+    // @BeforeInsert()
+    // @BeforeUpdate()
+    // async getImageUrl() {
+    //     if (this.image) {
+    //         this.image_url = `${process.env.APP_URL}/images/brands/${this.image}`;
+    //     }
     // }
-    
 }
 
 export default Brand;
