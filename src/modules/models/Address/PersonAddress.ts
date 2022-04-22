@@ -13,7 +13,9 @@ class PersonAddress extends Domain {
     address_id: string;
 
     @JoinColumn({name:'person_id'})
-    @ManyToOne(() => Person, person => person.addresses)
+    @ManyToOne(() => Person, person => person.addresses, {
+        onDelete: 'CASCADE', onUpdate: 'CASCADE'
+    })
     person: Person;
 
     @JoinColumn({name:'address_id'})
