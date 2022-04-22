@@ -17,8 +17,6 @@ class CreateProductService {
   }: IRequest): Promise<IResponse> {
     const productsRepository = new GenericRepositoryProvider(Product);
 
-    //Validar se usuário é admin e existe
-
     const createdProduct = productsRepository.create({...product});
     await productsRepository.save(createdProduct);
 

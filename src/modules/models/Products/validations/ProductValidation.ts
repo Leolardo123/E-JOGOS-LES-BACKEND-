@@ -1,14 +1,17 @@
+import { IValidate } from "@modules/models/validations/IValidate";
 import AppError from "@shared/errors/AppError";
 import Product from "../Product";
 
-export const validateProduct = (entity: Product) => {
-    if(!entity){
+export default class ProductValidation extends IValidate {
+  public async validate(product: Product): Promise<void> {
+    if(!product){
         throw new AppError('Produto não encontrado.');
     }
-    if (entity.stock < 0) {
-        throw new AppError(`Ultrapassou a quantidade de estoque do item ${entity.name}`);
+    if(product.stock < 0){
+        throw new AppError(`Produto ${product.name} não possui estoque suficiente.`);
     }
-    if(entity.stock === 0){
-        entity.isActive = false;
+    if(product.stock === 0){
+        product.isActive = false;
     }
+  }
 }

@@ -1,8 +1,6 @@
-import AppError from "@shared/errors/AppError";
 import { Expose } from "class-transformer";
-import { BeforeInsert, BeforeUpdate, Column, Entity } from "typeorm";
+import { Column, Entity } from "typeorm";
 import Domain from "../Domain";
-import { validateProduct } from "./validations/ProductValidation";
 
 @Entity("tb_products")
 export default class Product extends Domain{
@@ -57,12 +55,6 @@ export default class Product extends Domain{
 
     @Column()
     image: string;
-
-    @BeforeInsert()
-    @BeforeUpdate()
-    validate(): void {
-        validateProduct(this);
-    }
 
     @Expose({ name: 'image_url' })
     getImage(): string {

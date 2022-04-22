@@ -1,6 +1,7 @@
 import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, OneToOne } from "typeorm";
 import Card from "../Card/Card";
 import Domain from "../Domain";
+import { UserRolesEnum } from "./enum/UserRolesEnum";
 import Person from "./Person";
 import { RefreshToken } from "./RefreshToken";
 
@@ -13,8 +14,8 @@ class User extends Domain {
     @Column()
     password: string;
 
-    @OneToMany(() => Card, card => card.user, { cascade: true, eager: true, orphanedRowAction: 'delete'})
-    cards: Card[];
+    @Column({default: UserRolesEnum.default})
+    role: string;
 
     @OneToMany(() => RefreshToken, refreshToken => refreshToken.user)
     refresh_tokens: RefreshToken[];

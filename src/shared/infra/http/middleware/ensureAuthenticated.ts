@@ -8,6 +8,7 @@ interface ITokenPayload {
   iat: number;
   expiresIn: number;
   subject: string;
+  role?: string;
 }
 
 function ensureAuthenticated(
@@ -26,9 +27,10 @@ function ensureAuthenticated(
   try {
     const decoded = verify(token, auth.jwt.secret as string);
 
-    const { subject } = decoded as ITokenPayload;
+    const { subject, role } = decoded as ITokenPayload;
 
     request.body.user_id = subject;
+    request.body.role = role;
 
     return next();
   } catch (error) {

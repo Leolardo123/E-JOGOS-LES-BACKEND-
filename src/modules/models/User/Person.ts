@@ -1,5 +1,6 @@
 import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn } from "typeorm";
 import PersonAddress from "../Address/PersonAddress";
+import Card from "../Card/Card";
 import Domain from "../Domain";
 import Cart from "../Sales/Cart";
 import Gender from "./Gender";
@@ -35,6 +36,9 @@ class Person extends Domain {
         cascade:true
     })
     gender: Gender;
+
+    @OneToMany(() => Card, card => card.user, { cascade: true, eager: true, orphanedRowAction: 'delete'})
+    cards: Card[];
 
     @OneToMany(() => Cart, cart => cart.person)
     carts: Cart[];

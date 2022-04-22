@@ -1,5 +1,4 @@
-import AppError from "@shared/errors/AppError";
-import { BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, Unique } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, Unique } from "typeorm";
 import Domain from "../Domain";
 import Product from "../Products/Product";
 import Cart from "./Cart";
@@ -29,12 +28,5 @@ export default class CartItem extends Domain {
         eager: true,
     })
     product: Product;
-    
-    @BeforeInsert()
-    @BeforeUpdate()
-    async validate() {
-        if (this.quantity < 1) {
-            throw new AppError('Quantidade deve ser maior que zero');
-        }
-    }
+
 }
