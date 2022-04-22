@@ -1,4 +1,4 @@
-import { BeforeInsert, BeforeUpdate, Column, Entity } from "typeorm";
+import { Column, Entity } from "typeorm";
 import Domain from "../Domain";
 
 @Entity("tb_products")

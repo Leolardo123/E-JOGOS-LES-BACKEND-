@@ -19,7 +19,9 @@ export default class CardsController {
             page: page ? Number(page) : undefined,
             limit: limit ? Number(limit) : undefined,
             whereParams : {
-                user_id: user_id as string
+                person: {
+                    user_id
+                }
             }
         })
 
@@ -97,11 +99,15 @@ export default class CardsController {
         const {
             id
         } = request.params;
+        const {
+            id: user_id
+        } = request.user
 
         const deleteCard = container.resolve(DeleteCardService);
 
         await deleteCard.execute({
-            id
+            id,
+            user_id,
         });
 
         return response.status(200).json({msg:'Card deletado com sucesso.'});

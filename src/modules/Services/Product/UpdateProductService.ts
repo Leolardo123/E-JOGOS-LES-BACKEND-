@@ -31,7 +31,7 @@ class UpdateProductService {
         throw new AppError('Produto não encontrado.')
     }
 
-    const updateProduct = Object.assign(productExists, product);
+    const updateProduct = Object.assign(productExists, product) as Product;
     await productsRepository.save(updateProduct);
 
     return { product: updateProduct };
