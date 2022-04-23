@@ -1,5 +1,6 @@
 import Cart from "@modules/models/Sales/Cart"
 import CreateCartService from "@modules/Services/Carts/CreateCartService"
+import UpdateCartService from "@modules/Services/Carts/UpdateCartService"
 import DeleteEntityService from "@modules/Services/GlobalServices/DeleteEntityService"
 import IndexEntityService from "@modules/Services/GlobalServices/IndexUsersService"
 import ShowEntityService from "@modules/Services/GlobalServices/ShowEntityService"
@@ -48,6 +49,22 @@ export default class CartsController {
         });
 
         return response.status(201).json({createdCart});
+    }
+
+    public async update(request: Request, response: Response): Promise<Response> {
+        const {
+            cart
+        } = request.body;
+        const { id: user_id } = request.user;
+
+        const updateCart = container.resolve(UpdateCartService);
+
+        const updatedCart = await updateCart.execute({
+            cart,
+            user_id
+        });
+
+        return response.json({updatedCart});
     }
 
     public async delete(request: Request, response: Response): Promise<Response> {

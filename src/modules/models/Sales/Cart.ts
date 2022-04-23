@@ -21,7 +21,7 @@ export default class Cart extends Domain {
     status_id: string;
 
     @OneToMany(() => CartItem, cartItem => cartItem.cart, {
-        onDelete: 'CASCADE', onUpdate: 'CASCADE', cascade: true, orphanedRowAction: 'delete',
+        onDelete: 'CASCADE', onUpdate: 'CASCADE',
         eager: true
     })
     cartItems: CartItem[];

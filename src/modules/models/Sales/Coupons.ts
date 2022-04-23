@@ -19,5 +19,5 @@ export default class Coupom extends Domain {
     type_id: string;
 
     @OneToOne(() => PurchaseCoupom)
-    used_in: PurchaseCoupom;
+    purchase: PurchaseCoupom;
 }

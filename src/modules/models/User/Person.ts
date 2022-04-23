@@ -29,7 +29,7 @@ class Person extends Domain {
     user_id: string;
 
     @OneToMany(() => PersonAddress, address => address.person, { 
-        cascade: true, eager: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'
+        cascade: true, eager: true
     })
     addresses: PersonAddress[];
 
