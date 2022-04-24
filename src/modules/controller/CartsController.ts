@@ -67,6 +67,18 @@ export default class CartsController {
         return response.json({updatedCart});
     }
 
+    public async addItem(request: Request, response: Response): Promise<Response> {
+        const {
+            item,
+        } = request.body;
+        const { id: user_id } = request.user;
+        const { cart_id } = request.params;
+
+        const updateCart = container.resolve(UpdateCartService);
+
+        return response.json({message: 'Carrinho atualizado com sucesso'})
+    }
+
     public async delete(request: Request, response: Response): Promise<Response> {
         const { id } = request.params
 
