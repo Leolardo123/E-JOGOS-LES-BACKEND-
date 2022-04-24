@@ -2,11 +2,9 @@ import { celebrate, Joi, Segments } from "celebrate";
 
 export const create = celebrate({
     [Segments.BODY]: Joi.object().keys({
-        total_price: Joi.number().required(),
         items: Joi.array().items(
             Joi.object().keys({
                 quantity: Joi.number().required(),
-                price: Joi.number().required(),
                 product_id: Joi.string().required(),
                 cart_id: Joi.string().required(),
             })

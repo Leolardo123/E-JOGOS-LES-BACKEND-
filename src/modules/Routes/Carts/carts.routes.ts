@@ -11,8 +11,7 @@ cartsRouter.use(ensureAuthenticated)
 cartsRouter.get("/", index, cartsController.index);
 cartsRouter.get("/:id", show, cartsController.show);
 cartsRouter.post("/", create, cartsController.create);
+cartsRouter.put("/:cart_id", update, cartsController.update);
 cartsRouter.delete("/:id", remove, cartsController.delete);
-cartsRouter.put("/", update, cartsController.update);
-cartsRouter.put("/add/:id", update, cartsController.update);
 
 export default cartsRouter;
