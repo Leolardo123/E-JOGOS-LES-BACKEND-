@@ -30,7 +30,7 @@ function ensureAuthenticated(
     const { subject, role } = decoded as ITokenPayload;
 
     request.body.user_id = subject;
-    request.body.role = role;
+    // request.body.role = role;
 
     return next();
   } catch (error) {

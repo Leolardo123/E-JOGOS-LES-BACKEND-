@@ -27,7 +27,7 @@ class Card extends Domain {
     })
     brand: Brand;
 
-    @JoinColumn({name:'user_id'})
+    @JoinColumn({name:'person_id'})
     @ManyToOne(() => Person, {
         onDelete:'CASCADE',onUpdate:'CASCADE'
     })
