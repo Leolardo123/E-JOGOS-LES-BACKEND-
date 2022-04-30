@@ -36,19 +36,32 @@ export default class BrandsController {
     }
 
     public async create(request: Request, response: Response): Promise<Response> {
-        const {         
-            name,
-            image
-        } = request.body;
-
-        const addBrandService = container.resolve(AddBrandService);
-
-        const brand = await addBrandService.execute({
-            name,
-            image
+        const formidable = require('formidable');
+        const fs = require('fs');
+        const form = new formidable.IncomingForm();
+        form.parse(request, (err: any, fields: any, files: any) => {
+            const path = require('path');
+            const oldpath = files.image.filepath;
+            const newpath = path.join(__dirname, '../../../uploads/brands/', files.image.originalFilename);
+    
+            fs.renameSync(oldpath, newpath);
+            console.log('File uploaded and moved!');
         });
 
-        return response.status(201).json(brand);
+        return response.status(201).json({msg:'Bandeira criada com sucesso.'});
+        // const {         
+        //     name,
+        //     image
+        // } = request.body;
+
+        // const addBrandService = container.resolve(AddBrandService);
+
+        // const brand = await addBrandService.execute({
+        //     name,
+        //     image
+        // });
+
+        // return response.status(201).json(brand);
     }
 
     public async update(request: Request, response: Response): Promise<Response> {
