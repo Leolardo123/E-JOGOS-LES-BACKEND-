@@ -42,7 +42,7 @@ export default class BrandsController {
         form.parse(request, (err: any, fields: any, files: any) => {
             const path = require('path');
             const oldpath = files.image.filepath;
-            const newpath = path.join(__dirname, '../../../uploads/brands/', files.image.originalFilename);
+            const newpath = path.join(__dirname, '../../../public/uploads/brands/', files.image.originalFilename);
     
             fs.renameSync(oldpath, newpath);
             console.log('File uploaded and moved!');

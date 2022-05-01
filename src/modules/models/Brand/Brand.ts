@@ -17,7 +17,7 @@ class Brand extends Domain {
     @BeforeUpdate()
     async getImageUrl() {
         if (this.image) {
-            this.image_url = `${process.env.APP_URL}/images/brands/${this.image}`;
+            this.image_url = `${process.env.APP_URL}/uploads/brands/${this.image}`;
         }
     }
 }
