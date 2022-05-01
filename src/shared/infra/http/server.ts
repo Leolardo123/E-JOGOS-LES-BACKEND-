@@ -18,7 +18,9 @@ const server = http.createServer(app);
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
-app.use(routes);
+app.use('/', routes);
+
+app.use('/public', express.static('public'));
 
 app.use(globalErrorHandling)
 
