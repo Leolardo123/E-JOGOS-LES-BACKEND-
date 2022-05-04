@@ -46,7 +46,7 @@ export default class BrandsController {
         try {
             let brand;
 
-            form.parse(request, async (err: any, fields: any, files: any) => {
+            form.parse(request, (err: any, fields: any, files: any) => {
                 
                 const oldpath = files.image.filepath;
                 const newpath = path.join(__dirname, '../../../public/brands/', files.image.originalFilename);
@@ -61,7 +61,7 @@ export default class BrandsController {
         
                 const addBrandService = container.resolve(AddBrandService);
         
-                brand = await addBrandService.execute({
+                brand = addBrandService.execute({
                     name,
                     image
                 });
