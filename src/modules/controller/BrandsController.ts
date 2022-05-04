@@ -43,33 +43,35 @@ export default class BrandsController {
     }
 
     public async create(request: Request, response: Response): Promise<Response> {
-        let brand;
+        try {
+            let brand;
 
-        form.parse(request, async (err: any, fields: any, files: any) => {
-            
-            const oldpath = files.image.filepath;
-            const newpath = path.join(__dirname, '../../../public/uploads/brands/', files.image.originalFilename);
+            form.parse(request, async (err: any, fields: any, files: any) => {
+                
+                const oldpath = files.image.filepath;
+                const newpath = path.join(__dirname, '../../../public/brands/', files.image.originalFilename);
+        
+                fs.renameSync(oldpath, newpath);
 
-            console.log(oldpath)
-    
-            fs.renameSync(oldpath, newpath);
+                const {         
+                    name
+                } = request.body;
 
-            // const {         
-            //     name
-            // } = request.body;
+                const image = '127.0.0.1:3333/public/uploads/brands/' + files.image.originalFilename;
+        
+                const addBrandService = container.resolve(AddBrandService);
+        
+                brand = await addBrandService.execute({
+                    name,
+                    image
+                });
 
-            // const image = '127.0.0.1:3333/public/uploads/brands/' + files.image.originalFilename;
-    
-            // const addBrandService = container.resolve(AddBrandService);
-    
-            // brand = await addBrandService.execute({
-            //     name,
-            //     image
-            // });
-    
-        });
+                return response.status(201).json(brand);
 
-        return response.status(201).json('brand');
+            });
+        } catch (err) {
+            return response.status(201).json('brand');
+        }
 
     }
 
