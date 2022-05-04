@@ -42,7 +42,7 @@ export default class BrandsController {
         return response.status(201).json(brand);
     }
 
-    public async create(request: Request, response: Response): Promise<Response> {
+    public async create(request: Request, response: Response): Promise<any> {
         try {
             let brand;
 
