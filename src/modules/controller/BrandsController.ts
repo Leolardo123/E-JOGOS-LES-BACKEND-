@@ -1,11 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
+import formidable from 'formidable';
+import fs from 'fs';
+import path from 'path';
+
+const form = new formidable.IncomingForm();
+
 import IndexBrandsService from '@modules/Services/Brands/IndexBrandsService';
 import ShowBrandService from '@modules/Services/Brands/ShowBrandService';
 import AddBrandService from '@modules/Services/Brands/AddBrandService';
 import UpdateBrandService from '@modules/Services/Brands/UpdateBrandService';
 import DeleteBrandService from '@modules/Services/Brands/DeleteBrandService';
+
 
 export default class BrandsController {
 
@@ -36,54 +43,69 @@ export default class BrandsController {
     }
 
     public async create(request: Request, response: Response): Promise<Response> {
-        const formidable = require('formidable');
-        const fs = require('fs');
-        const form = new formidable.IncomingForm();
-        form.parse(request, (err: any, fields: any, files: any) => {
-            const path = require('path');
+        let brand;
+
+        form.parse(request, async (err: any, fields: any, files: any) => {
+            
+            const oldpath = files.image.filepath;
+            const newpath = path.join(__dirname, '../../../public/uploads/brands/', files.image.originalFilename);
+
+            console.log(oldpath)
+    
+            fs.renameSync(oldpath, newpath);
+
+            // const {         
+            //     name
+            // } = request.body;
+
+            // const image = '127.0.0.1:3333/public/uploads/brands/' + files.image.originalFilename;
+    
+            // const addBrandService = container.resolve(AddBrandService);
+    
+            // brand = await addBrandService.execute({
+            //     name,
+            //     image
+            // });
+    
+        });
+
+        return response.status(201).json('brand');
+
+    }
+
+    public async update(request: Request, response: Response): Promise<Response> {
+        let brand;
+
+        form.parse(request, async (err: any, fields: any, files: any) => {
+            
             const oldpath = files.image.filepath;
             const newpath = path.join(__dirname, '../../../public/uploads/brands/', files.image.originalFilename);
     
             fs.renameSync(oldpath, newpath);
-            console.log('File uploaded and moved!');
-        });
 
-        return response.status(201).json({msg:'Bandeira criada com sucesso.'});
-        // const {         
-        //     name,
-        //     image
-        // } = request.body;
+            const image = '127.0.0.1:3333/public/uploads/brands/' + files.image.originalFilename;
 
-        // const addBrandService = container.resolve(AddBrandService);
+            const {
+                id,
+                brand: {
+                    name,
+                }
+            } = request.body;
 
-        // const brand = await addBrandService.execute({
-        //     name,
-        //     image
-        // });
+            const updateBrandService = container.resolve(UpdateBrandService);
 
-        // return response.status(201).json(brand);
-    }
-
-    public async update(request: Request, response: Response): Promise<Response> {
-        const {
-            id,
-            brand: {
-                name,
-                image
-            }
-        } = request.body;
-
-        const updateBrandService = container.resolve(UpdateBrandService);
-
-        const { brand } = await updateBrandService.execute({
-            id,
-            brand: {
-                name,
-                image
-            }
+            const { brand } = await updateBrandService.execute({
+                id,
+                brand: {
+                    name,
+                    image
+                }
+            });
+    
         });
 
         return response.status(201).json(brand);
+        
     }
 
     public async delete(request: Request, response: Response): Promise<Response> {
@@ -92,7 +114,6 @@ export default class BrandsController {
         const {
             id
         } = request.params;
-        console.log("testedelete: ", id)
 
         const deleteBrand = container.resolve(DeleteBrandService);
 
