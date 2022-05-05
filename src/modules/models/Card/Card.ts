@@ -1,7 +1,8 @@
-import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from "typeorm";
 import Domain from "../Domain";
 import Brand from "../Brand/Brand";
 import Person from "../User/Person";
+import PersonCard from "./PersonCard";
 
 @Entity('tb_cards')
 class Card extends Domain {
@@ -32,6 +33,11 @@ class Card extends Domain {
         onDelete:'CASCADE',onUpdate:'CASCADE'
     })
     person: Person;
+
+    @OneToOne(()=> PersonCard, personCard => personCard.card,{
+        onDelete:'CASCADE',onUpdate:'CASCADE'
+    })
+    person_card: PersonCard;
     
 }
 

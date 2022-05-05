@@ -42,59 +42,42 @@ export default class BrandsController {
         return response.status(201).json(brand);
     }
 
-    public async create(request: Request, response: Response): Promise<any> {
-        try {
-            let brand;
+    public async create(request: Request, response: Response): Promise<void> {
 
-            form.parse(request, (err: any, fields: any, files: any) => {
-                
-                const oldpath = files.image.filepath;
-                const newpath = path.join(__dirname, '../../../public/brands/', files.image.originalFilename);
-        
-                fs.renameSync(oldpath, newpath);
+        form.parse(request, async (err: any, fields: any, files: any) => {
+            const oldpath = files.image.filepath;
+            const newpath = path.join(__dirname, '../../../public/brands/', files.image.originalFilename);
+    
+            fs.renameSync(oldpath, newpath);
+            let name = fields.name;
+            let image = '127.0.0.1:3333/public/brands/'+ files.image.originalFilename;
 
-                const {         
-                    name
-                } = request.body;
-
-                const image = '127.0.0.1:3333/public/uploads/brands/' + files.image.originalFilename;
-        
-                const addBrandService = container.resolve(AddBrandService);
-        
-                brand = addBrandService.execute({
-                    name,
-                    image
-                });
-
-                return response.status(201).json(brand);
-
+            const addBrandService = container.resolve(AddBrandService);
+    
+            const brand = await addBrandService.execute({
+                name,
+                image
             });
-        } catch (err) {
-            return response.status(201).json('brand');
-        }
+
+            return response.status(201).json(brand);
+
+        });
 
     }
 
-    public async update(request: Request, response: Response): Promise<Response> {
-        let brand;
+    public async update(request: Request, response: Response): Promise<void> {
 
         form.parse(request, async (err: any, fields: any, files: any) => {
-            
             const oldpath = files.image.filepath;
-            const newpath = path.join(__dirname, '../../../public/uploads/brands/', files.image.originalFilename);
+            const newpath = path.join(__dirname, '../../../public/brands/', files.image.originalFilename);
     
             fs.renameSync(oldpath, newpath);
-
-            const image = '127.0.0.1:3333/public/uploads/brands/' + files.image.originalFilename;
-
-            const {
-                id,
-                brand: {
-                    name,
-                }
-            } = request.body;
+            let name = fields.name;
+            let image = 'http://127.0.0.1:3333/public/brands/'+ files.image.originalFilename;
 
             const updateBrandService = container.resolve(UpdateBrandService);
+
+            const { id } = request.params;
 
             const { brand } = await updateBrandService.execute({
                 id,
@@ -103,10 +86,10 @@ export default class BrandsController {
                     image
                 }
             });
-    
-        });
 
-        return response.status(201).json(brand);
+            return response.status(201).json(brand);
+
+        });
         
     }
 
