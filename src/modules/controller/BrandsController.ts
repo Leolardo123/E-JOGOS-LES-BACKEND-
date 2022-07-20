@@ -50,7 +50,7 @@ export default class BrandsController {
     
             fs.renameSync(oldpath, newpath);
             let name = fields.name;
-            let image = '127.0.0.1:3333/public/brands/'+ files.image.originalFilename;
+            let image = 'http://127.0.0.1:3333/public/brands/'+ files.image.originalFilename;
 
             const addBrandService = container.resolve(AddBrandService);
     
