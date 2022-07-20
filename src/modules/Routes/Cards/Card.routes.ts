@@ -6,14 +6,16 @@ import { create, index, show, update } from "./validation/CardRoutes.validation"
 const cardRouter = Router();
 const cardsController = new CardsController();
 
-cardRouter.get('/index', ensureAuthenticated, index, cardsController.index)
+cardRouter.use(ensureAuthenticated);
 
-cardRouter.post('/show', ensureAuthenticated, show, cardsController.show)
+cardRouter.get('/index', index, cardsController.index)
 
-cardRouter.post('/', ensureAuthenticated, create, cardsController.create)
+cardRouter.post('/show', show, cardsController.show)
 
-cardRouter.put('/', ensureAuthenticated, update, cardsController.update)
+cardRouter.post('/', create, cardsController.create)
 
-cardRouter.delete('/:id', ensureAuthenticated, cardsController.delete)
+cardRouter.put('/', update, cardsController.update)
+
+cardRouter.delete('/:id', cardsController.delete)
 
 export default cardRouter
