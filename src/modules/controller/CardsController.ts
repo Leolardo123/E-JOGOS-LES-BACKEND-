@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import IndexCardsService from '@modules/Services/Cards/IndexCardsService';
 import UpdateCardService from '@modules/Services/Cards/UpdateCardService';
-import AddPersonCardsService from '@modules/Services/Cards/addPersonCardsService';
+import AddPersonCardsService from '@modules/Services/Cards/AddPersonCardsService';
 import DeleteCardService from '@modules/Services/Cards/DeleteCardService';
 import ShowCardService from '@modules/Services/Cards/ShowCardService';
 
