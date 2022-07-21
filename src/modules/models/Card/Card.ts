@@ -15,9 +15,6 @@ class Card extends Domain {
     
     @Column()
     brand_id: string;
-
-    @Column()
-    person_id: string;
     
     @Column()
     security_code: string;
@@ -27,12 +24,6 @@ class Card extends Domain {
         onDelete:'CASCADE',onUpdate:'CASCADE'
     })
     brand: Brand;
-
-    @JoinColumn({name:'person_id'})
-    @ManyToOne(() => Person, {
-        onDelete:'CASCADE',onUpdate:'CASCADE'
-    })
-    person: Person;
 
     @OneToOne(()=> PersonCard, personCard => personCard.card,{
         onDelete:'CASCADE',onUpdate:'CASCADE'

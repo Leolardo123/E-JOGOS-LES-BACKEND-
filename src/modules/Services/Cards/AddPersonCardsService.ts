@@ -8,6 +8,8 @@ import GenericRepositoryProvider from '@modules/Repositories/Generic/implementat
 import Card from '@modules/models/Card/Card';
 import Brand from '@modules/models/Brand/Brand';
 import User from '@modules/models/User/User';
+import Person from '@modules/models/User/Person';
+import PersonCard from '@modules/models/Card/PersonCard';
 
 interface IRequest {
     owner_name: string,
@@ -22,7 +24,7 @@ interface IResponse {
 }
 
 @injectable()
-class CreateCardService {
+class AddPersonCardsService {
   constructor(
     @inject('HashProvider')
     private hashProvider: IHashProvider,
@@ -42,24 +44,19 @@ class CreateCardService {
     const hashedSecurityCode = await this.hashProvider.generateHash(security_code)
 
     const cardsRepository = new GenericRepositoryProvider(Card)
-    const usersRepository = new GenericRepositoryProvider(User)
+    const personsRepository = new GenericRepositoryProvider(Person);
+    const personsCardRepository = new GenericRepositoryProvider(PersonCard);
     const brandsRepository = new GenericRepositoryProvider(Brand)
 
     const transaction: ITransaction = { data: [] };
 
-    const userExists = await usersRepository.findOne({
-        where:{
-            id: user_id
-        }
+    const personExists = await personsRepository.findOne({
+        where:{user_id: user_id},
     })
 
-    if(!userExists){
-        throw new AppError('Usuário não encontrado.')
+    if(!personExists){
+        throw new AppError('Pessoa não encontrada');
     } 
-
-    if(!userExists.person){
-        throw new AppError('Não pode cadastrar cartão sem os outros dados pessoais.')
-    }
 
     const brandExists = await brandsRepository.findOne({
         where:{
@@ -75,14 +72,22 @@ class CreateCardService {
         owner_name: owner_name,
         number: hashedNumber,
         brand_id: brand_id,
-        person_id: userExists.person.id,
         security_code: hashedSecurityCode
+    })
+
+    const createdPersonCard = personsCardRepository.create({
+        card_id: createdCard.id,
+        person_id: personExists.id
     })
 
     transaction.data.push(
         {
             entity: createdCard,
             repository: cardsRepository
+        },
+        {
+            entity: createdPersonCard,
+            repository: personsCardRepository
         }
     )
 
@@ -94,4 +99,4 @@ class CreateCardService {
   }
 }
 
-export default CreateCardService;
+export default AddPersonCardsService;

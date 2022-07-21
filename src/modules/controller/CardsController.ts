@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import IndexCardsService from '@modules/Services/Cards/IndexCardsService';
 import UpdateCardService from '@modules/Services/Cards/UpdateCardService';
-import AddPersonCardsService from '@modules/Services/Cards/AddCardService';
+import AddPersonCardsService from '@modules/Services/Cards/addPersonCardsService';
 import DeleteCardService from '@modules/Services/Cards/DeleteCardService';
 import ShowCardService from '@modules/Services/Cards/ShowCardService';
 
@@ -18,11 +18,6 @@ export default class CardsController {
         const result = await indexCardsService.execute({
             page: page ? Number(page) : undefined,
             limit: limit ? Number(limit) : undefined,
-            whereParams : {
-                person: {
-                    user_id
-                }
-            }
         })
 
         return response.json(result)
@@ -52,9 +47,9 @@ export default class CardsController {
         } = request.body;
 
 
-        const addCardService = container.resolve(AddPersonCardsService);
+        const addPersonCardsService = container.resolve(AddPersonCardsService);
 
-        const card = await addCardService.execute({
+        const card = await addPersonCardsService.execute({
             owner_name,
             number,
             brand_id,

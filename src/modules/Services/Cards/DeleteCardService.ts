@@ -2,26 +2,28 @@ import { injectable } from 'tsyringe';
 import AppError from '../../../shared/errors/AppError';
 import GenericRepositoryProvider from '@modules/Repositories/Generic/implementations/GenericRepositoryProvider';
 import Card from '@modules/models/Card/Card';
+import PersonCard from '@modules/models/Card/PersonCard';
 
 interface IRequest {
     id: string;
-    user_id: string;
 } 
 
 interface IResponse {
-    card: Card
+    card: PersonCard;
 }
 
 @injectable()
-class DeleteCardService {
+export default class DeleteCardService {
   public async execute({
     id,
-    user_id,
   }: IRequest): Promise<IResponse> {
-    const cardsRepository = new GenericRepositoryProvider(Card);
-    const cardExists = await cardsRepository.findOne({
+    const personCardsRepository = new GenericRepositoryProvider(PersonCard);
+
+    console.log(id)
+
+    const cardExists = await personCardsRepository.findOne({
       where:{
-        id
+        id: id,
       },
     })
 
@@ -29,16 +31,10 @@ class DeleteCardService {
         throw new AppError('Cartão não encontrado.')
     }
 
-    if(cardExists.person.user_id !== user_id){
-        throw new AppError('Usuário não autorizado.')
-    }
-
-    cardsRepository.remove(cardExists)
+    personCardsRepository.remove(cardExists)
 
     return {
         card:cardExists
     }
   }
 }
-
-export default DeleteCardService;
