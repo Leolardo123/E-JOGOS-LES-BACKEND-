@@ -2,34 +2,32 @@ import { injectable } from 'tsyringe';
 import AppError from '../../../shared/errors/AppError';
 import GenericRepositoryProvider from '@modules/Repositories/Generic/implementations/GenericRepositoryProvider';
 import Card from '@modules/models/Card/Card';
+import PersonCard from '@modules/models/Card/PersonCard';
 
 interface IRequest {
     id: string;
-} 
-
-interface IResponse {
-    card: Card
+    user_id?: string;
 }
 
 @injectable()
 class ShowCardService {
   public async execute({
-    id
-  }: IRequest): Promise<IResponse> {
-    const cardsRepository = new GenericRepositoryProvider(Card)
-    const cardExists = await cardsRepository.findOne({
+    id,
+    user_id
+  }: IRequest): Promise<Card | undefined> {
+    const personCardsRepository = new GenericRepositoryProvider(PersonCard)
+    const personCard = await personCardsRepository.findOne({
       where:{
-        id:id,
+        id,
       },
+      relations: ['card']
     })
 
-    if(!cardExists){
-        throw new AppError('Card não encontrado.')
+    if(!personCard){
+        throw new AppError('Card não encontrado.', 404);
     }
 
-    return {
-        card:cardExists
-    }
+    return personCard.card;
   }
 }
 

@@ -15,15 +15,8 @@ interface IRequest {
     card: ICard;
 } 
 
-interface ICustomCard {
-    owner_name: string;
-    number: string;
-    brand_id: string;
-    security_code: string;
-}
-
 interface IResponse {
-    card: ICustomCard
+    card: Card
 }
 
 @injectable()
@@ -35,8 +28,8 @@ class UpdateCardService {
     ){}
 
   public async execute({
-    id,
-    user_id,
+      user_id,
+      id,
     card:{
         owner_name,
         number,
@@ -56,10 +49,11 @@ class UpdateCardService {
         where:{
             id: id
         },
+        relations:['person_card', 'person_card.person']
     })
 
     if(!cardExists){
-        throw new AppError('Card não encontrado.')
+        throw new AppError('Card não encontrado.', 404)
     }
     
     const usersExists = await usersRepository.findOne({
@@ -74,7 +68,6 @@ class UpdateCardService {
     
     if(owner_name) cardExists.owner_name = owner_name;
     if(number) cardExists.number = number;
-    if(user_id) cardExists.user_id = user_id;
     if(security_code) cardExists.security_code = security_code;
     if(brand_id){
         const brandExists = await brandsRepository.findOne({

@@ -27,7 +27,7 @@ export default class DeleteAddressService {
     })
 
     if(!addressExists){
-        throw new AppError('Endereço não encontrado.')
+        throw new AppError('Endereço não encontrado.', 404)
     }
 
     personAddressesRepository.remove(addressExists)

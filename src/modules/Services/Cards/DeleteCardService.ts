@@ -1,7 +1,6 @@
 import { injectable } from 'tsyringe';
 import AppError from '../../../shared/errors/AppError';
 import GenericRepositoryProvider from '@modules/Repositories/Generic/implementations/GenericRepositoryProvider';
-import Card from '@modules/models/Card/Card';
 import PersonCard from '@modules/models/Card/PersonCard';
 
 interface IRequest {
@@ -28,7 +27,7 @@ export default class DeleteCardService {
     })
 
     if(!cardExists){
-        throw new AppError('Cartão não encontrado.')
+        throw new AppError('Cartão não encontrado.', 404)
     }
 
     personCardsRepository.remove(cardExists)

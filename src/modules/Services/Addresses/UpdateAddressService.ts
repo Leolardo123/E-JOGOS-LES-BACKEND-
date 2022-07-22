@@ -47,7 +47,7 @@ class UpdateAddressService {
     })
 
     if(!addressExists){
-        throw new AppError('Endereço não encontrado.')
+        throw new AppError('Endereço não encontrado.', 404)
     }
 
     if(!addressExists.person_address){
