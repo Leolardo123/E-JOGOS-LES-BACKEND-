@@ -1,6 +1,9 @@
-interface IPaginatedRequest {
-  page: number;
-  limit: number;
+import IWhereParams from "./IWhereParams";
+
+interface IPaginatedtRequest {
+  page?: number;
+  limit?: number;
+  whereParams?: IWhereParams;
 }
 
-export default IPaginatedRequest;
+export default IPaginatedtRequest;

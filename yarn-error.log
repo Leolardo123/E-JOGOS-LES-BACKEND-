@@ -1,0 +1,79 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\Leonardo\.node\corepack\yarn\1.22.15\bin\yarn.js init
+
+PATH: 
+  C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Users\Leonardo\AppData\Local\Microsoft\WindowsApps;C:\Users\Leonardo\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Leonardo\AppData\Roaming\npm;C:\Users\Leonardo\AppData\Local\GitHubDesktop\bin;C:\Program Files\heroku\bin
+
+Yarn version: 
+  1.22.15
+
+Node version: 
+  16.13.1
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: canceled
+      at Interface.<anonymous> (C:\Users\Leonardo\.node\corepack\yarn\1.22.15\lib\cli.js:137145:13)
+      at Interface.emit (node:events:390:28)
+      at Interface._ttyWrite (node:readline:1081:16)
+      at ReadStream.onkeypress (node:readline:288:10)
+      at ReadStream.emit (node:events:390:28)
+      at emitKeys (node:internal/readline/utils:358:14)
+      at emitKeys.next (<anonymous>)
+      at ReadStream.onData (node:internal/readline/emitKeypressEvents:61:36)
+      at ReadStream.emit (node:events:390:28)
+      at addChunk (node:internal/streams/readable:315:12)
+
+npm manifest: 
+  {
+    "name": "e-jogos-les-backend-",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "dev:server": "ts-node-dev --inspect -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/shared/infra/http/server.ts",
+      "seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config",
+      "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed",
+      "test": "jest"
+    },
+    "repository": "git+https://github.com/Leolardo123/E-JOGOS-LES-BACKEND-.git",
+    "keywords": [],
+    "author": "Leonardo Ferreira dos Santos <60516782+Leolardo123@users.noreply.github.com>",
+    "license": "MIT",
+    "dependencies": {
+      "@types/dotenv": "^8.2.0",
+      "celebrate": "^15.0.1",
+      "cors": "^2.8.5",
+      "dotenv": "^16.0.0",
+      "express": "^4.17.3",
+      "http": "^0.0.1-security",
+      "moment": "^2.29.1",
+      "path": "^0.12.7",
+      "pg": "^8.7.3",
+      "reflect-metadata": "^0.1.13",
+      "tsyringe": "^4.6.0",
+      "typeorm": "^0.2.43",
+      "typeorm-seeding": "^1.6.1",
+      "uuid": "^8.3.2",
+      "v4": "^0.0.1",
+      "winston": "^3.6.0"
+    },
+    "devDependencies": {
+      "@types/cors": "^2.8.12",
+      "@types/es6-shim": "^0.31.42",
+      "@types/express": "^4.17.13",
+      "@types/jest": "^27.4.1",
+      "@types/moment": "^2.13.0",
+      "@types/node": "^17.0.19",
+      "@types/pg": "^8.6.4",
+      "@types/uuid": "^8.3.4"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

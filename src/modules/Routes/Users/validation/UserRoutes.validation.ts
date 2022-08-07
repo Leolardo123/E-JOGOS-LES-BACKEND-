@@ -1,5 +1,11 @@
 import { celebrate, Joi, Segments } from "celebrate";
 
+export const auth = celebrate({
+    [Segments.BODY]: Joi.object().keys({
+        email: Joi.string().required(),
+        password: Joi.string().required(),
+    }),
+})
 
 export const create = celebrate({
     [Segments.BODY]: {
@@ -13,7 +19,8 @@ export const create = celebrate({
             name: Joi.string().required(),
             cpf: Joi.string().required(),
             cellphone: Joi.string().required(),
-            gender: Joi.string().required(),
+            gender_id: Joi.number().required(),
+            birth_date: Joi.string().required(),
             phone: Joi.object({
                 ddd: Joi.number().required(),
                 number: Joi.number().required()
@@ -26,11 +33,48 @@ export const create = celebrate({
             city: Joi.string().required(),
             state: Joi.string().required(),
             country: Joi.string().required(),
-            address_: Joi.string().required(),
-            complement: Joi.string(),
+            complement: Joi.string().allow('',null),
             neighborhood: Joi.string().required(),
             address_type_id: Joi.number().required(),
-            place_type_id: Joi.string().required(),
+            place_type_id: Joi.number().required(),
         }).required()
     }
 })
+
+export const updateBody = celebrate({
+    [Segments.BODY]: {
+        user_id: Joi.string().required(),
+        email: Joi.string().allow('',null)
+    }
+})
+
+
+export const updatePassword = celebrate({
+    [Segments.BODY]: {
+        user_id: Joi.string().required(),
+        user: Joi.object().keys({
+            new_password: Joi.string().required(),
+            confirm_password: Joi.string().required().valid(Joi.ref('new_password'))
+        }).required()
+    }
+})
+
+export const show = celebrate({
+    [Segments.BODY]: {
+      user_id: Joi.string().uuid().required(),
+    },
+});
+
+export const deleteUser = celebrate({
+    [Segments.BODY]: {
+      user_id: Joi.string().uuid().required(),
+    },
+});
+
+export const index = celebrate({
+    [Segments.QUERY]: {
+      page: Joi.number(),
+      limit: Joi.number()
+    },
+});
+

@@ -18,11 +18,12 @@ const server = http.createServer(app);
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
-app.use(routes);
+app.use('/', routes);
+
+app.use('/public', express.static('public'));
 
 app.use(globalErrorHandling)
 
 server.listen(process.env.PORT || 3334, async () => {
-  /* eslint-disable no-console */
   console.log(`🚀 Server started on port ${process.env.PORT || 3334}!`);
 });

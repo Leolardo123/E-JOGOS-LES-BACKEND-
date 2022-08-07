@@ -1,15 +1,23 @@
+import UsersController from "@modules/controller/UsersController";
+import { ensureAuthenticated } from "@shared/infra/http/middleware/ensureAuthenticated";
 import { Router } from "express";
+import { auth, create, deleteUser, index, show, updateBody, updatePassword } from "./validation/UserRoutes.validation";
 
 const userRouter = Router();
+const userController = new UsersController();
 
-userRouter.post('/',/* Validate Params *//*Execute controller*/)
+userRouter.post('/auth', auth, userController.auth)
 
-userRouter.put('/',/* Validate Params *//*Execute controller*/)
+userRouter.get('/index', index, userController.index)
 
-userRouter.get('/',/* Validate Params *//*Execute controller*/)
+userRouter.get('/', ensureAuthenticated, show, userController.show)
 
-userRouter.get('/:id',/* Validate Params *//*Execute controller*/)
+userRouter.post('/', create, userController.create)
 
-userRouter.delete('/',/* Validate Params *//*Execute controller*/)
+userRouter.put('/', ensureAuthenticated, updateBody, userController.update)
+
+userRouter.put('/password', ensureAuthenticated, updatePassword, userController.updatePassword)
+
+userRouter.delete('/', ensureAuthenticated, deleteUser, userController.delete)
 
 export default userRouter

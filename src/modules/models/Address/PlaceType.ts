@@ -1,11 +1,9 @@
-import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
+import { Column, Entity, OneToMany } from "typeorm";
+import EnumEntity from "../EnumEntity";
 import Address from "./Address";
 
-@Entity('tb_place_types')
-class PlaceType {
-
-    @PrimaryColumn()
-    id: number;
+@Entity('tb_places_types')
+class PlaceType extends EnumEntity {
     
     @Column()
     name: string;

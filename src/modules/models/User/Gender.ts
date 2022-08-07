@@ -1,14 +1,15 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
-
+import { Column, Entity, ManyToOne } from "typeorm";
+import EnumEntity from "../EnumEntity";
+import Person from "./Person";
 
 @Entity('tb_genders')
-class Gender {
-
-    @PrimaryColumn('uuid')
-    id: string;
+class Gender extends EnumEntity {
     
     @Column()
     name: string;
+
+    @ManyToOne(() => Person, person => person.gender)
+    persons: Person[]
 
 }
 
