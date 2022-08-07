@@ -105,6 +105,7 @@ export default class CardsController {
 
         await deleteCard.execute({
             id,
+            user_id
         });
 
         return response.status(200).json({ msg: 'Card deletado com sucesso.' });
