@@ -1,7 +1,9 @@
 import Address from '@modules/addresses/models/Address';
+import AddressType from '@modules/addresses/models/AddressType';
 import PersonAddress from '@modules/addresses/models/PersonAddress';
 import PlaceType from '@modules/addresses/models/PlaceType';
 import AddressesRepository from '@modules/addresses/repositories/AddressRepository';
+import AddressTypesRepository from '@modules/addresses/repositories/AddressTypesRepository';
 import PersonAddressesRepository from '@modules/addresses/repositories/PersonAddressesRepository';
 import PlaceTypesRepository from '@modules/addresses/repositories/PlaceTypesRepository';
 import Brand from '@modules/cards/models/Brand';
@@ -41,9 +43,9 @@ container.registerSingleton<IDomainRepository<Address>>(
     AddressesRepository,
 );
 
-container.registerSingleton<IDomainRepository<Person>>(
-    'PersonsRepository',
-    PersonsRepository,
+container.registerSingleton<IDomainRepository<AddressType>>(
+    'AddressTypesRepository',
+    AddressTypesRepository,
 );
 
 container.registerSingleton<IDomainRepository<PersonAddress>>(
@@ -54,6 +56,11 @@ container.registerSingleton<IDomainRepository<PersonAddress>>(
 container.registerSingleton<IDomainRepository<PlaceType>>(
     'PlaceTypesRepository',
     PlaceTypesRepository,
+);
+
+container.registerSingleton<IDomainRepository<Person>>(
+    'PersonsRepository',
+    PersonsRepository,
 );
 
 container.registerSingleton<IDomainRepository<Brand>>(
