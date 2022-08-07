@@ -1,37 +1,29 @@
-import addressRouter from "@modules/Routes/Addresses/Address.routes"
-import addressTypesRouter from "@modules/Routes/Addresses/AddressType.routes"
-import placeTypesRouter from "@modules/Routes/Addresses/PlaceType.routes"
-import brandRouter from "@modules/Routes/Brands/Brand.routes"
-import cardRouter from "@modules/Routes/Cards/Card.routes"
-import productRouter from "@modules/Routes/Products/Products.routes"
-import genderRouter from "@modules/Routes/Users/Gender.routes"
-
-import personRouter from "@modules/Routes/Users/person.routes"
-import { sessionsRouter } from "@modules/Routes/Users/sessions.routes"
-import userRouter from "@modules/Routes/Users/User.routes"
+import addressRouter from "@modules/addresses/Address.routes"
+import brandRouter from "@modules/cards/Brand.routes"
+import cardRouter from "@modules/cards/Card.routes"
+import productRouter from "@modules/products/routes/Products.routes"
+import genderRouter from "@modules/users/routes/gender.routes"
+import personRouter from "@modules/users/routes/person.routes"
+import { sessionsRouter } from "@modules/users/routes/sessions.routes"
+import userRouter from "@modules/users/routes/User.routes"
 import { Router } from "express"
-
 
 const routes = Router()
 
-routes.use('/addresses',addressRouter)
+routes.use('/addresses', addressRouter)
 
-routes.use('/addresses-types',addressTypesRouter)
+routes.use('/brands', brandRouter)
 
-routes.use('/brands',brandRouter)
+routes.use('/cards', cardRouter)
 
-routes.use('/cards',cardRouter)
+routes.use('/genders', genderRouter)
 
-routes.use('/genders',genderRouter)
+routes.use('/persons', personRouter)
 
-routes.use('/places-types',placeTypesRouter)
+routes.use('/products', productRouter)
 
-routes.use('/persons',personRouter)
+routes.use('/sessions', sessionsRouter)
 
-routes.use('/products',productRouter)
-
-routes.use('/sessions',sessionsRouter)
-
-routes.use('/users',userRouter)
+routes.use('/users', userRouter)
 
 export default routes

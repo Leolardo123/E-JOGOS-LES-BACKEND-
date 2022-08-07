@@ -22,7 +22,7 @@ function ensureAuthenticated(
     throw new AppError('Token JWT inexistente!', 404);
   }
 
-  const token = authHeader;
+  const [, token] = authHeader.split(' ');
 
   try {
     const decoded = verify(token, auth.jwt.secret as string);

@@ -1,5 +1,5 @@
-export const getEntityKeyName = (key:string) => {
-    switch(key){
+export const getEntityKeyName = (key: string) => {
+    switch (key) {
         case 'id':
             return 'id';
         case 'name':
@@ -31,10 +31,10 @@ export const getEntityKeyName = (key:string) => {
         case 'players_online':
             return 'jogadores online';
         case 'resolution':
-            return 'resolucao';
+            return 'resolução';
         case 'image':
             return 'imagem';
-        default:   
+        default:
             return key;
     }
 }
