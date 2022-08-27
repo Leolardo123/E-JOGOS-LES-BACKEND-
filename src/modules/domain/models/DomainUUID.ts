@@ -1,4 +1,4 @@
-import { PrimaryColumn } from "typeorm";
+import { PrimaryGeneratedColumn } from "typeorm";
 import { v4 } from "uuid";
 
 class DomainUUID {
@@ -8,7 +8,7 @@ class DomainUUID {
         }
     }
 
-    @PrimaryColumn('uuid')
+    @PrimaryGeneratedColumn('uuid')
     readonly id: string;
 }
 
