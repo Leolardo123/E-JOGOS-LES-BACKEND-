@@ -1,4 +1,4 @@
-import PlaceType from "@modules/models/Address/PlaceType";
+import PlaceType from "@modules/addresses/models/PlaceType";
 import { Connection } from "typeorm";
 import { Factory, Seeder } from "typeorm-seeding";
 

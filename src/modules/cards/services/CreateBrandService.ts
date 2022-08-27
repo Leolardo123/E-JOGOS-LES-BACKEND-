@@ -1,8 +1,9 @@
 import { inject, injectable } from 'tsyringe';
-import Brand from '@modules/brands/models/Brand';
+
 import IRepositoryUtils, { ITransaction } from '@shared/container/providers/RepositoryUtilsProvider/models/IRepositoryUtils';
 import AppError from '@shared/errors/AppError';
 import { IDomainRepository } from '@modules/domain/repositories/interfaces/IDomainRepository';
+import Brand from '../models/Brand';
 
 interface IRequest {
     name: string;
@@ -26,9 +27,6 @@ class CreateBrandService {
         name,
         image
     }: IRequest): Promise<IResponse> {
-
-
-
         const transaction: ITransaction = { data: [] };
 
         const brandExists = await this.brandsRepository.findOne({
@@ -36,6 +34,7 @@ class CreateBrandService {
                 name: name
             }
         })
+
         if (!brandExists) {
             throw new AppError(`Bandeira escolhida não existe.`);
         }
