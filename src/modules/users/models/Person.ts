@@ -1,5 +1,5 @@
 import PersonAddress from "@modules/addresses/models/PersonAddress";
-import PersonCard from "@modules/cards/models/PersonCard";
+import Card from "@modules/cards/models/Card";
 import DomainUUID from "@modules/domain/models/DomainUUID";
 import Cart from "@modules/sales/models/Cart";
 import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn } from "typeorm";
@@ -39,10 +39,10 @@ class Person extends DomainUUID {
     })
     gender: Gender;
 
-    @OneToMany(() => PersonCard, card => card.person, {
+    @OneToMany(() => Card, card => card.person, {
         cascade: true, eager: true
     })
-    cards: PersonCard[];
+    cards: Card[];
 
     @OneToMany(() => Cart, cart => cart.person, {
         onDelete: 'CASCADE', onUpdate: 'CASCADE'

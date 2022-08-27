@@ -24,10 +24,10 @@ interface IResponse {
 @injectable()
 class AuthenticateUserService {
   constructor(
-    @inject('Repository')
+    @inject('UsersRepository')
     private usersRepository: IDomainRepository<User>,
 
-    @inject('Repository')
+    @inject('RefreshTokensRepository')
     private refreshTokensRepository: IDomainRepository<RefreshToken>,
 
     @inject('HashProvider')

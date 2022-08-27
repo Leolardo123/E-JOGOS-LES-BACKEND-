@@ -1,12 +1,10 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from "typeorm";
 import Domain from "../../domain/models/DomainUUID";
-import PersonCard from "./PersonCard";
 import Person from "@modules/users/models/Person";
 import Brand from "./Brand";
 
 @Entity('tb_cards')
 class Card extends Domain {
-
     @Column()
     owner_name: string;
 
@@ -33,12 +31,6 @@ class Card extends Domain {
         onDelete: 'CASCADE', onUpdate: 'CASCADE'
     })
     person: Person;
-
-    @OneToOne(() => PersonCard, personCard => personCard.card, {
-        onDelete: 'CASCADE', onUpdate: 'CASCADE'
-    })
-    person_card: PersonCard;
-
 }
 
 export default Card;
