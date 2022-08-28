@@ -1,6 +1,6 @@
 import DomainUUID from "@modules/domain/models/DomainUUID";
 import { Column, Entity } from "typeorm";
-
+import { Expose } from 'class-transformer';
 @Entity("tb_products")
 export default class Product extends DomainUUID {
 
@@ -29,9 +29,6 @@ export default class Product extends DomainUUID {
     developer: string;
 
     @Column()
-    guarantee: string;
-
-    @Column()
     language: string;
 
     @Column()
@@ -41,24 +38,5 @@ export default class Product extends DomainUUID {
     release_date: string;
 
     @Column()
-    recomended_age: number;
-
-    @Column()
-    players_offline: number;
-
-    @Column()
-    players_online: number;
-
-    @Column()
-    resolution: string;
-
-    @Column()
     image: string;
-
-    getImageUrl() {
-        if (this.image) {
-            return `http://localhost:3333/files/${this.image}`;
-        }
-        return 'no image';
-    }
 }
