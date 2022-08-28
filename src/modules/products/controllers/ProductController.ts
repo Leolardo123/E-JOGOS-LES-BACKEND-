@@ -7,7 +7,7 @@ import { container } from 'tsyringe';
 import Product from '../models/Product';
 import CreateProductService from '../services/CreateProductService';
 import UpdateProductService from '../services/UpdateProductService';
-
+import { instanceToInstance } from 'class-transformer'
 export default class ProductsController {
 
     public async index(request: Request, response: Response): Promise<Response> {
@@ -20,8 +20,8 @@ export default class ProductsController {
             entity: Product,
         })
 
-        return response.json(result)
-    }
+        return response.json(instanceToInstance(result))
+   }
 
     public async show(request: Request, response: Response): Promise<Response> {
         const { id } = request.params
@@ -33,8 +33,8 @@ export default class ProductsController {
             entity: Product,
         });
 
-        return response.json(result)
-    }
+        return response.json(instanceToInstance(result))
+   }
 
     public async create(request: Request, response: Response): Promise<Response> {
         const {
@@ -51,7 +51,7 @@ export default class ProductsController {
             }
         });
 
-        return response.status(201).json({ createdProduct });
+        return response.status(201).json({ createdProduct: instanceToInstance(createdProduct) });
     }
 
     public async update(request: Request, response: Response): Promise<Response> {
@@ -71,7 +71,7 @@ export default class ProductsController {
             }
         });
 
-        return response.status(201).json({ updatedProduct });
+        return response.status(201).json({ updatedProduct: instanceToInstance(updatedProduct) });
     }
 
     public async delete(request: Request, response: Response): Promise<Response> {
