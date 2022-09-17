@@ -12,16 +12,17 @@ export default function globalErrorHandling(
   response: Response,
   _: NextFunction,
 ): Response<any> {
+
   if (err instanceof AppError) {
     winston.error(
-      `${err.statusCode} - ${err.message} - ${request.originalUrl} - ${request.method
-      } - ${request.ip} - body: ${JSON.stringify(request.body)} - params: ${JSON.stringify(
+      `${err.errorCode} - ${err.message} - ${request.originalUrl} - ${
+        request.method
+      } - ${request.ip} - body: ${request.body} - params: ${JSON.stringify(
         request.params,
       )}`,
     );
-
-    return response.status(err.statusCode).json({
-      status: 'error',
+    return response.status(err.statusCode|500).json({
+      status: err.statusCode,
       message: err.message,
     });
   }

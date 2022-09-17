@@ -19,19 +19,24 @@ class CreateBrandService {
     constructor(
         @inject('BrandsRepository')
         private brandsRepository: IDomainRepository<Brand>,
+
+        @inject('RepositoryUtils')
+        private repositoryUtils: IRepositoryUtils,
     ) { }
     public async execute({
         name,
         image
     }: IRequest): Promise<IResponse> {
+        const transaction: ITransaction = { data: [] };
+
         const brandExists = await this.brandsRepository.findOne({
             where: {
                 name: name
             }
         })
 
-        if (brandExists) {
-            throw new AppError(`Bandeira escolhida já existe.`);
+        if (!brandExists) {
+            throw new AppError(`Bandeira escolhida não existe.`);
         }
 
         const createdBrand = this.brandsRepository.create({
@@ -39,7 +44,15 @@ class CreateBrandService {
             image: image
         })
 
-        await this.brandsRepository.save(createdBrand);
+
+        transaction.data.push(
+            {
+                entity: createdBrand,
+                repository: this.brandsRepository
+            }
+        )
+
+        await this.repositoryUtils.transaction(transaction);
 
         return {
             brand: createdBrand
