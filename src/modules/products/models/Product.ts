@@ -39,12 +39,4 @@ export default class Product extends DomainUUID {
 
     @Column()
     image: string;
-
-    @Expose({ name: 'image_url' })
-    private getImageUrl() {
-        if (this.image) {
-            return `http://localhost:3333/files/${this.image}`;
-        }
-        return 'no image';
-    }
 }
