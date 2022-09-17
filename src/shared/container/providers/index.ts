@@ -1,3 +1,4 @@
 import './IdGeneratorProvider';
 import './RepositoryUtilsProvider';
-import './HashProvider';
+import './HashProvider'
+import './GenericRepositoryProvider'

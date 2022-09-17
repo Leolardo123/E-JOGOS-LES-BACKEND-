@@ -11,7 +11,6 @@ import '@shared/container';
 
 import routes from './routes';
 import globalErrorHandling from './middleware/globalErrorHandling';
-import { uploadConfig } from '@config/upload';
 
 const app = express();
 const server = http.createServer(app);
@@ -21,7 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 app.use('/', routes);
 
-app.use('/files', express.static(uploadConfig.uploadsFolder));
+app.use('/public', express.static('public'));
 
 app.use(globalErrorHandling)
 
