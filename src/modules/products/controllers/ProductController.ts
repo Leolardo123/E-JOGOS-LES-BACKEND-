@@ -38,7 +38,7 @@ export default class ProductsController {
 
     public async create(request: Request, response: Response): Promise<Response> {
         const {
-            ...product
+            product
         } = request.body;
         const file = request.file;
 
@@ -56,7 +56,7 @@ export default class ProductsController {
 
     public async update(request: Request, response: Response): Promise<Response> {
         const {
-            ...product
+            product
         } = request.body;
         const file = request.file;
         const { id } = request.params;
