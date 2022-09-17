@@ -29,15 +29,17 @@ export default class CardsController {
     }
 
     public async show(request: Request, response: Response): Promise<Response> {
-        const { id } = request.body;
+        const {
+            id
+        } = request.body;
 
-        const showCardService = container.resolve(ShowCardService);
+        const showCard = container.resolve(ShowCardService);
 
-        const card = await showCardService.execute({
+        const { card } = await showCard.execute({
             id
         });
 
-        return response.json(card);
+        return response.status(201).json(card);
     }
 
     public async create(request: Request, response: Response): Promise<Response> {
@@ -50,9 +52,9 @@ export default class CardsController {
         } = request.body;
 
 
-        const addPersonCardsService = container.resolve(AddPersonCardsService);
+        const addCardService = container.resolve(AddPersonCardsService);
 
-        const card = await addPersonCardsService.execute({
+        const card = await addCardService.execute({
             owner_name,
             number,
             brand_id,
@@ -105,6 +107,7 @@ export default class CardsController {
 
         await deleteCard.execute({
             id,
+            user_id,
         });
 
         return response.status(200).json({ msg: 'Card deletado com sucesso.' });
