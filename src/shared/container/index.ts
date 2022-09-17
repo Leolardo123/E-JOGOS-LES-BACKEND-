@@ -8,8 +8,10 @@ import PersonAddressesRepository from '@modules/addresses/repositories/PersonAdd
 import PlaceTypesRepository from '@modules/addresses/repositories/PlaceTypesRepository';
 import Brand from '@modules/cards/models/Brand';
 import Card from '@modules/cards/models/Card';
+import PersonCard from '@modules/cards/models/PersonCard';
 import BrandsRepository from '@modules/cards/repositories/BrandsRepository';
 import CardsRepository from '@modules/cards/repositories/CardsRepository';
+import PersonCardsRepository from '@modules/cards/repositories/PersonCardsRepository';
 import { IDomainRepository } from '@modules/domain/repositories/interfaces/IDomainRepository';
 import Product from '@modules/products/models/Product';
 import ProductsRepository from '@modules/products/repositories/ProductsRepository';
@@ -69,6 +71,11 @@ container.registerSingleton<IDomainRepository<Brand>>(
 container.registerSingleton<IDomainRepository<Card>>(
     'CardsRepository',
     CardsRepository,
+);
+
+container.registerSingleton<IDomainRepository<PersonCard>>(
+    'PersonCardsRepository',
+    PersonCardsRepository,
 );
 
 container.registerSingleton<IDomainRepository<Product>>(
