@@ -3,7 +3,6 @@ import AppError from '@shared/errors/AppError';
 import { IDomainRepository } from '@modules/domain/repositories/interfaces/IDomainRepository';
 import Product from '../models/Product';
 import IProduct from './interfaces/IProduct';
-import { IStorageProvider } from '@shared/container/providers/StorageProvider/models/IStorageProvider';
 
 interface IRequest {
   product_id: string,
@@ -19,9 +18,6 @@ class UpdateProductService {
   constructor(
     @inject('ProductsRepository')
     private productsRepository: IDomainRepository<Product>,
-
-    @inject('StorageProvider')
-    private storageProvider: IStorageProvider,
   ) { }
   public async execute({
     product_id,
@@ -37,10 +33,6 @@ class UpdateProductService {
 
     if (!productExists) {
       throw new AppError('Produto não encontrado.')
-    }
-
-    if(product.image){
-      await this.storageProvider.saveFile(product.image)
     }
 
     const updateProduct = Object.assign(productExists, product) as Product;

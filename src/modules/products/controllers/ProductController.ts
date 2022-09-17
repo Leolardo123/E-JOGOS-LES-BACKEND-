@@ -40,15 +40,11 @@ export default class ProductsController {
         const {
             product
         } = request.body;
-        const file = request.file;
 
         const createProduct = container.resolve(CreateProductService);
 
         const createdProduct = await createProduct.execute({
-            product: {
-                image: file ? file.filename : undefined,
-                ...product
-            }
+            product
         });
 
         return response.status(201).json({ createdProduct });
@@ -58,17 +54,13 @@ export default class ProductsController {
         const {
             product
         } = request.body;
-        const file = request.file;
         const { id } = request.params;
 
         const updateProduct = container.resolve(UpdateProductService);
 
         const updatedProduct = await updateProduct.execute({
             product_id: id,
-            product: {
-                image: file ? file.filename : undefined,
-                ...product
-            }
+            product
         });
 
         return response.status(201).json({ updatedProduct });

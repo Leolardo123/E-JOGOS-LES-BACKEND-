@@ -10,9 +10,15 @@ export const create = celebrate({
             requirements: Joi.string().required(),
             publisher: Joi.string().required(),
             developer: Joi.string().required(),
+            guarantee: Joi.string().required(),
             language: Joi.string().required(),
             subtitle: Joi.string().required(),
             release_date: Joi.string().required(),
+            recomended_age: Joi.number().required(),
+            players_offline: Joi.number().required(),
+            players_online: Joi.number().required(),
+            resolution: Joi.string().required(),
+            image: Joi.string().required(),
         }).required()
     })
 })
@@ -30,9 +36,15 @@ export const update = celebrate({
             requirements: Joi.string(),
             publisher: Joi.string(),
             developer: Joi.string(),
+            guarantee: Joi.string(),
             language: Joi.string(),
             subtitle: Joi.string(),
             release_date: Joi.string(),
+            recomended_age: Joi.number(),
+            players_offline: Joi.number(),
+            players_online: Joi.number(),
+            resolution: Joi.string(),
+            image: Joi.string(),
         }).required()
     })
 })

@@ -12,7 +12,7 @@ class IndexUsersService {
   ) { }
   public async execute({
     page,
-    limit,
+    limit
   }: IPaginatedRequest): Promise<IPaginatedResponse<User>> {
     return await this.usersRepository.index({ page, limit })
   }
