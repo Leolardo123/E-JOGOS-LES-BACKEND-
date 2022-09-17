@@ -47,11 +47,11 @@ class CreateUserService {
         @inject('PersonAddressesRepository')
         private personAddressesRepository: IDomainRepository<PersonAddress>,
 
-        @inject('AddressTypesRepository')
-        private addressTypesRepository: IDomainRepository<AddressType>,
+        @inject('AddressesTypesRepository')
+        private addressesTypesRepository: IDomainRepository<AddressType>,
 
-        @inject('PlaceTypesRepository')
-        private placeTypesRepository: IDomainRepository<PlaceType>,
+        @inject('PlacesTypesRepository')
+        private placesTypesRepository: IDomainRepository<PlaceType>,
 
         @inject('GendersRepository')
         private gendersRepository: IDomainRepository<Gender>,
@@ -81,7 +81,7 @@ class CreateUserService {
             throw new AppError('Email já está cadastrado.')
         }
 
-        const placeType = await this.placeTypesRepository.findOne({
+        const placeType = await this.placesTypesRepository.findOne({
             where: {
                 id: address.place_type_id
             }
@@ -91,7 +91,7 @@ class CreateUserService {
             throw new AppError('Tipo de logradouro não existe.')
         }
 
-        const addressType = await this.addressTypesRepository.findOne({
+        const addressType = await this.addressesTypesRepository.findOne({
             where: {
                 id: address.address_type_id
             }
