@@ -1,4 +1,4 @@
-import AddressType from "@modules/addresses/models/AddressType";
+import AddressType from "@modules/models/Address/AddressType";
 import { Connection } from "typeorm";
 import { Factory, Seeder } from "typeorm-seeding";
 
